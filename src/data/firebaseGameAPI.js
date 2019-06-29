@@ -1,9 +1,32 @@
 import { db } from "./firebaseConfig";
+const picksRef = db.collection("picks");
+const gamesRef = db.collection("games");
 export const loadGames = (week = 1) => {
-  return db
-    .collection("games")
+  return gamesRef
     .where("Week", "==", week)
-    .get();
+    .get()
+    .then(games => {
+      return games.docs.map(x => ({ ...x.data(), id: x.id }));
+    });
+};
+export const savePick = (gameId, team, userId, week) => {
+  return picksRef.doc(`${gameId}${userId}`).set({
+    team,
+    gameId,
+    userId,
+    week
+  });
+};
+export const loadPicks = (userId, week = 1) => {
+  return picksRef
+    .where("week", "==", week)
+    .where("userId", "==", userId)
+    .get()
+    .then(games => {
+      return games.docs.map(game => {
+        return { ...game.data(), id: game.id };
+      });
+    });
 };
 
 // export default class GameAPI {

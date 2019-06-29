@@ -6,6 +6,7 @@ import StyledFirebaseAuth from "react-firebaseui/StyledFirebaseAuth";
 import { fb } from "./data/firebaseConfig";
 import Picker from "./components/Picker";
 import { UserContext } from "./contexts/UserContext";
+import moment from "moment";
 
 const App: React.FC = () => {
   const { user, setUser } = useContext(UserContext);
@@ -27,12 +28,17 @@ const App: React.FC = () => {
       unregisterAuthObserver();
     };
   }, [setUser]);
+  const getWeek = () => {
+    let now = moment();
+    return now.subtract(2, "d").week() - 35;
+  };
   return (
     <div className="App">
       <div>
         {user ? (
           <>
             {user.username}
+            {getWeek()}
             <Picker />
           </>
         ) : (
