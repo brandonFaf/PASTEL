@@ -32,17 +32,17 @@ const Picker = () => {
         <div key={x.id}>
           {console.log(x)}
           <button
-            className={x.selected === x.VisTm ? "active" : ""}
-            onClick={save(x.id, x.VisTm, x.Week)}
+            className={x.selected === x.visTm ? "active" : ""}
+            onClick={save(x.id, x.visTm, x.week)}
           >
-            {x.VisTm}
+            {x.visTm}
           </button>
           {"@"}
           <button
-            className={x.selected === x.HomeTm ? "active" : ""}
-            onClick={save(x.id, x.HomeTm, x.Week)}
+            className={x.selected === x.homeTm ? "active" : ""}
+            onClick={save(x.id, x.homeTm, x.week)}
           >
-            {x.HomeTm}
+            {x.homeTm}
           </button>
         </div>
       ))}
