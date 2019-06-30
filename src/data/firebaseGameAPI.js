@@ -1,7 +1,7 @@
 import { db } from "./firebaseConfig";
 const picksRef = db.collection("picks");
-const gamesRef = db.collection("games");
-export const loadGames = (week = "1") => {
+const gamesRef = db.collection("pastGames");
+export const loadGames = (week = 1) => {
   return gamesRef
     .where("week", "==", week)
     .get()
@@ -18,7 +18,7 @@ export const savePick = (gameId, team, userId, week) => {
     week
   });
 };
-export const loadPicks = (userId, week = "1") => {
+export const loadPicks = (userId, week = 1) => {
   return picksRef
     .where("week", "==", week)
     .where("userId", "==", userId)
