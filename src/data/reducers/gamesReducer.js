@@ -14,7 +14,6 @@ export const gamesReducer = (state, action) => {
       });
       return { games };
     case LOAD_GAMES:
-      console.log(action.value);
       return { games: action.value };
     case PICKS_LOADED: {
       const games = state.games.map(g => {

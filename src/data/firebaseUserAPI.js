@@ -6,5 +6,13 @@ export const loadUser = uid => {
     .get();
 };
 export const loadAllUsers = () => {
-  return db.collection("users").get();
+  return db
+    .collection("users")
+    .orderBy("score", "desc")
+    .get()
+    .then(userSS => {
+      return userSS.docs.map(u => {
+        return { id: u.id, ...u.data() };
+      });
+    });
 };

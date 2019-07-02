@@ -6,7 +6,6 @@ export const loadGames = (week = 1) => {
     .where("week", "==", week)
     .get()
     .then(games => {
-      console.log(games.docs, "here");
       return games.docs.map(x => ({ ...x.data(), id: x.id }));
     });
 };

@@ -30,7 +30,6 @@ const Picker = () => {
     <div>
       {state.games.map(x => (
         <div key={x.id}>
-          {console.log(x)}
           <button
             className={x.selected === x.visTm ? "active" : ""}
             onClick={save(x.id, x.visTm, x.week)}
