@@ -9,23 +9,27 @@ export const loadGames = (week = 1) => {
       return games.docs.map(x => ({ ...x.data(), id: x.id }));
     });
 };
-export const savePick = (gameId, team, userId, week) => {
-  return picksRef.doc(`${gameId}${userId}`).set({
-    team,
-    gameId,
-    userId,
-    week
-  });
+export const savePick = pick => {
+  return picksRef.doc(`${pick.gameId}${pick.userId}`).set(pick);
 };
 export const loadPicks = (userId, week = 1) => {
   return picksRef
     .where("week", "==", week)
-    .where("userId", "==", userId)
     .get()
-    .then(games => {
-      return games.docs.map(game => {
-        return { ...game.data(), id: game.id };
-      });
+    .then(picks => {
+      return picks.docs.reduce(
+        (acc, pick) => {
+          const pickData = { ...pick.data(), id: pick.id };
+          if (pickData.userId === userId) {
+            acc.userPicks.push(pickData);
+          }
+          const gamePicks = acc.gamePicks[pickData.gameId] || [];
+          gamePicks.push(pickData);
+          acc.gamePicks[pickData.gameId] = gamePicks;
+          return acc;
+        },
+        { gamePicks: {}, userPicks: [] }
+      );
     });
 };
 

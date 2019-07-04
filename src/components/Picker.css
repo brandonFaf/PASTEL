@@ -4,3 +4,9 @@
 .current {
   background-color: #e76ba2;
 }
+.correct {
+  border: 2px dashed aquamarine;
+}
+.wrong {
+  border: 2px dashed salmon;
+}

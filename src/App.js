@@ -37,7 +37,6 @@ const App = () => {
     });
     const getAllUsers = async () => {
       const us = await loadAllUsers();
-      console.log(us);
       setUsers(us);
     };
     getAllUsers();
@@ -63,10 +62,10 @@ const App = () => {
         {user ? (
           <>
             <button onClick={logout}>logout</button>
-            {user.username}
+            {user.displayName}
             {getWeek()}
-            <Profile currentUser={user} />
-            <Dashboard users={users} currentUser={user} />
+            {/* <Profile currentUser={user} /> */}
+            {/* <Dashboard users={users} currentUser={user} /> */}
             <Picker />
           </>
         ) : (
