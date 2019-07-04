@@ -3,12 +3,27 @@ import React from "react";
 const Dashboard = ({ users, currentUser }) => {
   return (
     <div>
-      {users.map(({ username, score }, i) => {
+      {users.map(({ id, displayName, photoURL, score }, i) => {
         let cn = "";
-        if (username == currentUser.username) {
+        if (id === currentUser.id) {
           cn = "current";
         }
-        return <div className={cn}>{`${i + 1}. ${username} ${score} `}</div>;
+        return (
+          <div key={i} className={cn}>
+            {photoURL && (
+              <img
+                src={photoURL}
+                alt="profile"
+                style={{
+                  height: "60px",
+                  width: "60px",
+                  borderRadius: "90px"
+                }}
+              />
+            )}
+            {`${i + 1}. ${displayName} ${score} `}
+          </div>
+        );
       })}
     </div>
   );

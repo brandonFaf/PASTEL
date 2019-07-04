@@ -11,6 +11,10 @@ export default class UserStore extends React.Component {
     };
   }
   setUser = async uid => {
+    if (!uid) {
+      this.setState({ user: {} });
+      return;
+    }
     const userSnap = await loadUser(uid);
     const user = userSnap.data();
 

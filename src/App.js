@@ -7,8 +7,9 @@ import { fb } from "./data/firebaseConfig";
 import Picker from "./components/Picker";
 import { UserContext } from "./contexts/UserContext";
 import moment from "moment";
-import { loadAllUsers } from "./data/firebaseUserAPI";
+import { loadAllUsers, updateUser } from "./data/firebaseUserAPI";
 import Dashboard from "./components/Dashboard";
+import Profile from "./components/Profile";
 
 const App = () => {
   const { user, setUser } = useContext(UserContext);
@@ -25,7 +26,14 @@ const App = () => {
   };
   useEffect(() => {
     const unregisterAuthObserver = fb.auth().onAuthStateChanged(user => {
-      setUser(user.uid);
+      if (!user) return;
+      ///need to call get user here:
+      //only time update user is when the user is new signing up, which i stil lneed ot firue that out cuase this aint working
+      const { displayName, photoURL, uid, email } = user;
+      if (user.metadata.creationTime === user.metadata.lastSignInTime) {
+        updateUser(uid, { displayName, photoURL, email });
+      }
+      setUser(uid);
     });
     const getAllUsers = async () => {
       const us = await loadAllUsers();
@@ -41,13 +49,23 @@ const App = () => {
     let now = moment();
     return now.subtract(2, "d").week() - 35;
   };
+  const logout = () => {
+    firebase
+      .auth()
+      .signOut()
+      .then(x => {
+        setUser();
+      });
+  };
   return (
     <div className="App">
       <div>
         {user ? (
           <>
+            <button onClick={logout}>logout</button>
             {user.username}
             {getWeek()}
+            <Profile currentUser={user} />
             <Dashboard users={users} currentUser={user} />
             <Picker />
           </>
