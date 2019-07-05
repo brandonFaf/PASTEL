@@ -1,16 +1,23 @@
-import React, { useEffect, useContext, useReducer } from "react";
+import React, { useState, useEffect, useContext, useReducer } from "react";
 import { loadGames, savePick, loadPicks } from "../data/firebaseGameAPI";
 import { UserContext } from "../contexts/UserContext";
 import { gamesReducer, gameActions } from "../data/reducers/gamesReducer";
 import "./Picker.css";
+import moment from "moment";
 const Picker = () => {
   const [state, dispatch] = useReducer(gamesReducer, { games: [] });
+  const getCurrentWeek = () => {
+    let now = moment();
+    const week = now.subtract(2, "d").week() - 35;
+    return week > 0 ? week : 1;
+  };
+  const [week, setWeek] = useState(getCurrentWeek());
   const {
     user: { id: userId, displayName }
   } = useContext(UserContext);
   useEffect(() => {
     const getGames = async () => {
-      const games = await loadGames();
+      const games = await loadGames(week);
       dispatch({ type: gameActions.LOAD_GAMES, value: games });
     };
     const getPicks = async () => {
@@ -20,7 +27,7 @@ const Picker = () => {
     };
     getGames();
     getPicks();
-  }, [userId]);
+  }, [userId, week]);
   const save = (gameId, teamName, week) => () => {
     savePick({ gameId, teamName, userId, displayName, week });
     dispatch({ type: gameActions.SAVE_PICK, value: { gameId, teamName } });
@@ -41,14 +48,27 @@ const Picker = () => {
       </div>
     );
   };
-
+  const changeWeek = week => () => {
+    setWeek(week);
+  };
+  const weekNumbers = new Array(17).fill("1");
   return (
     <div>
+      <div>
+        {weekNumbers.map((x, i) => (
+          <button
+            className={i + 1 === week ? "active" : ""}
+            onClick={changeWeek(i + 1)}
+          >
+            {i + 1}
+          </button>
+        ))}
+      </div>
       {state.games.map(
         ({ visTm, homeTm, selected, winner, id, week, ...picks }) => {
           let visCN = selected === visTm ? "active" : "";
           let homeCN = selected === homeTm ? "active" : "";
-          let outcome = winner === selected ? "correct" : "wrong";
+          let outcome = !winner ? "" : winner === selected ? "correct" : "wrong";
           return (
             <div key={id} className={outcome}>
               <div>

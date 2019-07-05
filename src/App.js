@@ -6,7 +6,6 @@ import StyledFirebaseAuth from "react-firebaseui/StyledFirebaseAuth";
 import { fb } from "./data/firebaseConfig";
 import Picker from "./components/Picker";
 import { UserContext } from "./contexts/UserContext";
-import moment from "moment";
 import { loadAllUsers, updateUser } from "./data/firebaseUserAPI";
 import Dashboard from "./components/Dashboard";
 import Profile from "./components/Profile";
@@ -44,10 +43,7 @@ const App = () => {
       unregisterAuthObserver();
     };
   }, [setUser, setUsers]);
-  const getWeek = () => {
-    let now = moment();
-    return now.subtract(2, "d").week() - 35;
-  };
+
   const logout = () => {
     firebase
       .auth()
@@ -56,6 +52,7 @@ const App = () => {
         setUser();
       });
   };
+
   return (
     <div className="App">
       <div>
@@ -63,9 +60,9 @@ const App = () => {
           <>
             <button onClick={logout}>logout</button>
             {user.displayName}
-            {getWeek()}
             {/* <Profile currentUser={user} /> */}
             {/* <Dashboard users={users} currentUser={user} /> */}
+
             <Picker />
           </>
         ) : (
