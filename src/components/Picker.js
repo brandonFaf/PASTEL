@@ -4,6 +4,7 @@ import { UserContext } from "../contexts/UserContext";
 import { gamesReducer, gameActions } from "../data/reducers/gamesReducer";
 import "./Picker.css";
 import moment from "moment";
+import "moment-timezone";
 const Picker = () => {
   const [state, dispatch] = useReducer(gamesReducer, { games: [] });
   const getCurrentWeek = () => {
@@ -52,11 +53,16 @@ const Picker = () => {
     setWeek(week);
   };
   const weekNumbers = new Array(17).fill("1");
+  const isPastTime = (date, time) => {
+    const gameStart = moment.tz(`${date} ${time}`, "America/New_York");
+    return moment().isAfter(gameStart);
+  };
   return (
     <div>
       <div>
         {weekNumbers.map((x, i) => (
           <button
+            key={i}
             className={i + 1 === week ? "active" : ""}
             onClick={changeWeek(i + 1)}
           >
@@ -65,18 +71,46 @@ const Picker = () => {
         ))}
       </div>
       {state.games.map(
-        ({ visTm, homeTm, selected, winner, id, week, ...picks }) => {
+        ({
+          visTm,
+          homeTm,
+          selected,
+          winner,
+          id,
+          week,
+          date,
+          time,
+          ...picks
+        }) => {
+          const displayDate = moment(`${date} ${time}`).format(
+            "ddd, MMMM D YYYY h:mm"
+          );
+          const disabled = isPastTime(date, time);
           let visCN = selected === visTm ? "active" : "";
           let homeCN = selected === homeTm ? "active" : "";
-          let outcome = !winner ? "" : winner === selected ? "correct" : "wrong";
+
+          let outcome = !winner
+            ? ""
+            : winner === selected
+            ? "correct"
+            : "wrong";
           return (
             <div key={id} className={outcome}>
+              <div>{displayDate}</div>
               <div>
-                <button className={visCN} onClick={save(id, visTm, week)}>
+                <button
+                  disabled={disabled}
+                  className={visCN}
+                  onClick={save(id, visTm, week)}
+                >
                   {visTm}
                 </button>
                 {"@"}
-                <button className={homeCN} onClick={save(id, homeTm, week)}>
+                <button
+                  disabled={disabled}
+                  className={homeCN}
+                  onClick={save(id, homeTm, week)}
+                >
                   {homeTm}
                 </button>
               </div>
