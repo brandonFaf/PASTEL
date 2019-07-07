@@ -1,11 +1,11 @@
-import React, { useState, useEffect, useContext, useReducer } from "react";
+import React, { useState, useEffect, useReducer } from "react";
 import { loadGames, savePick, loadPicks } from "../data/firebaseGameAPI";
-import { UserContext } from "../contexts/UserContext";
+import { Link } from "react-router-dom";
 import { gamesReducer, gameActions } from "../data/reducers/gamesReducer";
 import "./Picker.css";
 import moment from "moment";
 import "moment-timezone";
-const Picker = () => {
+const Picker = ({ user }) => {
   const [state, dispatch] = useReducer(gamesReducer, { games: [] });
   const getCurrentWeek = () => {
     let now = moment();
@@ -13,9 +13,7 @@ const Picker = () => {
     return week > 0 ? week : 1;
   };
   const [week, setWeek] = useState(getCurrentWeek());
-  const {
-    user: { id: userId, displayName }
-  } = useContext(UserContext);
+  const { id: userId, displayName } = user;
   useEffect(() => {
     const getGames = async () => {
       const games = await loadGames(week);
@@ -59,6 +57,7 @@ const Picker = () => {
   };
   return (
     <div>
+      <Link to="/">Dashboard</Link>
       <div>
         {weekNumbers.map((x, i) => (
           <button
