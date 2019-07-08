@@ -2,10 +2,11 @@ import React, { useState, useEffect, useReducer } from "react";
 import { loadGames, savePick, loadPicks } from "../data/firebaseGameAPI";
 import { gamesReducer, gameActions } from "../data/reducers/gamesReducer";
 import moment from "moment";
-import "moment-timezone";
-import { TeamButton, PickPage, Game } from "./Styled/Picker";
+import { PickPage } from "./Styled/Picker";
 import Header from "./Styled/Header";
 import ProfilePhoto from "./Styled/ProfilePhoto";
+import Game from "./Game";
+import Footer from "./Styled/Footer";
 const Picker = ({ user }) => {
   const [state, dispatch] = useReducer(gamesReducer, { games: [] });
   const getCurrentWeek = () => {
@@ -33,29 +34,25 @@ const Picker = ({ user }) => {
     dispatch({ type: gameActions.SAVE_PICK, value: { gameId, teamName } });
     console.log("save", teamName);
   };
-  const showPicked = game => {
-    return (
-      <div>
-        <span>
-          {(game.pickedVisTm.length / game.totalPicks).toFixed(2) * 100}% -{" "}
-          {game.pickedVisTm.join(", ")}
-        </span>
-        <span />
-        <span>
-          {(game.pickedHomeTm.length / game.totalPicks).toFixed(2) * 100}% -{" "}
-          {game.pickedHomeTm.join(", ")}
-        </span>
-      </div>
-    );
-  };
+  // const showPicked = game => {
+  //   return (
+  //     <div>
+  //       <span>
+  //         {(game.pickedVisTm.length / game.totalPicks).toFixed(2) * 100}% -{" "}
+  //         {game.pickedVisTm.join(", ")}
+  //       </span>
+  //       <span />
+  //       <span>
+  //         {(game.pickedHomeTm.length / game.totalPicks).toFixed(2) * 100}% -{" "}
+  //         {game.pickedHomeTm.join(", ")}
+  //       </span>
+  //     </div>
+  //   );
+  // };
   const changeWeek = week => () => {
     setWeek(week);
   };
   const weekNumbers = new Array(17).fill("1");
-  const isPastTime = (date, time) => {
-    const gameStart = moment.tz(`${date} ${time}`, "America/New_York");
-    return moment().isAfter(gameStart);
-  };
   return (
     <>
       <Header>
@@ -63,6 +60,11 @@ const Picker = ({ user }) => {
         <ProfilePhoto src={user.photoURL} alt="profile" />
       </Header>
       <PickPage>
+        {state.games.map(game => (
+          <Game game={game} user={user} save={save} key={game.id} />
+        ))}
+      </PickPage>
+      <Footer>
         <div>
           {weekNumbers.map((x, i) => (
             <button
@@ -74,54 +76,7 @@ const Picker = ({ user }) => {
             </button>
           ))}
         </div>
-        {state.games.map(
-          ({
-            visTm,
-            homeTm,
-            selected,
-            winner,
-            id,
-            week,
-            date,
-            time,
-            ...picks
-          }) => {
-            const gameDate = moment(`${date} ${time}`);
-
-            const disabled = isPastTime(date, time);
-            let visActive = selected === visTm;
-            let homeActive = selected === homeTm;
-
-            let outcome = !winner
-              ? ""
-              : winner === selected
-              ? "correct"
-              : "wrong";
-            return (
-              <div key={id} className={outcome}>
-                <div>{gameDate.format("ddd, MMMM D")}</div>
-                <Game>
-                  <TeamButton
-                    disabled={disabled}
-                    active={visActive}
-                    onClick={save(id, visTm, week)}
-                  >
-                    {visTm}
-                  </TeamButton>
-                  <div>{gameDate.format("h:mm A")}</div>
-                  <TeamButton
-                    disabled={disabled}
-                    active={homeActive}
-                    onClick={save(id, homeTm, week)}
-                  >
-                    {homeTm}
-                  </TeamButton>
-                </Game>
-              </div>
-            );
-          }
-        )}
-      </PickPage>
+      </Footer>
     </>
   );
 };

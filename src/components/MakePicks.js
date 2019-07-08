@@ -1,17 +1,17 @@
 import React from "react";
 import ActionButton from "./Styled/ActionButton";
-import MakePicksSection from "./Styled/MakePicksSection";
+import Footer from "./Styled/Footer";
 import chevron from "../img/Chevron.png";
 
 const MakePicks = () => {
   return (
-    <MakePicksSection>
+    <Footer>
       <ActionButton>
         <img src={chevron} alt="chevron" />
         Make Your Picks
         <span>5/16</span>
       </ActionButton>
-    </MakePicksSection>
+    </Footer>
   );
 };
 
