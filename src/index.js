@@ -5,9 +5,10 @@ import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 import UserStore from "./contexts/UserContext";
 import styled from "styled-components";
+import { background } from "./components/Styled/colors";
 const Body = styled.div`
   font-family: Acumin Pro;
-  background-color: #0c1d34;
+  background-color: ${background};
   color: #fff;
 `;
 

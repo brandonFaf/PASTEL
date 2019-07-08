@@ -7,6 +7,8 @@ import Header from "./Styled/Header";
 import ProfilePhoto from "./Styled/ProfilePhoto";
 import Game from "./Game";
 import Footer from "./Styled/Footer";
+import { StickyContainer, Sticky } from "react-sticky";
+
 const Picker = ({ user }) => {
   const [state, dispatch] = useReducer(gamesReducer, { games: [] });
   const getCurrentWeek = () => {
@@ -55,15 +57,21 @@ const Picker = ({ user }) => {
   const weekNumbers = new Array(17).fill("1");
   return (
     <>
-      <Header>
-        <div>Make Your Picks</div>
-        <ProfilePhoto src={user.photoURL} alt="profile" />
-      </Header>
-      <PickPage>
-        {state.games.map(game => (
-          <Game game={game} user={user} save={save} key={game.id} />
-        ))}
-      </PickPage>
+      <StickyContainer>
+        <Sticky>
+          {({ style }) => (
+            <Header style={style}>
+              <div>Make Your Picks</div>
+              <ProfilePhoto src={user.photoURL} alt="profile" />
+            </Header>
+          )}
+        </Sticky>
+        <PickPage>
+          {state.games.map(game => (
+            <Game game={game} user={user} save={save} key={game.id} />
+          ))}
+        </PickPage>
+      </StickyContainer>
       <Footer>
         <div>
           {weekNumbers.map((x, i) => (
