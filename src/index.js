@@ -6,6 +6,7 @@ import * as serviceWorker from "./serviceWorker";
 import UserStore from "./contexts/UserContext";
 import styled from "styled-components";
 const Body = styled.div`
+  font-family: Acumin Pro;
   background-color: #0c1d34;
   color: #fff;
 `;

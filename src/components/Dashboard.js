@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import { loadAllUsers } from "../data/firebaseUserAPI";
+import Header from "./Styled/Header";
+import WeekStatus from "./Styled/WeekStatus";
+import Leaderboard from "./Leaderboard";
+import ProfilePhoto from "./Styled/ProfilePhoto";
+import MakePicks from "./MakePicks";
 const Dashboard = ({ user }) => {
   const [users, setUsers] = useState([]);
   useEffect(() => {
@@ -12,33 +16,30 @@ const Dashboard = ({ user }) => {
   }, []);
   return (
     <>
-      <div>
-        <Link to="/pick">Pick</Link>
-      </div>
-      <div>
-        {users.map(({ id, displayName, photoURL, score }, i) => {
-          let cn = "";
-          if (id === user.id) {
-            cn = "current";
-          }
-          return (
-            <div key={i} className={cn}>
-              {photoURL && (
-                <img
-                  src={photoURL}
-                  alt="profile"
-                  style={{
-                    height: "60px",
-                    width: "60px",
-                    borderRadius: "90px"
-                  }}
-                />
-              )}
-              {`${i + 1}. ${displayName} ${score} `}
-            </div>
-          );
-        })}
-      </div>
+      <Header>
+        <div>Dashboard</div>
+        <ProfilePhoto src={user.photoURL} alt="profile" />
+      </Header>
+      <WeekStatus>
+        <div className="week">Week 3</div>
+        <div className="main">
+          You're in{" "}
+          <strong>
+            2<sup>nd</sup>
+          </strong>{" "}
+          Place,
+          <br />
+          with{" "}
+          <strong>
+            56<sup>pts</sup>
+          </strong>
+        </div>
+        <div className="streak">
+          No <strong>Week Streak</strong> Selected
+        </div>
+      </WeekStatus>
+      <Leaderboard users={users} user={user} />
+      <MakePicks />
     </>
   );
 };
