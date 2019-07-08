@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useReducer } from "react";
 import { loadGames, savePick, loadPicks } from "../data/firebaseGameAPI";
-import { Link } from "react-router-dom";
 import { gamesReducer, gameActions } from "../data/reducers/gamesReducer";
-import "./Picker.css";
 import moment from "moment";
 import "moment-timezone";
+import { TeamButton, PickPage, Game } from "./Styled/Picker";
+import Header from "./Styled/Header";
+import ProfilePhoto from "./Styled/ProfilePhoto";
 const Picker = ({ user }) => {
   const [state, dispatch] = useReducer(gamesReducer, { games: [] });
   const getCurrentWeek = () => {
@@ -56,69 +57,72 @@ const Picker = ({ user }) => {
     return moment().isAfter(gameStart);
   };
   return (
-    <div>
-      <Link to="/">Dashboard</Link>
-      <div>
-        {weekNumbers.map((x, i) => (
-          <button
-            key={i}
-            className={i + 1 === week ? "active" : ""}
-            onClick={changeWeek(i + 1)}
-          >
-            {i + 1}
-          </button>
-        ))}
-      </div>
-      {state.games.map(
-        ({
-          visTm,
-          homeTm,
-          selected,
-          winner,
-          id,
-          week,
-          date,
-          time,
-          ...picks
-        }) => {
-          const displayDate = moment(`${date} ${time}`).format(
-            "ddd, MMMM D YYYY h:mm"
-          );
-          const disabled = isPastTime(date, time);
-          let visCN = selected === visTm ? "active" : "";
-          let homeCN = selected === homeTm ? "active" : "";
+    <>
+      <Header>
+        <div>Make Your Picks</div>
+        <ProfilePhoto src={user.photoURL} alt="profile" />
+      </Header>
+      <PickPage>
+        <div>
+          {weekNumbers.map((x, i) => (
+            <button
+              key={i}
+              className={i + 1 === week ? "active" : ""}
+              onClick={changeWeek(i + 1)}
+            >
+              {i + 1}
+            </button>
+          ))}
+        </div>
+        {state.games.map(
+          ({
+            visTm,
+            homeTm,
+            selected,
+            winner,
+            id,
+            week,
+            date,
+            time,
+            ...picks
+          }) => {
+            const gameDate = moment(`${date} ${time}`);
 
-          let outcome = !winner
-            ? ""
-            : winner === selected
-            ? "correct"
-            : "wrong";
-          return (
-            <div key={id} className={outcome}>
-              <div>{displayDate}</div>
-              <div>
-                <button
-                  disabled={disabled}
-                  className={visCN}
-                  onClick={save(id, visTm, week)}
-                >
-                  {visTm}
-                </button>
-                {"@"}
-                <button
-                  disabled={disabled}
-                  className={homeCN}
-                  onClick={save(id, homeTm, week)}
-                >
-                  {homeTm}
-                </button>
+            const disabled = isPastTime(date, time);
+            let visActive = selected === visTm;
+            let homeActive = selected === homeTm;
+
+            let outcome = !winner
+              ? ""
+              : winner === selected
+              ? "correct"
+              : "wrong";
+            return (
+              <div key={id} className={outcome}>
+                <div>{gameDate.format("ddd, MMMM D")}</div>
+                <Game>
+                  <TeamButton
+                    disabled={disabled}
+                    active={visActive}
+                    onClick={save(id, visTm, week)}
+                  >
+                    {visTm}
+                  </TeamButton>
+                  <div>{gameDate.format("h:mm A")}</div>
+                  <TeamButton
+                    disabled={disabled}
+                    active={homeActive}
+                    onClick={save(id, homeTm, week)}
+                  >
+                    {homeTm}
+                  </TeamButton>
+                </Game>
               </div>
-              {picks.totalPicks && showPicked(picks)}
-            </div>
-          );
-        }
-      )}
-    </div>
+            );
+          }
+        )}
+      </PickPage>
+    </>
   );
 };
 

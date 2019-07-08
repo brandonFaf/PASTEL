@@ -1,9 +1,9 @@
 import styled from "styled-components";
 const Header = styled.div`
-  padding: 16px 0;
+  padding: 16px 20px;
   align-items: center;
   display: grid;
-  grid-template-columns: 90vw 10vw;
+  grid-template-columns: 90% 10%;
   font-size: 12px;
   line-height: 14px;
   text-align: center;
