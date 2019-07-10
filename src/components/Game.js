@@ -15,16 +15,23 @@ const Game = ({ game, save }) => {
     return moment().isAfter(gameStart);
   };
   const gameDate = moment(`${date} ${time}`);
-
+  const visTmDisplay = visTm && visTm.split(" ").pop();
+  const homeTmDisplay = homeTm && homeTm.split(" ").pop();
   const disabled = isPastTime(date, time);
   const visActive = selected === visTm;
   const homeActive = selected === homeTm;
-  const visPer = game.pickedVisTm
-    ? Math.floor(Math.random() * 100) //(game.pickedVisTm.length / game.totalPicks).toFixed(2) * 100
-    : 0;
-  const homePer = game.pickedHomeTm
-    ? 100 - visPer //(game.pickedHomeTm.length / game.totalPicks).toFixed(2) * 100
-    : 0;
+  const visPer =
+    disabled && game.pickedVisTm
+      ? Math.floor(Math.random() * 100) //(game.pickedVisTm.length / game.totalPicks).toFixed(2) * 100
+      : visActive
+      ? 33
+      : 100;
+  const homePer =
+    disabled && game.pickedHomeTm
+      ? 100 - visPer //(game.pickedHomeTm.length / game.totalPicks).toFixed(2) * 100
+      : homeActive
+      ? 33
+      : 67;
   const outcome = !winner ? "" : winner === selected ? "correct" : "wrong";
   const gameBlock = (
     <div className="container">
@@ -34,7 +41,7 @@ const Game = ({ game, save }) => {
           active={visActive}
           onClick={save(id, visTm, week)}
         >
-          {visTm}
+          {visTmDisplay}
         </TeamButton>
         <div>
           <div>{gameDate.format("ddd M/d")}</div>
@@ -45,7 +52,7 @@ const Game = ({ game, save }) => {
           active={homeActive}
           onClick={save(id, homeTm, week)}
         >
-          {homeTm}
+          {homeTmDisplay}
         </TeamButton>
       </Container>
     </div>

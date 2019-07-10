@@ -13,7 +13,7 @@ export const TeamButton = styled.div`
   }
 `;
 export const PickPage = styled.div`
-  margin: 0 10vw;
+  margin: 0 5vw;
 `;
 const Bar = styled.div`
   position: absolute;
@@ -23,7 +23,7 @@ const Bar = styled.div`
   .container {
     position: absolute;
     display: block;
-    width: 80vw;
+    width: 90vw;
     height: 100%;
     text-align: center;
     color: green;
@@ -51,7 +51,7 @@ export const Game = styled.div`
   font-size: 10px;
   display: grid;
   margin-bottom: 15px;
-  grid-template-columns: 5fr 3fr 5fr;
+  grid-template-columns: 30vw 30vw 30vw;
   justify-content: center;
   align-items: center;
   height: 50px;

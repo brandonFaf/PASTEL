@@ -3,7 +3,9 @@ import { background } from "./colors";
 const Header = styled.div`
   padding: 16px 0;
   background-color: ${background};
-  opacity: 0.7;
+  opacity: 0.85;
+  z-index: 12;
+  backdrop-filter: blur(5px);
   align-items: center;
   display: grid;
   grid-template-columns: 90% 10%;
