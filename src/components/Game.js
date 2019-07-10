@@ -1,8 +1,13 @@
 import React from "react";
-import { TeamButton, Game as Container } from "./Styled/Picker";
+import {
+  TeamButton,
+  Game as Container,
+  BarVis,
+  BarHome
+} from "./Styled/Picker";
 import moment from "moment";
 import "moment-timezone";
-
+import "./Game.css";
 const Game = ({ game, save }) => {
   const { visTm, homeTm, selected, winner, id, week, date, time } = game;
   const isPastTime = (date, time) => {
@@ -12,13 +17,17 @@ const Game = ({ game, save }) => {
   const gameDate = moment(`${date} ${time}`);
 
   const disabled = isPastTime(date, time);
-  let visActive = selected === visTm;
-  let homeActive = selected === homeTm;
-
-  let outcome = !winner ? "" : winner === selected ? "correct" : "wrong";
-  return (
-    <div key={id} className={outcome}>
-      <div />
+  const visActive = selected === visTm;
+  const homeActive = selected === homeTm;
+  const visPer = game.pickedVisTm
+    ? Math.floor(Math.random() * 100) //(game.pickedVisTm.length / game.totalPicks).toFixed(2) * 100
+    : 0;
+  const homePer = game.pickedHomeTm
+    ? 100 - visPer //(game.pickedHomeTm.length / game.totalPicks).toFixed(2) * 100
+    : 0;
+  const outcome = !winner ? "" : winner === selected ? "correct" : "wrong";
+  const gameBlock = (
+    <div className="container">
       <Container>
         <TeamButton
           disabled={disabled}
@@ -39,6 +48,16 @@ const Game = ({ game, save }) => {
           {homeTm}
         </TeamButton>
       </Container>
+    </div>
+  );
+  return (
+    <div className="progress-bar">
+      <BarVis active={visActive} percent={visPer}>
+        {gameBlock}
+      </BarVis>
+      <BarHome active={homeActive} percent={homePer}>
+        {gameBlock}
+      </BarHome>
     </div>
   );
 };
