@@ -44,7 +44,7 @@ const Game = ({ game, save }) => {
           {visTmDisplay}
         </TeamButton>
         <div>
-          <div>{gameDate.format("ddd M/d")}</div>
+          <div>{gameDate.format("ddd M/D")}</div>
           <div>{gameDate.format("h:mm A")}</div>
         </div>
         <TeamButton

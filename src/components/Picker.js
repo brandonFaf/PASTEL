@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useReducer } from "react";
+import React, { useState, useEffect, useReducer, useRef } from "react";
 import { loadGames, savePick, loadPicks } from "../data/firebaseGameAPI";
 import { gamesReducer, gameActions } from "../data/reducers/gamesReducer";
 import moment from "moment";
@@ -10,11 +10,12 @@ import Footer from "./Styled/Footer";
 import { StickyContainer, Sticky } from "react-sticky";
 
 const Picker = ({ user }) => {
+  const weekBox = useRef();
   const [state, dispatch] = useReducer(gamesReducer, { games: [] });
   const getCurrentWeek = () => {
     let now = moment();
-    const week = now.subtract(2, "d").week() - 35;
-    return week > 0 ? week : 1;
+    const w = now.subtract(2, "d").week() - 35;
+    return w > 0 ? w : 1;
   };
   const [week, setWeek] = useState(getCurrentWeek());
   const { id: userId, displayName } = user;
@@ -31,6 +32,9 @@ const Picker = ({ user }) => {
     getGames();
     getPicks();
   }, [userId, week]);
+  useEffect(() => {
+    weekBox.current.scrollLeft = ((week - 1) * window.innerWidth) / 5;
+  }, [week]);
   const save = (gameId, teamName, week) => () => {
     savePick({ gameId, teamName, userId, displayName, week });
     dispatch({ type: gameActions.SAVE_PICK, value: { gameId, teamName } });
@@ -71,20 +75,19 @@ const Picker = ({ user }) => {
             <Game game={game} user={user} save={save} key={game.id} />
           ))}
         </PickPage>
-      </StickyContainer>
-      <Footer>
-        <div>
+        <Footer ref={weekBox}>
           {weekNumbers.map((x, i) => (
-            <button
+            <div
               key={i}
               className={i + 1 === week ? "active" : ""}
               onClick={changeWeek(i + 1)}
             >
+              <div>{i + 1 === week && "WEEK"}</div>
               {i + 1}
-            </button>
+            </div>
           ))}
-        </div>
-      </Footer>
+        </Footer>
+      </StickyContainer>
     </>
   );
 };

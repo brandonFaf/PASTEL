@@ -14,6 +14,7 @@ export const TeamButton = styled.div`
 `;
 export const PickPage = styled.div`
   margin: 0 5vw;
+  padding-bottom: 50px;
 `;
 const Bar = styled.div`
   position: absolute;
