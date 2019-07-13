@@ -6,7 +6,7 @@ import { PickPage } from "./Styled/Picker";
 import Header from "./Styled/Header";
 import ProfilePhoto from "./Styled/ProfilePhoto";
 import Game from "./Game";
-import Footer from "./Styled/Footer";
+import WeekSlider from "./Styled/WeekSlider";
 import { StickyContainer, Sticky } from "react-sticky";
 
 const Picker = ({ user }) => {
@@ -75,7 +75,7 @@ const Picker = ({ user }) => {
             <Game game={game} user={user} save={save} key={game.id} />
           ))}
         </PickPage>
-        <Footer ref={weekBox}>
+        <WeekSlider ref={weekBox}>
           {weekNumbers.map((x, i) => (
             <div
               key={i}
@@ -86,7 +86,7 @@ const Picker = ({ user }) => {
               {i + 1}
             </div>
           ))}
-        </Footer>
+        </WeekSlider>
       </StickyContainer>
     </>
   );
