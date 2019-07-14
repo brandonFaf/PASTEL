@@ -12,6 +12,15 @@ export const loadGames = (week = 1) => {
       return games.docs.map(x => ({ ...x.data(), id: x.id }));
     });
 };
+export const loadFirstGame = (week = 1) => {
+  return gamesRef
+    .where("week", "==", week)
+    .limit(1)
+    .get()
+    .then(games => {
+      return games.docs.map(x => ({ ...x.data(), id: x.id }))[0];
+    });
+};
 export const savePick = pick => {
   return picksRef.doc(`${pick.gameId}${pick.userId}`).set(pick);
 };

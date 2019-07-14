@@ -4,10 +4,15 @@ const ActionButton = styled.button`
   width: 158px;
   display: flex;
   justify-content: space-around;
+  justify-self: center;
   align-items: center;
   background-color: ${highlight};
   color: ${highlight_text};
   border-radius: 45px;
+  a {
+    text-decoration: none;
+    cursor: pointer;
+  }
   img {
     width: 8px;
   }

@@ -4,6 +4,6 @@ const Footer = styled.div`
   bottom: 0;
   text-align: center;
   display: grid;
-  justify-content: center;
+  padding: 0 5vw;
 `;
 export default Footer;

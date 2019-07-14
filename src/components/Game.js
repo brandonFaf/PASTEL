@@ -10,6 +10,7 @@ import {
 import moment from "moment";
 import "moment-timezone";
 const Game = ({ game, save }) => {
+  console.log("game");
   const { visTm, homeTm, selected, winner, id, week, date, time } = game;
   const isPastTime = (date, time) => {
     const gameStart = moment.tz(`${date} ${time}`, "America/New_York");
