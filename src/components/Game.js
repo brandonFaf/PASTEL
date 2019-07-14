@@ -3,11 +3,12 @@ import {
   TeamButton,
   Game as Container,
   BarVis,
-  BarHome
+  BarHome,
+  MiddleButton,
+  ProgressBar
 } from "./Styled/Picker";
 import moment from "moment";
 import "moment-timezone";
-import "./Game.css";
 const Game = ({ game, save }) => {
   const { visTm, homeTm, selected, winner, id, week, date, time } = game;
   const isPastTime = (date, time) => {
@@ -32,7 +33,33 @@ const Game = ({ game, save }) => {
       : homeActive
       ? 33
       : 67;
-  const outcome = !winner ? "" : winner === selected ? "correct" : "wrong";
+  const outcome = !winner ? "" : winner === selected ? "RIGHT" : "WRONG";
+  const getMiddle = () => {
+    if (outcome === "RIGHT") {
+      return (
+        <>
+          {/* <img src={check} alt="right" /> */}
+          <div>&#10004;</div>
+          <div>RIGHT</div>
+        </>
+      );
+    } else if (outcome === "WRONG") {
+      return (
+        <>
+          {/* <img src={x} alt="wrong" /> */}
+          <div>X</div>
+          <div>WRONG</div>
+        </>
+      );
+    } else {
+      return (
+        <>
+          <div>{gameDate.format("ddd M/D")}</div>
+          <div>{gameDate.format("h:mm A")}</div>
+        </>
+      );
+    }
+  };
   const gameBlock = (
     <div className="container">
       <Container>
@@ -43,10 +70,7 @@ const Game = ({ game, save }) => {
         >
           {visTmDisplay}
         </TeamButton>
-        <div>
-          <div>{gameDate.format("ddd M/D")}</div>
-          <div>{gameDate.format("h:mm A")}</div>
-        </div>
+        <MiddleButton>{getMiddle()}</MiddleButton>
         <TeamButton
           disabled={disabled}
           active={homeActive}
@@ -58,14 +82,14 @@ const Game = ({ game, save }) => {
     </div>
   );
   return (
-    <div className="progress-bar">
+    <ProgressBar outcome={outcome}>
       <BarVis active={visActive} percent={visPer}>
         {gameBlock}
       </BarVis>
       <BarHome active={homeActive} percent={homePer}>
         {gameBlock}
       </BarHome>
-    </div>
+    </ProgressBar>
   );
 };
 
