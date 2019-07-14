@@ -1,6 +1,9 @@
 import { db } from "./firebaseConfig";
 const picksRef = db.collection("picks");
-const gamesRef = db.collection("pastGames");
+let gamesRef = db.collection("games");
+if (window.location.pathname.includes("past")) {
+  gamesRef = db.collection("pastGames");
+}
 export const loadGames = (week = 1) => {
   return gamesRef
     .where("week", "==", week)
