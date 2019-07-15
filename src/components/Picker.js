@@ -8,6 +8,9 @@ import ProfilePhoto from "./Styled/ProfilePhoto";
 import Game from "./Game";
 import WeekSlider from "./Styled/WeekSlider";
 import { StickyContainer, Sticky } from "react-sticky";
+import PickSkeleton from "./PickSkeleton";
+import ActionButton from "./Styled/ActionButton";
+import chevron from "../img/Chevron.png";
 
 const Picker = ({ user }) => {
   const weekBox = useRef();
@@ -70,11 +73,18 @@ const Picker = ({ user }) => {
             </Header>
           )}
         </Sticky>
-        <PickPage>
-          {state.games.map(game => (
-            <Game game={game} user={user} save={save} key={game.id} />
-          ))}
-        </PickPage>
+        {state.games.length === 0 ? (
+          <PickSkeleton />
+        ) : (
+          <PickPage>
+            <ActionButton small>
+              <img src={chevron} className="down" alt="chevron" />
+            </ActionButton>
+            {state.games.map(game => (
+              <Game game={game} user={user} save={save} key={game.id} />
+            ))}
+          </PickPage>
+        )}
         <WeekSlider ref={weekBox}>
           {weekNumbers.map((x, i) => (
             <div

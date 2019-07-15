@@ -1,9 +1,15 @@
 import styled from "styled-components";
-const Footer = styled.div`
+import { animated } from "react-spring";
+import { background } from "./colors";
+const Footer = styled(animated.div)`
   position: fixed;
-  bottom: 0;
   text-align: center;
-  display: grid;
-  padding: 0 5vw;
+  height: 95vh;
+  top: 91vh;
+  background-color: ${background};
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
 export default Footer;

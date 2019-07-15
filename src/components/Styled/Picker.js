@@ -32,8 +32,10 @@ export const TeamButton = styled.div`
   }
 `;
 export const PickPage = styled.div`
-  margin: 0 5vw;
   padding-bottom: 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
 const Bar = styled.div`
   position: absolute;

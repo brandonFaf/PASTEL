@@ -4,10 +4,13 @@ import Footer from "./Styled/Footer";
 import Game from "./Game";
 import chevron from "../img/Chevron.png";
 import { loadFirstGame } from "../data/firebaseGameAPI";
-import { Link } from "react-router-dom";
-
+import { useSpring } from "react-spring";
+import useRouter from "./useRouter";
+import PickSkeleton, { GameContainer } from "./PickSkeleton";
 const MakePicks = ({ week }) => {
   const [game, setGame] = useState({});
+  const { history } = useRouter();
+  const [activated, setActivated] = useState(false);
   const save = () => {};
   useEffect(() => {
     const getFirstGame = async () => {
@@ -17,16 +20,34 @@ const MakePicks = ({ week }) => {
     getFirstGame();
     return () => {};
   }, [week]);
+  const props = useSpring({
+    config: { duration: 500 },
+    from: { top: "91vh" },
+    to: { top: activated ? "5vh" : "91vh" }
+  });
+
+  const activate = () => {
+    setActivated(true);
+    setTimeout(() => {
+      history.push("/pick");
+    }, 500);
+  };
   return (
-    <Footer>
-      <ActionButton>
-        <Link to="/pick">
+    <Footer style={props}>
+      {!activated && (
+        <ActionButton onClick={activate}>
           <img src={chevron} alt="chevron" />
           Make Your Picks
           <span>5/16</span>
-        </Link>
-      </ActionButton>
-      <Game game={game} save={save} />
+        </ActionButton>
+      )}
+      {!activated ? (
+        <GameContainer>
+          <Game style={{ paddingLeft: "5vw" }} game={game} save={save} />
+        </GameContainer>
+      ) : (
+        <PickSkeleton />
+      )}
     </Footer>
   );
 };
