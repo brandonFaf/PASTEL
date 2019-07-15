@@ -2,11 +2,13 @@ const USER_PICKS_LOADED = "USER_PICKS_LOADED";
 const GAME_PICKS_LOADED = "GAME_PICKS_LOADED";
 const LOAD_GAMES = "LOAD_GAMES";
 const SAVE_PICK = "SAVE_PICK";
+const CLEAR = "CLEAR";
 export const gameActions = {
   USER_PICKS_LOADED,
   LOAD_GAMES,
   SAVE_PICK,
-  GAME_PICKS_LOADED
+  GAME_PICKS_LOADED,
+  CLEAR
 };
 
 export const gamesReducer = (state, action) => {
@@ -44,6 +46,9 @@ export const gamesReducer = (state, action) => {
         return game;
       });
       return { ...state, games };
+    }
+    case CLEAR: {
+      return { ...state, games: [] };
     }
     default:
       return state;

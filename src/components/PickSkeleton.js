@@ -12,8 +12,8 @@ const PickSkeleton = () => {
         <img src={chevron} className="down" alt="chevron" />
       </ActionButton>
       <GameContainer>
-        {weekNumbers.map(x => (
-          <ProgressBar>
+        {weekNumbers.map((_, i) => (
+          <ProgressBar key={i}>
             <BarVis percent={100} />
             <BarHome percent={0} />
           </ProgressBar>

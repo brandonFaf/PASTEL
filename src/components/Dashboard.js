@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { loadAllUsers } from "../data/firebaseUserAPI";
-import Header from "./Styled/Header";
 import WeekStatus from "./Styled/WeekStatus";
 import Leaderboard from "./Leaderboard";
-import ProfilePhoto from "./Styled/ProfilePhoto";
 import MakePicks from "./MakePicks";
 const Dashboard = ({ user }) => {
   const [users, setUsers] = useState([]);
@@ -16,10 +14,6 @@ const Dashboard = ({ user }) => {
   }, []);
   return (
     <>
-      <Header>
-        <div>Dashboard</div>
-        <ProfilePhoto src={user.photoURL} alt="profile" />
-      </Header>
       <WeekStatus>
         <div className="week">Week 3</div>
         <div className="main">

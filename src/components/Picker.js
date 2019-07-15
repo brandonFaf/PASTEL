@@ -3,16 +3,14 @@ import { loadGames, savePick, loadPicks } from "../data/firebaseGameAPI";
 import { gamesReducer, gameActions } from "../data/reducers/gamesReducer";
 import moment from "moment";
 import { PickPage } from "./Styled/Picker";
-import Header from "./Styled/Header";
-import ProfilePhoto from "./Styled/ProfilePhoto";
 import Game from "./Game";
 import WeekSlider from "./Styled/WeekSlider";
-import { StickyContainer, Sticky } from "react-sticky";
 import PickSkeleton from "./PickSkeleton";
 import ActionButton from "./Styled/ActionButton";
 import chevron from "../img/Chevron.png";
+import { animated, useSpring } from "react-spring";
 
-const Picker = ({ user }) => {
+const Picker = ({ user, history }) => {
   const weekBox = useRef();
   const [state, dispatch] = useReducer(gamesReducer, { games: [] });
   const getCurrentWeek = () => {
@@ -36,7 +34,9 @@ const Picker = ({ user }) => {
     getPicks();
   }, [userId, week]);
   useEffect(() => {
-    weekBox.current.scrollLeft = ((week - 1) * window.innerWidth) / 5;
+    if (weekBox.current) {
+      weekBox.current.scrollLeft = ((week - 1) * window.innerWidth) / 5;
+    }
   }, [week]);
   const save = (gameId, teamName, week) => () => {
     savePick({ gameId, teamName, userId, displayName, week });
@@ -62,29 +62,36 @@ const Picker = ({ user }) => {
     setWeek(week);
   };
   const weekNumbers = new Array(17).fill("1");
+  const [activated, setActivated] = useState(false);
+  const close = () => {
+    setActivated(true);
+    dispatch({ type: gameActions.CLEAR });
+    setTimeout(() => {
+      history.push("/");
+    }, 500);
+  };
+  const props = useSpring({
+    config: { duration: 500 },
+    from: { top: "5vh" },
+    to: { top: activated ? "91vh" : "5vh" }
+  });
   return (
-    <>
-      <StickyContainer>
-        <Sticky>
-          {({ style }) => (
-            <Header style={style}>
-              <div>Make Your Picks</div>
-              <ProfilePhoto src={user.photoURL} alt="profile" />
-            </Header>
-          )}
-        </Sticky>
-        {state.games.length === 0 ? (
-          <PickSkeleton />
-        ) : (
-          <PickPage>
-            <ActionButton small>
-              <img src={chevron} className="down" alt="chevron" />
-            </ActionButton>
-            {state.games.map(game => (
-              <Game game={game} user={user} save={save} key={game.id} />
-            ))}
-          </PickPage>
-        )}
+    <animated.div
+      style={{ ...props, position: activated ? "fixed" : "static" }}
+    >
+      {state.games.length === 0 ? (
+        <PickSkeleton />
+      ) : (
+        <PickPage>
+          <ActionButton small onClick={close}>
+            <img src={chevron} className="down" alt="chevron" />
+          </ActionButton>
+          {state.games.map(game => (
+            <Game game={game} user={user} save={save} key={game.id} />
+          ))}
+        </PickPage>
+      )}
+      {state.games.length > 0 && (
         <WeekSlider ref={weekBox}>
           {weekNumbers.map((x, i) => (
             <div
@@ -97,8 +104,8 @@ const Picker = ({ user }) => {
             </div>
           ))}
         </WeekSlider>
-      </StickyContainer>
-    </>
+      )}
+    </animated.div>
   );
 };
 

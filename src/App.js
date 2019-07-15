@@ -8,6 +8,9 @@ import { updateUser } from "./data/firebaseUserAPI";
 import firebase from "firebase/app";
 import "firebase/auth";
 import { UserContext } from "./contexts/UserContext";
+import { StickyContainer, Sticky } from "react-sticky";
+import Header from "./components/Styled/Header";
+import ProfilePhoto from "./components/Styled/ProfilePhoto";
 
 const App = () => {
   // const logout = () => {
@@ -50,25 +53,35 @@ const App = () => {
   return (
     <>
       <Router>
-        <PrivateRoute
-          exact
-          path="/"
-          loading={loading}
-          user={user}
-          component={Dashboard}
-        />
-        <PrivateRoute
-          path="/pick"
-          loading={loading}
-          user={user}
-          component={Picker}
-        />
-        <PublicRoute
-          path="/login"
-          loading={loading}
-          user={user}
-          component={Login}
-        />
+        <StickyContainer>
+          <Sticky>
+            {({ style }) => (
+              <Header style={{ ...style, height: "5vh" }}>
+                <div>Make Your Picks</div>
+                {user && <ProfilePhoto src={user.photoURL} alt="profile" />}
+              </Header>
+            )}
+          </Sticky>
+          <PrivateRoute
+            exact
+            path="/"
+            loading={loading}
+            user={user}
+            component={Dashboard}
+          />
+          <PrivateRoute
+            path="/pick"
+            loading={loading}
+            user={user}
+            component={Picker}
+          />
+          <PublicRoute
+            path="/login"
+            loading={loading}
+            user={user}
+            component={Login}
+          />
+        </StickyContainer>
       </Router>
     </>
   );

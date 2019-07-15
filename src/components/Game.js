@@ -10,7 +10,6 @@ import {
 import moment from "moment";
 import "moment-timezone";
 const Game = ({ game, save }) => {
-  console.log("game");
   const { visTm, homeTm, selected, winner, id, week, date, time } = game;
   const isPastTime = (date, time) => {
     const gameStart = moment.tz(`${date} ${time}`, "America/New_York");
@@ -83,14 +82,23 @@ const Game = ({ game, save }) => {
     </div>
   );
   return (
-    <ProgressBar outcome={outcome}>
-      <BarVis active={visActive} percent={visPer}>
-        {gameBlock}
-      </BarVis>
-      <BarHome active={homeActive} percent={homePer}>
-        {gameBlock}
-      </BarHome>
-    </ProgressBar>
+    <>
+      {id ? (
+        <ProgressBar outcome={outcome}>
+          <BarVis active={visActive} percent={visPer}>
+            {gameBlock}
+          </BarVis>
+          <BarHome active={homeActive} percent={homePer}>
+            {gameBlock}
+          </BarHome>
+        </ProgressBar>
+      ) : (
+        <ProgressBar>
+          <BarVis percent={100} />
+          <BarHome percent={0} />
+        </ProgressBar>
+      )}
+    </>
   );
 };
 
