@@ -68,12 +68,12 @@ const Picker = ({ user, history }) => {
     dispatch({ type: gameActions.CLEAR });
     setTimeout(() => {
       history.push("/");
-    }, 500);
+    }, 600);
   };
   const props = useSpring({
     config: { duration: 500 },
     from: { top: "5vh" },
-    to: { top: activated ? "91vh" : "5vh" }
+    to: { top: activated ? "75vh" : "5vh" }
   });
   return (
     <animated.div

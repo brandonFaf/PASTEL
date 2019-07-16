@@ -22,8 +22,8 @@ const MakePicks = ({ week }) => {
   }, [week]);
   const props = useSpring({
     config: { duration: 500 },
-    from: { top: "91vh" },
-    to: { top: activated ? "5vh" : "91vh" }
+    from: { top: "75vh" },
+    to: { top: activated ? "5vh" : "75vh" }
   });
 
   const activate = () => {
