@@ -34,7 +34,7 @@ const Picker = ({ user, history, setHeader }) => {
       weekBox.current.scrollLeft = ((week - 1) * window.innerWidth) / 5;
     }
   }, [week]);
-  const save = (gameId, teamName, week) => () => {
+  const save = (gameId, teamName, week) => {
     savePick({ gameId, teamName, userId, displayName, week });
     dispatch({ type: gameActions.SAVE_PICK, value: { gameId, teamName } });
     console.log("save", teamName);

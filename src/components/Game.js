@@ -34,6 +34,9 @@ const Game = ({ game, save }) => {
       ? 33
       : 67;
   const outcome = !winner ? "" : winner === selected ? "RIGHT" : "WRONG";
+  const trySave = team => () => {
+    if (!disabled) save(id, team, week);
+  };
   const getMiddle = () => {
     if (outcome === "RIGHT") {
       return (
@@ -66,7 +69,7 @@ const Game = ({ game, save }) => {
         <TeamButton
           disabled={disabled}
           active={visActive}
-          onClick={save(id, visTm, week)}
+          onClick={trySave(visTm)}
         >
           {visTmDisplay}
         </TeamButton>
@@ -74,7 +77,7 @@ const Game = ({ game, save }) => {
         <TeamButton
           disabled={disabled}
           active={homeActive}
-          onClick={save(id, homeTm, week)}
+          onClick={trySave(homeTm)}
         >
           {homeTmDisplay}
         </TeamButton>
