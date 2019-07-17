@@ -5,7 +5,7 @@ import Game from "./Game";
 import chevron from "../img/Chevron.png";
 import { loadFirstGame } from "../data/firebaseGameAPI";
 import { useSpring } from "react-spring";
-import useRouter from "./useRouter";
+import useRouter from "./hooks/useRouter";
 import PickSkeleton, { GameContainer } from "./PickSkeleton";
 const MakePicks = ({ week }) => {
   const [game, setGame] = useState({});

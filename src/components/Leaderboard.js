@@ -21,7 +21,7 @@ const LBoard = styled.div`
   justify-content: center;
   align-items: center;
   overflow-x: hidden;
-  height: 200px;
+  height: 35vh;
 `;
 
 const Leaderboard = ({ users, user }) => {

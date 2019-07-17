@@ -50,6 +50,7 @@ const App = () => {
       unregisterAuthObserver();
     };
   }, [setUser]);
+  const [header, setHeader] = useState("");
   return (
     <>
       <Router>
@@ -57,7 +58,7 @@ const App = () => {
           <Sticky>
             {({ style }) => (
               <Header style={{ ...style, height: "5vh" }}>
-                <div>Make Your Picks</div>
+                <div>{header}</div>
                 {user && <ProfilePhoto src={user.photoURL} alt="profile" />}
               </Header>
             )}
@@ -68,20 +69,22 @@ const App = () => {
             loading={loading}
             user={user}
             component={Dashboard}
+            setHeader={setHeader}
           />
           <PrivateRoute
             path="/pick"
             loading={loading}
             user={user}
             component={Picker}
-          />
-          <PublicRoute
-            path="/login"
-            loading={loading}
-            user={user}
-            component={Login}
+            setHeader={setHeader}
           />
         </StickyContainer>
+        <PublicRoute
+          path="/login"
+          loading={loading}
+          user={user}
+          component={Login}
+        />
       </Router>
     </>
   );
@@ -97,7 +100,7 @@ const PrivateRoute = ({ component: Component, user, loading, ...rest }) => {
         {...rest}
         render={props =>
           user ? (
-            <Component user={user} {...props} />
+            <Component user={user} {...rest} {...props} />
           ) : (
             <Redirect
               to={{

@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useReducer, useRef } from "react";
 import { loadGames, savePick, loadPicks } from "../data/firebaseGameAPI";
 import { gamesReducer, gameActions } from "../data/reducers/gamesReducer";
-import moment from "moment";
 import { PickPage } from "./Styled/Picker";
 import Game from "./Game";
 import WeekSlider from "./Styled/WeekSlider";
@@ -9,15 +8,11 @@ import PickSkeleton from "./PickSkeleton";
 import ActionButton from "./Styled/ActionButton";
 import chevron from "../img/Chevron.png";
 import { animated, useSpring } from "react-spring";
-
-const Picker = ({ user, history }) => {
+import getCurrentWeek from "../helpers/getCurrentWeek";
+const Picker = ({ user, history, setHeader }) => {
   const weekBox = useRef();
   const [state, dispatch] = useReducer(gamesReducer, { games: [] });
-  const getCurrentWeek = () => {
-    let now = moment();
-    const w = now.subtract(2, "d").week() - 35;
-    return w > 0 ? w : 1;
-  };
+
   const [week, setWeek] = useState(getCurrentWeek());
   const { id: userId, displayName } = user;
   useEffect(() => {
@@ -32,7 +27,8 @@ const Picker = ({ user, history }) => {
     };
     getGames();
     getPicks();
-  }, [userId, week]);
+    setHeader("Make Your Picks");
+  }, [setHeader, userId, week]);
   useEffect(() => {
     if (weekBox.current) {
       weekBox.current.scrollLeft = ((week - 1) * window.innerWidth) / 5;
