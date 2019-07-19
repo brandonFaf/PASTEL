@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   TeamButton,
   Game as Container,
@@ -7,6 +7,7 @@ import {
   MiddleButton,
   ProgressBar
 } from "./Styled/Picker";
+import WhoPicked from "./WhoPicked";
 const EndGame = ({ game }) => {
   const {
     visActive,
@@ -23,7 +24,11 @@ const EndGame = ({ game }) => {
     ? 100 - visPer //(game.pickedHomeTm.length / game.totalPicks).toFixed(2) * 100
     : 67;
   const outcome = !winner ? "" : winner === selected ? "RIGHT" : "WRONG";
-
+  const [showUsers, setShowUsers] = useState(false);
+  const pickData = { homePer, visPer, homeActive, visActive };
+  const toggleUsers = () => {
+    setShowUsers(!showUsers);
+  };
   const getMiddle = () => {
     if (outcome === "RIGHT") {
       return (
@@ -54,14 +59,17 @@ const EndGame = ({ game }) => {
     </div>
   );
   return (
-    <ProgressBar outcome={outcome}>
-      <BarVis active={visActive} percent={visPer}>
-        {gameBlock}
-      </BarVis>
-      <BarHome active={homeActive} percent={homePer}>
-        {gameBlock}
-      </BarHome>
-    </ProgressBar>
+    <>
+      <ProgressBar outcome={outcome} onClick={toggleUsers}>
+        <BarVis active={visActive} percent={visPer}>
+          {gameBlock}
+        </BarVis>
+        <BarHome active={homeActive} percent={homePer}>
+          {gameBlock}
+        </BarHome>
+      </ProgressBar>
+      {!showUsers && <WhoPicked data={pickData} />}
+    </>
   );
 };
 

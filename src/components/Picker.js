@@ -39,21 +39,6 @@ const Picker = ({ user, history, setHeader }) => {
     dispatch({ type: gameActions.SAVE_PICK, value: { gameId, teamName } });
     console.log("save", teamName);
   };
-  // const showPicked = game => {
-  //   return (
-  //     <div>
-  //       <span>
-  //         {(game.pickedVisTm.length / game.totalPicks).toFixed(2) * 100}% -{" "}
-  //         {game.pickedVisTm.join(", ")}
-  //       </span>
-  //       <span />
-  //       <span>
-  //         {(game.pickedHomeTm.length / game.totalPicks).toFixed(2) * 100}% -{" "}
-  //         {game.pickedHomeTm.join(", ")}
-  //       </span>
-  //     </div>
-  //   );
-  // };
   const changeWeek = week => () => {
     setWeek(week);
   };

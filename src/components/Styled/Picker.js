@@ -5,14 +5,14 @@ export const ProgressBar = styled.div`
   position: relative;
   width: 90vw;
   height: 50px;
-  margin-bottom: 15px;
+  margin-top: 15px;
   line-height: 50px;
   vertical-align: midle;
   overflow: hidden;
   font-family: arial, sans-serif;
   font-weight: bold;
   font-size: 30px;
-  border-bottom: ${props =>
+  border: ${props =>
     props.outcome === "WRONG"
       ? "4px solid #b54545"
       : props.outcome === "RIGHT"
@@ -32,7 +32,7 @@ export const TeamButton = styled.div`
   }
 `;
 export const PickPage = styled.div`
-  padding-bottom: 50px;
+  padding-bottom: 65px;
   display: flex;
   flex-direction: column;
   align-items: center;
