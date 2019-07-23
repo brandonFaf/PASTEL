@@ -1,17 +1,33 @@
 /* eslint-disable no-useless-escape */
-import React, { useState, useRef } from "react";
+import React, { useState, useContext } from "react";
 import FileUploader from "react-firebase-file-uploader";
 import firebase from "firebase/app";
 import "firebase/storage";
 import { updateUser, displayNameIsUnique } from "../data/firebaseUserAPI";
-import useForm from "./useForm";
-const Profile = ({ currentUser }) => {
-  const fileUploader = useRef();
+import useForm from "./hooks/useForm";
+import Input from "./FloatingInput";
+import ProfilePhoto from "./Styled/ProfilePhoto";
+import { ProfileForm, EditLabel } from "./Styled/ProfilePage";
+import ActionButton from "./Styled/ActionButton";
+import Toggle from "react-toggle";
+import "./ToggleCSS.css";
+import { UserContext } from "../contexts/UserContext";
+import Header from "./Styled/Header";
+import styled from "styled-components";
+
+const ProfileHeader = styled(Header)`
+  height: 5vh;
+  position: absolute;
+  top: 0;
+  width: 82vw;
+  background-color: transparent;
+`;
+
+const Profile = ({ user, history, toggleProfile }) => {
   const { values, handleChange } = useForm({
-    ...currentUser
+    ...user
   });
-  const [file, setFile] = useState();
-  // const [{ email, phoneNumber, photoURL }, setState] = useState();
+  const { setPhotoURL } = useContext(UserContext);
   const [
     { displayNameValid, emailValid, phoneNumberValid, displayNameUnique },
     setValid
@@ -26,13 +42,16 @@ const Profile = ({ currentUser }) => {
     e.preventDefault();
 
     if (await validateForm()) {
-      updateUser(currentUser.id, {
-        displayName: values.displayName,
-        email: values.email || "",
-        phoneNumber: values.phoneNumber || ""
-      });
-      if (file) {
-        fileUploader.startUpload(file);
+      try {
+        await updateUser(user.id, {
+          displayName: values.displayName,
+          email: values.email || "",
+          phoneNumber: values.phoneNumber || ""
+        });
+      } catch (e) {
+        alert("Can't save right now. Try again Later");
+      } finally {
+        history.push("/");
       }
     }
   };
@@ -44,7 +63,7 @@ const Profile = ({ currentUser }) => {
     } else {
       //username exists, is longer than 4 and less than 20
       dnv = values.displayName.length > 4 && values.displayName.length < 20;
-      dnu = await displayNameIsUnique(values.displayName, currentUser.id);
+      dnu = await displayNameIsUnique(values.displayName, user.id);
     }
     //email is valid form
     var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -71,83 +90,97 @@ const Profile = ({ currentUser }) => {
       .child(filename)
       .getDownloadURL()
       .then(photoURL => {
-        updateUser(currentUser.id, { photoURL });
-        onchange({ target: { name: "photoURL", value: photoURL } });
+        updateUser(user.id, { photoURL });
+        setPhotoURL(photoURL);
+        handleChange({ target: { name: "photoURL", value: photoURL } });
       });
   };
-
+  const [allowNotifications, setAllowNotifications] = useState(false);
+  const toggleNotifications = () => {
+    setAllowNotifications(!allowNotifications);
+  };
   const handleUploadStart = () => console.log("starting");
   const handleUploadError = error => {
     console.error(error);
   };
-  const onChangeHandler = event => {
-    const {
-      target: { files }
-    } = event;
-    setFile(files[0]);
-  };
 
   return (
     <>
-      <form
-        onSubmit={submitForm}
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          width: "200px"
-        }}
-      >
-        <label>Display Name:</label>
-        {!displayNameValid && (
-          <label className="error">Invalid Display Name</label>
+      <ProfileForm onSubmit={submitForm}>
+        {toggleProfile && (
+          <ProfileHeader>
+            <div>Profile</div>
+            {user && <span onClick={toggleProfile}>X</span>}
+          </ProfileHeader>
         )}
-        {!displayNameUnique && (
-          <label className="error">Display Name Taken</label>
+        {user && (
+          <div style={{ justifySelf: "center" }}>
+            <ProfilePhoto large src={values.photoURL} alt="profile" />{" "}
+            <EditLabel>
+              <FileUploader
+                hidden
+                accept="image/*"
+                name="avatar"
+                randomizeFilename
+                storageRef={firebase.storage().ref("images")}
+                onUploadStart={handleUploadStart}
+                onUploadError={handleUploadError}
+                onUploadSuccess={handleUploadSuccess}
+              />
+            </EditLabel>
+          </div>
         )}
-        <input
-          type="text"
-          name="displayName"
-          value={values.displayName}
-          onChange={handleChange}
-        />
-        <label>Phone Number:</label>
-        {!phoneNumberValid && (
-          <label className="error">Invalid Phone number</label>
-        )}
-        <input
-          type="text"
-          name="phoneNumber"
-          value={values.phoneNumber}
-          onChange={handleChange}
-        />
-        <label>Email:</label>
-        {!emailValid && <label className="error">Invalid email</label>}
-        <input
-          type="text"
-          name="email"
-          value={values.email}
-          onChange={handleChange}
-        />
-        <label>Profile Photo:</label>
-        {values.photoURL ? (
-          <img alt="profilePhoto" src={values.photoURL} />
-        ) : (
-          <span>No Photo Selected</span>
-        )}
-        <FileUploader
-          accept="image/*"
-          name="avatar"
-          randomizeFilename
-          storageRef={firebase.storage().ref("images")}
-          onChange={onChangeHandler}
-          ref={fileUploader}
-          onUploadStart={handleUploadStart}
-          onUploadError={handleUploadError}
-          onUploadSuccess={handleUploadSuccess}
-        />
-        <button>Cancel</button>
-        <button type="submit">Submit</button>
-      </form>
+
+        <fieldset>
+          <Input
+            id="displayName"
+            label="Name"
+            name="displayName"
+            onChange={handleChange}
+            value={values.displayName}
+          />
+          {!displayNameValid && (
+            <label className="error">Invalid Display Name</label>
+          )}
+          {!displayNameUnique && (
+            <label className="error">Display Name Taken</label>
+          )}
+
+          {allowNotifications && (
+            <>
+              <Input
+                id="phoneNumber"
+                label="Phone Number"
+                name="phoneNumber"
+                type="phone"
+                onChange={handleChange}
+                value={values.phoneNumber}
+              />
+              {!phoneNumberValid && (
+                <label className="error">Invalid Phone number</label>
+              )}
+              <Input
+                id="email"
+                label="Email"
+                name="email"
+                type="email"
+                onChange={handleChange}
+                value={values.email}
+              />
+              {!emailValid && <label className="error">Invalid email</label>}
+            </>
+          )}
+          <Toggle
+            id="notifications"
+            defaultChecked={allowNotifications}
+            onChange={toggleNotifications}
+          />
+          <label className="toggle-label" htmlFor="notifications">
+            Notifications
+          </label>
+        </fieldset>
+        <ActionButton type="submit">NEXT</ActionButton>
+      </ProfileForm>
     </>
   );
 };

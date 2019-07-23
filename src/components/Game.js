@@ -15,7 +15,7 @@ const Game = ({ game, save }) => {
     const gameStart = moment.tz(`${date} ${time}`, "America/New_York");
     return moment().isAfter(gameStart);
   };
-  const gameDate = moment(`${date} ${time}`);
+  const gameDate = moment(`${date} ${time}`, "YYYY-MM-DD HH:mm:ss");
   const visTmDisplay = visTm && visTm.split(" ").pop();
   const homeTmDisplay = homeTm && homeTm.split(" ").pop();
   const disabled = isPastTime(date, time);

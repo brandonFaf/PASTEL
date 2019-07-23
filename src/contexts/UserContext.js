@@ -7,9 +7,18 @@ export default class UserStore extends React.Component {
     super(props);
     this.state = {
       user: undefined,
-      setUser: this.setUser
+      setUser: this.setUser,
+      setPhotoURL: this.setPhotoURL
     };
   }
+  setPhotoURL = photoURL => {
+    if (this.state.user) {
+      this.setState(state => {
+        const user = { ...state.user, photoURL };
+        return { ...state, user };
+      });
+    }
+  };
   setUser = async uid => {
     if (!uid) {
       this.setState({ user: null });

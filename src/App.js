@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
 import Login from "./components/Login";
 import Picker from "./components/Picker";
 import Dashboard from "./components/Dashboard";
-// import Profile from "./components/Profile";
+import Profile from "./components/Profile";
 import { updateUser } from "./data/firebaseUserAPI";
 import firebase from "firebase/app";
 import "firebase/auth";
@@ -11,25 +11,23 @@ import { UserContext } from "./contexts/UserContext";
 import { StickyContainer, Sticky } from "react-sticky";
 import Header from "./components/Styled/Header";
 import ProfilePhoto from "./components/Styled/ProfilePhoto";
+import { useTransition } from "react-spring";
+import { ProfileSlidingPage } from "./components/Styled/ProfilePage";
 
 const App = () => {
-  // const logout = () => {
-  //   firebase
-  //     .auth()
-  //     .signOut()
-  //     .then(x => {
-  //       setUser();
-  //     });
-  // };
   const { user, setUser } = useContext(UserContext);
   const [loading, setLoading] = useState(true);
+  const [showProfile, setShowProfile] = useState(false);
+  const toggleProfile = () => {
+    setShowProfile(!showProfile);
+  };
   console.log("user", user);
 
   useEffect(() => {
     const setAuth = async u => {
       console.log("u", u);
       if (!u) {
-        await setUser("bipCNSeypqQh9rfPzx79n4Zw8v03");
+        // await setUser("bipCNSeypqQh9rfPzx79n4Zw8v03");
         setLoading(false);
         return;
       }
@@ -51,6 +49,11 @@ const App = () => {
     };
   }, [setUser]);
   const [header, setHeader] = useState("");
+  const transitions = useTransition(showProfile, null, {
+    from: { transform: "translate3d(100vh,0,0)" },
+    enter: { transform: "translate3d(10vh,0,0)" },
+    leave: { transform: "translate3d(100vh,0,0)" }
+  });
   return (
     <>
       <Router>
@@ -59,7 +62,13 @@ const App = () => {
             {({ style }) => (
               <Header style={{ ...style, height: "5vh" }}>
                 <div>{header}</div>
-                {user && <ProfilePhoto src={user.photoURL} alt="profile" />}
+                {user && (
+                  <ProfilePhoto
+                    onClick={toggleProfile}
+                    src={user.photoURL}
+                    alt="profile"
+                  />
+                )}
               </Header>
             )}
           </Sticky>
@@ -78,14 +87,31 @@ const App = () => {
             component={Picker}
             setHeader={setHeader}
           />
+          <PrivateRoute
+            exact
+            path="/profile"
+            loading={loading}
+            user={user}
+            component={Profile}
+            setHeader={setHeader}
+          />
         </StickyContainer>
         <PublicRoute
           path="/login"
           loading={loading}
           user={user}
           component={Login}
+          setHeader={setHeader}
         />
       </Router>
+      {transitions.map(
+        ({ item, key, props }) =>
+          item && (
+            <ProfileSlidingPage key={key} style={props}>
+              <Profile user={user} toggleProfile={toggleProfile} />
+            </ProfileSlidingPage>
+          )
+      )}
     </>
   );
 };
@@ -124,7 +150,7 @@ const PublicRoute = ({ component: Component, user, loading, ...rest }) => {
         render={props =>
           !user ? (
             <>
-              <Component user={user} {...props} />
+              <Component user={user} {...rest} {...props} />
             </>
           ) : (
             <Redirect
