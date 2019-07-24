@@ -62,7 +62,7 @@ const App = () => {
             {({ style }) => (
               <Header style={{ ...style, height: "5vh" }}>
                 <div className="header-text">{header}</div>
-                {user && (
+                {header && user && (
                   <ProfilePhoto
                     onClick={toggleProfile}
                     displayName={user.displayName}

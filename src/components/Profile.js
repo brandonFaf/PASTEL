@@ -183,7 +183,9 @@ const Profile = ({ user, history, toggleProfile }) => {
             Notifications
           </label>
         </fieldset>
-        <ActionButton type="submit">NEXT</ActionButton>
+        {window.location.pathname.includes("/profile") && (
+          <ActionButton type="submit">NEXT</ActionButton>
+        )}
       </ProfileForm>
     </>
   );
