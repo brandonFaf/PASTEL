@@ -2,7 +2,7 @@ import React, { useState, useEffect, useReducer, useRef } from "react";
 import { loadGames, savePick, loadPicks } from "../data/firebaseGameAPI";
 import { gamesReducer, gameActions } from "../data/reducers/gamesReducer";
 import { PickPage } from "./Styled/Picker";
-import Game from "./Game";
+import GameContainer from "./GameContainer";
 import WeekSlider from "./Styled/WeekSlider";
 import PickSkeleton from "./PickSkeleton";
 import ActionButton from "./Styled/ActionButton";
@@ -34,26 +34,11 @@ const Picker = ({ user, history, setHeader }) => {
       weekBox.current.scrollLeft = ((week - 1) * window.innerWidth) / 5;
     }
   }, [week]);
-  const save = (gameId, teamName, week) => {
+  const save = (gameId, teamName, week) => () => {
     savePick({ gameId, teamName, userId, displayName, week });
     dispatch({ type: gameActions.SAVE_PICK, value: { gameId, teamName } });
     console.log("save", teamName);
   };
-  // const showPicked = game => {
-  //   return (
-  //     <div>
-  //       <span>
-  //         {(game.pickedVisTm.length / game.totalPicks).toFixed(2) * 100}% -{" "}
-  //         {game.pickedVisTm.join(", ")}
-  //       </span>
-  //       <span />
-  //       <span>
-  //         {(game.pickedHomeTm.length / game.totalPicks).toFixed(2) * 100}% -{" "}
-  //         {game.pickedHomeTm.join(", ")}
-  //       </span>
-  //     </div>
-  //   );
-  // };
   const changeWeek = week => () => {
     setWeek(week);
   };
@@ -83,7 +68,7 @@ const Picker = ({ user, history, setHeader }) => {
             <img src={chevron} className="down" alt="chevron" />
           </ActionButton>
           {state.games.map(game => (
-            <Game game={game} user={user} save={save} key={game.id} />
+            <GameContainer game={game} save={save} key={game.id} />
           ))}
         </PickPage>
       )}
