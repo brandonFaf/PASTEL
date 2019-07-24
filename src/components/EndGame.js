@@ -15,7 +15,9 @@ const EndGame = ({ game }) => {
     visTmDisplay,
     homeTmDisplay,
     winner,
-    selected
+    selected,
+    pickedHomeTm,
+    pickedVisTm
   } = game;
   const visPer = game.pickedVisTm
     ? Math.floor(Math.random() * 100) //(game.pickedVisTm.length / game.totalPicks).toFixed(2) * 100
@@ -24,8 +26,15 @@ const EndGame = ({ game }) => {
     ? 100 - visPer //(game.pickedHomeTm.length / game.totalPicks).toFixed(2) * 100
     : 67;
   const outcome = !winner ? "" : winner === selected ? "RIGHT" : "WRONG";
-  const [showUsers, setShowUsers] = useState(false);
-  const pickData = { homePer, visPer, homeActive, visActive };
+  const [showUsers, setShowUsers] = useState(true);
+  const pickData = {
+    homePer,
+    visPer,
+    homeActive,
+    visActive,
+    pickedHomeTm,
+    pickedVisTm
+  };
   const toggleUsers = () => {
     setShowUsers(!showUsers);
   };
@@ -68,7 +77,7 @@ const EndGame = ({ game }) => {
           {gameBlock}
         </BarHome>
       </ProgressBar>
-      {!showUsers && <WhoPicked data={pickData} />}
+      <WhoPicked showUsers={showUsers} data={pickData} />
     </>
   );
 };
