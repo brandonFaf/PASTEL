@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import ActionButton from "./Styled/ActionButton";
 import Footer from "./Styled/Footer";
-import Game from "./Game";
 import chevron from "../img/Chevron.png";
 import { loadFirstGame } from "../data/firebaseGameAPI";
 import { useSpring } from "react-spring";
 import useRouter from "./hooks/useRouter";
-import PickSkeleton, { GameContainer } from "./PickSkeleton";
+import PickSkeleton, { GameContainer as GC } from "./PickSkeleton";
+import GameContainer from "./GameContainer";
 const MakePicks = ({ week }) => {
   const [game, setGame] = useState({});
   const { history } = useRouter();
@@ -42,9 +42,13 @@ const MakePicks = ({ week }) => {
         </ActionButton>
       )}
       {!activated ? (
-        <GameContainer>
-          <Game style={{ paddingLeft: "5vw" }} game={game} save={save} />
-        </GameContainer>
+        <GC>
+          <GameContainer
+            style={{ paddingLeft: "5vw" }}
+            game={game}
+            save={save}
+          />
+        </GC>
       ) : (
         <PickSkeleton />
       )}
