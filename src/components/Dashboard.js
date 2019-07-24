@@ -22,7 +22,7 @@ const Dashboard = ({ user, setHeader }) => {
   const getRank = () => {
     const rank = users.findIndex(u => u.id === user.id) + 1;
     if (rank === 0) {
-      return;
+      return "last";
     }
     return (
       <>
@@ -41,7 +41,7 @@ const Dashboard = ({ user, setHeader }) => {
           <br />
           with{" "}
           <strong>
-            {user.score}
+            {user.score || 0}
             <sup>pts</sup>
           </strong>
         </div>

@@ -61,12 +61,13 @@ const App = () => {
           <Sticky>
             {({ style }) => (
               <Header style={{ ...style, height: "5vh" }}>
-                <div>{header}</div>
+                <div className="header-text">{header}</div>
                 {user && (
                   <ProfilePhoto
                     onClick={toggleProfile}
+                    displayName={user.displayName}
                     src={user.photoURL}
-                    alt="profile"
+                    size="small"
                   />
                 )}
               </Header>

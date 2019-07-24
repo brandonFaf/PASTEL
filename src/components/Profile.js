@@ -115,7 +115,11 @@ const Profile = ({ user, history, toggleProfile }) => {
         )}
         {user && (
           <div style={{ justifySelf: "center" }}>
-            <ProfilePhoto large src={values.photoURL} alt="profile" />{" "}
+            <ProfilePhoto
+              size="large"
+              src={values.photoURL}
+              displayName={values.displayName}
+            />
             <EditLabel>
               <FileUploader
                 hidden

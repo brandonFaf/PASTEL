@@ -34,8 +34,6 @@ const Leaderboard = ({ users, user }) => {
             <Cell />
             <Cell>Player</Cell>
             <Cell>Points</Cell>
-            <Cell>Win</Cell>
-            <Cell>Streak</Cell>
           </Row>
           {users.map(({ id, displayName, photoURL, score }, i) => {
             let cn = "";
@@ -46,12 +44,10 @@ const Leaderboard = ({ users, user }) => {
               <Row key={i} className={cn}>
                 <Cell>{i + 1}.</Cell>
                 <Cell>
-                  {photoURL && <ProfilePhoto src={photoURL} alt="profile" />}
+                  <ProfilePhoto displayName={displayName} src={photoURL} />
                 </Cell>
                 <Cell>{displayName}</Cell>
                 <Cell>{score}</Cell>
-                <Cell>1</Cell>
-                <Cell>???</Cell>
               </Row>
             );
           })}

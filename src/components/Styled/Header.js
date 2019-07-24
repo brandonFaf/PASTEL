@@ -14,7 +14,7 @@ const Header = styled.div`
   text-align: center;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  div {
+  div.header-text {
     margin-left: 10vw;
   }
 `;
