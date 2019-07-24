@@ -4,11 +4,15 @@ import { StickyTable, Row, Cell as C } from "react-sticky-table";
 import "react-sticky-table/dist/react-sticky-table.css";
 import styled from "styled-components";
 import ProfilePhoto from "./Styled/ProfilePhoto";
+import { highlight } from "./Styled/colors";
 
 const Cell = styled(C)`
   background-color: #0c1d34;
   padding: 5px;
   vertical-align: middle;
+  &.current {
+    color: ${highlight};
+  }
 `;
 // const StickyTable = styled(ST)`
 //   display: grid;
@@ -46,7 +50,7 @@ const Leaderboard = ({ users, user }) => {
                 <Cell>
                   <ProfilePhoto displayName={displayName} src={photoURL} />
                 </Cell>
-                <Cell>{displayName}</Cell>
+                <Cell className={cn}>{displayName}</Cell>
                 <Cell>{score}</Cell>
               </Row>
             );

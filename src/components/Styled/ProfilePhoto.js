@@ -20,13 +20,17 @@ const PhotoDiv = styled.div`
   align-items: center;
 `;
 
-const ProfilePhoto = ({ size, src, displayName }) => {
-  console.log(size);
+const ProfilePhoto = ({ onClick, size, src, displayName }) => {
+  console.log("inPhoto");
   const initals = displayName && displayName.split(" ").map(w => w[0]);
   if (src) {
-    return <PhotoImg size={size} src={src} alt="profile" />;
+    return <PhotoImg onClick={onClick} size={size} src={src} alt="profile" />;
   }
-  return <PhotoDiv size={size}>{initals}</PhotoDiv>;
+  return (
+    <PhotoDiv onClick={onClick} size={size}>
+      {initals}
+    </PhotoDiv>
+  );
 };
 
-export default ProfilePhoto;
+export default React.memo(ProfilePhoto);
