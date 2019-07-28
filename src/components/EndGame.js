@@ -39,6 +39,14 @@ const EndGame = ({ game }) => {
     setShowUsers(!showUsers);
   };
   const getMiddle = () => {
+    if (!outcome) {
+      return (
+        <>
+          <div>IN</div>
+          <div>PROGRESS</div>
+        </>
+      );
+    }
     if (outcome === "RIGHT") {
       return (
         <>
@@ -69,11 +77,11 @@ const EndGame = ({ game }) => {
   );
   return (
     <>
-      <ProgressBar outcome={outcome} onClick={toggleUsers}>
-        <BarVis active={visActive} percent={visPer}>
+      <ProgressBar onClick={toggleUsers}>
+        <BarVis outcome={outcome} active={visActive} percent={visPer}>
           {gameBlock}
         </BarVis>
-        <BarHome active={homeActive} percent={homePer}>
+        <BarHome outcome={outcome} active={homeActive} percent={homePer}>
           {gameBlock}
         </BarHome>
       </ProgressBar>

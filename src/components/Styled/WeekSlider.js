@@ -8,19 +8,20 @@ const WeekSlider = styled.div`
   display: grid;
   width: 20vw;
   overflow: auto;
-  height: 50px;
+  height: 65px;
   padding: 0 40vw;
   grid-template-columns: repeat(19, 20vw);
   background-color: ${lightBlue};
   align-items: center;
   z-index: 12;
   scroll-snap-type: x mandatory;
-  border-top: solid 5px ${highlight};
-  box-shadow: 0px -4px 17px -1px rgba(0, 0, 0, 1);
+  box-shadow: 0px -14px 16px 0px rgba(0, 0, 0, 0.7);
 
   div {
     scroll-snap-align: center;
   }
+  font-size: 20px;
+
   .active {
     color: ${highlight_text};
     background-color: ${highlight};

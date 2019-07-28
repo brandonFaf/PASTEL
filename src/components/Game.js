@@ -23,7 +23,7 @@ const Game = ({ game, save }) => {
     homeTmDisplay
   } = game;
 
-  const gameDate = moment(`${date} ${time}`);
+  const gameDate = moment(`${date} ${time}`, "YYYY-MM-DD HH:mm:ss");
   const visPer = visActive ? 33 : 100; //(game.pickedVisTm.length / game.totalPicks).toFixed(2) * 100
   const homePer = homeActive ? 33 : 67;
 

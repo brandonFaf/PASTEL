@@ -1,23 +1,25 @@
 import styled from "styled-components";
-import { highlight, highlight_text, lightBlue, lightBlue_text } from "./colors";
+import {
+  background,
+  highlight,
+  highlight_text,
+  lightBlue,
+  lightBlue_text,
+  wrong
+} from "./colors";
 
 export const ProgressBar = styled.div`
   position: relative;
   width: 90vw;
-  height: 50px;
-  margin-top: 15px;
-  line-height: 50px;
+  height: 75px;
+  margin-top: 25px;
+  line-height: 75px;
   vertical-align: midle;
   overflow: hidden;
   font-family: arial, sans-serif;
   font-weight: bold;
   font-size: 30px;
-  border: ${props =>
-    props.outcome === "WRONG"
-      ? "4px solid #b54545"
-      : props.outcome === "RIGHT"
-      ? "4px solid #4b9c63"
-      : "none"};
+  border-bottom: 4px solid ${background};
 `;
 
 export const TeamButton = styled.div`
@@ -25,7 +27,7 @@ export const TeamButton = styled.div`
   font-weight: 900;
   height: 100%;
   border: none;
-  font-size: 11px;
+  font-size: 13px;
   text-transform: uppercase;
   &:focus {
     outline: none;
@@ -52,7 +54,8 @@ const Bar = styled.div`
   }
 `;
 export const BarVis = styled(Bar)`
-  background: ${props => (props.active ? highlight : lightBlue)};
+  background: ${props =>
+    props.active ? (props.outcome === "WRONG" ? wrong : highlight) : lightBlue};
   left: 0;
   width: ${props => props.percent + "%"};
   .container {
@@ -66,7 +69,8 @@ export const MiddleButton = styled.div`
   align-items: center;
 `;
 export const BarHome = styled(Bar)`
-  background: ${props => (props.active ? highlight : lightBlue)};
+  background: ${props =>
+    props.active ? (props.outcome === "WRONG" ? wrong : highlight) : lightBlue};
   right: 0;
   width: ${props => props.percent + "%"};
   .container {
@@ -77,11 +81,11 @@ export const BarHome = styled(Bar)`
 export const Game = styled.div`
   font-size: 10px;
   display: grid;
-  margin-bottom: 15px;
+  margin-bottom: 25px;
   grid-template-columns: 30vw 30vw 30vw;
   justify-content: center;
   align-items: center;
-  height: 50px;
+  height: 75px;
   background-color: transparent;
   text-align: center;
 `;

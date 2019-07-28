@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { background } from "./colors";
 export const WhoPickedContainer = styled.div`
   height: 100%;
   width: 90vw;
@@ -12,5 +13,5 @@ export const PickGroup = styled.div`
   text-align: center;
 `;
 export const Divider = styled.div`
-  border-right: 1px solid #fff;
+  border-right: 4px solid ${background};
 `;

@@ -6,6 +6,7 @@ import MakePicks from "./MakePicks";
 import getCurrentWeek from "../helpers/getCurrentWeek";
 const Dashboard = ({ user, setHeader }) => {
   const [users, setUsers] = useState([]);
+  const [week] = useState(getCurrentWeek());
   useEffect(() => {
     const getAllUsers = async () => {
       const us = await loadAllUsers();
@@ -35,7 +36,7 @@ const Dashboard = ({ user, setHeader }) => {
   return (
     <>
       <WeekStatus>
-        <div className="week">Week {getCurrentWeek()}</div>
+        <div className="week">Week {week}</div>
         <div className="main">
           You're in <strong>{getRank()}</strong> Place,
           <br />
@@ -45,12 +46,9 @@ const Dashboard = ({ user, setHeader }) => {
             <sup>pts</sup>
           </strong>
         </div>
-        <div className="streak">
-          No <strong>Week Streak</strong> Selected
-        </div>
       </WeekStatus>
       <Leaderboard users={users} user={user} />
-      <MakePicks />
+      <MakePicks week={week} uid={user.id} />
     </>
   );
 };

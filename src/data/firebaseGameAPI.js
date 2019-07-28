@@ -1,4 +1,5 @@
 import { db } from "./firebaseConfig";
+import { isPastTime } from "../helpers/isPastTime";
 const picksRef = db.collection("picks");
 let gamesRef = db.collection("games");
 if (window.location.pathname.includes("past")) {
@@ -15,10 +16,11 @@ export const loadGames = (week = 1) => {
 export const loadFirstGame = (week = 1) => {
   return gamesRef
     .where("week", "==", week)
-    .limit(1)
     .get()
     .then(games => {
-      return games.docs.map(x => ({ ...x.data(), id: x.id }))[0];
+      return games.docs
+        .map(x => ({ ...x.data(), id: x.id }))
+        .find(x => !x.winner && !isPastTime(x));
     });
 };
 export const savePick = pick => {
@@ -44,60 +46,32 @@ export const loadPicks = (userId, week = 1) => {
       );
     });
 };
-
-// export default class GameAPI {
-//   static save(updates) {
-//     return firebase
-//       .database()
-//       .ref()
-//       .update(updates);
-//   }
-//   static loadUserPicks(userId) {
-//     return firebase
-//       .database()
-//       .ref(`picks/${userId}`)
-//       .once("value");
-//   }
-//   static loadUserSurvivor(userId) {
-//     return firebase
-//       .database()
-//       .ref(`survivor/${userId}`)
-//       .once("value");
-//   }
-//   static loadUserRecords(userId) {
-//     return firebase
-//       .database()
-//       .ref(`records/${userId}`)
-//       .once("value");
-//   }
-//   static loadWeeklyRecords() {
-//     return firebase
-//       .database()
-//       .ref("records/result")
-//       .once("value");
-//   }
-//   static loadPicks() {
-//     return firebase
-//       .database()
-//       .ref("picks")
-//       .once("value");
-//   }
-//   static loadSurvivor() {
-//     return firebase
-//       .database()
-//       .ref("survivor")
-//       .once("value");
-//   }
-//   static loadWinners() {
-//     return firebase
-//       .database()
-//       .ref("winners")
-//       .once("value");
-//   }
-//   static loadLastUpdated() {
-//     return firebase
-//       .database()
-//       .ref("updated")
-//       .once("value");
-//   }
-// }
+export const getNumberOfPicks = (uid, week) => {
+  return picksRef
+    .where("week", "==", week)
+    .where("userId", "==", uid)
+    .get()
+    .then(snap => snap.size);
+};
+const totalGames = {
+  1: 16,
+  2: 16,
+  3: 16,
+  4: 16,
+  5: 16,
+  6: 16,
+  7: 16,
+  8: 16,
+  9: 16,
+  10: 16,
+  11: 16,
+  12: 16,
+  13: 16,
+  14: 16,
+  15: 16,
+  16: 16,
+  17: 16
+};
+export const getTotalGames = week => {
+  return totalGames[week];
+};

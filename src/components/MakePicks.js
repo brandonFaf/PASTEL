@@ -2,13 +2,18 @@ import React, { useEffect, useState } from "react";
 import ActionButton from "./Styled/ActionButton";
 import Footer from "./Styled/Footer";
 import chevron from "../img/Chevron.png";
-import { loadFirstGame } from "../data/firebaseGameAPI";
+import {
+  loadFirstGame,
+  getTotalGames,
+  getNumberOfPicks
+} from "../data/firebaseGameAPI";
 import { useSpring } from "react-spring";
 import useRouter from "./hooks/useRouter";
 import PickSkeleton, { GameContainer as GC } from "./PickSkeleton";
 import GameContainer from "./GameContainer";
-const MakePicks = ({ week }) => {
+const MakePicks = ({ week, uid }) => {
   const [game, setGame] = useState({});
+  const [ratio, setRatio] = useState("");
   const { history } = useRouter();
   const [activated, setActivated] = useState(false);
   const save = () => {};
@@ -17,9 +22,14 @@ const MakePicks = ({ week }) => {
       const g = await loadFirstGame(week);
       setGame(g);
     };
+    const getRatio = async () => {
+      const picks = await getNumberOfPicks(uid, week);
+      const totalGames = getTotalGames(week);
+      setRatio(`${picks} / ${totalGames}`);
+    };
     getFirstGame();
-    return () => {};
-  }, [week]);
+    getRatio();
+  }, [uid, week]);
   const props = useSpring({
     config: { duration: 500 },
     from: { top: "75vh" },
@@ -38,7 +48,7 @@ const MakePicks = ({ week }) => {
         <ActionButton onClick={activate}>
           <img src={chevron} alt="chevron" />
           Make Your Picks
-          <span>5/16</span>
+          <span>{ratio}</span>
         </ActionButton>
       )}
       {!activated ? (

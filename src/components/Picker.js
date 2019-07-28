@@ -1,5 +1,11 @@
 import React, { useState, useEffect, useReducer, useRef } from "react";
-import { loadGames, savePick, loadPicks } from "../data/firebaseGameAPI";
+import {
+  loadGames,
+  savePick,
+  loadPicks,
+  getTotalGames,
+  getNumberOfPicks
+} from "../data/firebaseGameAPI";
 import { gamesReducer, gameActions } from "../data/reducers/gamesReducer";
 import { PickPage } from "./Styled/Picker";
 import GameContainer from "./GameContainer";
@@ -15,6 +21,8 @@ const Picker = ({ user, history, setHeader }) => {
 
   const [week, setWeek] = useState(getCurrentWeek());
   const { id: userId, displayName } = user;
+  const [ratio, setRatio] = useState("");
+
   useEffect(() => {
     const getGames = async () => {
       const games = await loadGames(week);
@@ -25,10 +33,22 @@ const Picker = ({ user, history, setHeader }) => {
       dispatch({ type: gameActions.USER_PICKS_LOADED, value: userPicks });
       dispatch({ type: gameActions.GAME_PICKS_LOADED, value: gamePicks });
     };
+    const getRatio = async () => {
+      const picks = await getNumberOfPicks(userId, week);
+      const totalGames = getTotalGames(week);
+      setRatio(`${picks} / ${totalGames}`);
+    };
+    getRatio();
     getGames();
     getPicks();
-    setHeader("Make Your Picks");
-  }, [setHeader, userId, week]);
+    const header = (
+      <>
+        Make Your Picks <span>{ratio}</span>
+      </>
+    );
+    setHeader(header);
+  }, [ratio, setHeader, userId, week]);
+
   useEffect(() => {
     if (weekBox.current) {
       weekBox.current.scrollLeft = ((week - 1) * window.innerWidth) / 5;
