@@ -28,19 +28,23 @@ const Picker = ({ user, history, setHeader }) => {
       const games = await loadGames(week);
       dispatch({ type: gameActions.LOAD_GAMES, value: games });
     };
+    getGames();
+  }, [week]);
+  useEffect(() => {
     const getPicks = async () => {
-      const { userPicks, gamePicks } = await loadPicks(userId);
+      const { userPicks, gamePicks } = await loadPicks(userId, week);
       dispatch({ type: gameActions.USER_PICKS_LOADED, value: userPicks });
       dispatch({ type: gameActions.GAME_PICKS_LOADED, value: gamePicks });
     };
+    getPicks();
+  }, [userId, week]);
+  useEffect(() => {
     const getRatio = async () => {
       const picks = await getNumberOfPicks(userId, week);
       const totalGames = getTotalGames(week);
       setRatio(`${picks} / ${totalGames}`);
     };
     getRatio();
-    getGames();
-    getPicks();
     const header = (
       <>
         Make Your Picks <span>{ratio}</span>
@@ -54,10 +58,10 @@ const Picker = ({ user, history, setHeader }) => {
       weekBox.current.scrollLeft = ((week - 1) * window.innerWidth) / 5;
     }
   }, [week]);
-  const save = (gameId, teamName, week) => () => {
-    savePick({ gameId, teamName, userId, displayName, week });
-    dispatch({ type: gameActions.SAVE_PICK, value: { gameId, teamName } });
-    console.log("save", teamName);
+  const save = (gameId, selected, week) => () => {
+    savePick({ gameId, selected, userId, displayName, week });
+    dispatch({ type: gameActions.SAVE_PICK, value: { gameId, selected } });
+    console.log("save", selected);
   };
   const changeWeek = week => () => {
     setWeek(week);

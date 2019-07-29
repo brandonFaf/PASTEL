@@ -19,14 +19,16 @@ const EndGame = ({ game }) => {
     pickedHomeTm,
     pickedVisTm
   } = game;
-  const visPer = game.pickedVisTm
-    ? Math.floor(Math.random() * 100) //(game.pickedVisTm.length / game.totalPicks).toFixed(2) * 100
-    : 100;
-  const homePer = game.pickedHomeTm
-    ? 100 - visPer //(game.pickedHomeTm.length / game.totalPicks).toFixed(2) * 100
-    : 67;
+  const visPer =
+    game.pickedVisTm && game.totalPicks
+      ? (game.pickedVisTm.length / game.totalPicks).toFixed(2) * 100
+      : 100;
+  const homePer =
+    game.pickedHomeTm && game.totalPicks
+      ? (game.pickedHomeTm.length / game.totalPicks).toFixed(2) * 100
+      : 67;
   const outcome = !winner ? "" : winner === selected ? "RIGHT" : "WRONG";
-  const [showUsers, setShowUsers] = useState(true);
+  const [showUsers, setShowUsers] = useState(false);
   const pickData = {
     homePer,
     visPer,

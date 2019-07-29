@@ -15,7 +15,9 @@ export const loadGames = (week = 1) => {
 };
 export const loadFirstGame = (week = 1) => {
   return gamesRef
-    .where("week", "==", week)
+    .where("week", ">=", week)
+    .where("week", "<=", week + 1)
+    .limit(17)
     .get()
     .then(games => {
       return games.docs

@@ -21,7 +21,6 @@ const PhotoDiv = styled.div`
 `;
 
 const ProfilePhoto = ({ onClick, size, src, displayName }) => {
-  console.log("inPhoto");
   const initals = displayName && displayName.split(" ").map(w => w[0]);
   if (src) {
     return <PhotoImg onClick={onClick} size={size} src={src} alt="profile" />;
