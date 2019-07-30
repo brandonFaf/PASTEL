@@ -12,8 +12,8 @@ const GameContainer = ({ game, save }) => {
   const { visTm, homeTm, selected } = game;
   game.visTmDisplay = visTm && visTm.split(" ").pop();
   game.homeTmDisplay = homeTm && homeTm.split(" ").pop();
-  game.visActive = selected === visTm;
-  game.homeActive = selected === homeTm;
+  game.visActive = visTm ? selected === visTm : false;
+  game.homeActive = homeTm ? selected === homeTm : false;
 
   if (isPastTime(game)) {
     return <EndGame game={game} />;
