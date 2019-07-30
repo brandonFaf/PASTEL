@@ -17,7 +17,9 @@ const EndGame = ({ game }) => {
     winner,
     selected,
     pickedHomeTm,
-    pickedVisTm
+    pickedVisTm,
+    homeScore,
+    visScore
   } = game;
   const visPer =
     game.pickedVisTm && game.totalPicks
@@ -68,11 +70,17 @@ const EndGame = ({ game }) => {
     <div className="container">
       <Container>
         <TeamButton disabled active={visActive}>
-          {visTmDisplay}
+          <>
+            <div>{visTmDisplay}</div>
+            <div>{visScore}</div>
+          </>
         </TeamButton>
         <MiddleButton>{getMiddle()}</MiddleButton>
         <TeamButton disabled active={homeActive}>
-          {homeTmDisplay}
+          <>
+            <div>{homeTmDisplay}</div>
+            <div>{homeScore}</div>
+          </>
         </TeamButton>
       </Container>
     </div>
@@ -80,10 +88,18 @@ const EndGame = ({ game }) => {
   return (
     <>
       <ProgressBar onClick={toggleUsers}>
-        <BarVis outcome={outcome} active={visActive} percent={visPer}>
+        <BarVis
+          outcome={outcome}
+          active={visActive || visActive === homeActive}
+          percent={visPer}
+        >
           {gameBlock}
         </BarVis>
-        <BarHome outcome={outcome} active={homeActive} percent={homePer}>
+        <BarHome
+          outcome={outcome}
+          active={homeActive || visActive === homeActive}
+          percent={homePer}
+        >
           {gameBlock}
         </BarHome>
       </ProgressBar>

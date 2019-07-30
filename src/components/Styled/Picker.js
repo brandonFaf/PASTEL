@@ -22,13 +22,20 @@ export const ProgressBar = styled.div`
   border-bottom: 4px solid ${background};
 `;
 
+export const TeamName = styled.div`
+  font-weight: normal;
+`;
+
 export const TeamButton = styled.div`
   background-color: transparent;
   font-weight: 900;
-  height: 100%;
   border: none;
   font-size: 13px;
   text-transform: uppercase;
+  display: grid;
+  grid-template-rows: 15px;
+  grid-auto-rows: 15px;
+  align-items: center;
   &:focus {
     outline: none;
   }
