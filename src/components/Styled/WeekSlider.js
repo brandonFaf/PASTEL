@@ -26,7 +26,7 @@ const WeekSlider = styled.div`
     color: ${highlight_text};
     background-color: ${highlight};
     border-radius: 45px;
-    padding: 3px 0;
+    padding: 5px 0;
     div {
       font-size: 9px;
       line-height: 92.1%;

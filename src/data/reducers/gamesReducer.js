@@ -1,3 +1,4 @@
+import { isPastTime } from "../../helpers/isPastTime";
 const USER_PICKS_LOADED = "USER_PICKS_LOADED";
 const GAME_PICKS_LOADED = "GAME_PICKS_LOADED";
 const LOAD_GAMES = "LOAD_GAMES";
@@ -11,35 +12,60 @@ export const gameActions = {
   CLEAR
 };
 
+const allGames = games => {
+  const { upcoming = [], completed = [], inProgress = [] } = games;
+  return [...upcoming, ...completed, ...inProgress];
+};
+
+const sortGames = games => {
+  return games.reduce(
+    (acc, g) => {
+      if (g.winner) {
+        acc.completed.push(g);
+      } else if (isPastTime(g)) {
+        acc.inProgress.push(g);
+      } else {
+        acc.upcoming.push(g);
+      }
+      return acc;
+    },
+    { completed: [], inProgress: [], upcoming: [] }
+  );
+};
+
 export const gamesReducer = (state, action) => {
   switch (action.type) {
-    case SAVE_PICK:
-      const games = state.games.map(g => {
+    case SAVE_PICK: {
+      let games = state.games.upcoming.map(g => {
         if (g.id === action.value.gameId) {
           g.selected = action.value.selected;
         }
         return g;
       });
-      const count = games.filter(g => g.selected).length;
+      games = sortGames(games);
+      const count = allGames(games).filter(g => g.selected).length;
       return { games, count };
-    case LOAD_GAMES:
-      return { games: action.value };
-
+    }
+    case LOAD_GAMES: {
+      const games = sortGames(action.value);
+      return { games: games };
+    }
     case USER_PICKS_LOADED: {
       console.log("User picks Loaded");
-      const games = state.games.map(g => {
+      let games = allGames(state.games).map(g => {
         const pick = action.value.find(p => p.gameId === g.id);
         if (pick) {
           g.selected = pick.selected;
         }
         return g;
       });
+      games = sortGames(games);
       const count = action.value.length;
       return { ...state, games, count };
     }
     case GAME_PICKS_LOADED: {
       console.log("picks Loaded");
-      const games = state.games.map(game => {
+      let games = allGames(state.games).map(game => {
         const gamePicks = action.value[game.id] || [];
         game.totalPicks = gamePicks.length;
         game.pickedHomeTm = gamePicks
@@ -50,10 +76,14 @@ export const gamesReducer = (state, action) => {
           .map(x => x.displayName);
         return game;
       });
+      games = sortGames(games);
       return { ...state, games };
     }
     case CLEAR: {
-      return { ...state, games: [] };
+      return {
+        ...state,
+        games: { upcoming: [], completed: [], inProgress: [] }
+      };
     }
     default:
       return state;

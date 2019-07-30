@@ -12,7 +12,7 @@ import {
   getTotalGames
 } from "../data/firebaseGameAPI";
 import { gamesReducer, gameActions } from "../data/reducers/gamesReducer";
-import { PickPage } from "./Styled/Picker";
+import { PickPage, GameSection } from "./Styled/Picker";
 import GameContainer from "./GameContainer";
 import WeekSlider from "./Styled/WeekSlider";
 import PickSkeleton from "./PickSkeleton";
@@ -27,6 +27,13 @@ const Picker = ({ user, history, setHeader }) => {
   const [week, setWeek] = useState(getCurrentWeek());
   const { id: userId, displayName } = user;
   const [score, setScore] = useState();
+  const allGames = games => {
+    if (Array.isArray(games)) {
+      return games;
+    }
+    const { upcoming = [], completed = [], inProgress = [] } = games;
+    return [...upcoming, ...completed, ...inProgress];
+  };
   useEffect(() => {
     const getGames = async () => {
       const games = await loadGames(week);
@@ -103,19 +110,35 @@ const Picker = ({ user, history, setHeader }) => {
     <animated.div
       style={{ ...props, position: activated ? "fixed" : "static" }}
     >
-      {state.games.length === 0 ? (
+      {console.log("games", allGames(state.games))}
+      {allGames(state.games).length === 0 ? (
         <PickSkeleton />
       ) : (
         <PickPage>
           <ActionButton small onClick={close}>
             <img src={chevron} className="down" alt="chevron" />
           </ActionButton>
-          {state.games.map(game => (
-            <GameContainer game={game} save={save} key={game.id} />
-          ))}
+          <GameSection>
+            <div className="title">Completed</div>
+            {state.games.completed.map(game => (
+              <GameContainer game={game} save={save} key={game.id} />
+            ))}
+          </GameSection>
+          <GameSection>
+            <div className="title">In Progress</div>
+            {state.games.inProgress.map(game => (
+              <GameContainer game={game} save={save} key={game.id} />
+            ))}
+          </GameSection>
+          <GameSection>
+            <div className="title">Upcoming</div>
+            {state.games.upcoming.map(game => (
+              <GameContainer game={game} save={save} key={game.id} />
+            ))}
+          </GameSection>
         </PickPage>
       )}
-      {state.games.length > 0 && (
+      {allGames(state.games).length > 0 && (
         <WeekSlider ref={weekBox}>
           {weekNumbers.map((x, i) => (
             <div
