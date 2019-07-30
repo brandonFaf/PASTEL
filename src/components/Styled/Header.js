@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { background } from "./colors";
+import { background, highlight } from "./colors";
 const Header = styled.div`
   padding: 16px 0;
   background-color: ${background};
@@ -16,6 +16,15 @@ const Header = styled.div`
   text-transform: uppercase;
   div.header-text {
     margin-left: 10vw;
+    /* display: grid;
+    grid-template-columns: 1fr 1fr 1fr; */
+  }
+  span {
+    font-size: 8px;
+    font-weight: bold;
+  }
+  .highlight {
+    color: ${highlight};
   }
 `;
 export default Header;

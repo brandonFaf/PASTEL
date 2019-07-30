@@ -1,10 +1,15 @@
-import React, { useState, useEffect, useReducer, useRef } from "react";
+import React, {
+  useState,
+  useEffect,
+  useReducer,
+  useRef,
+  useCallback
+} from "react";
 import {
   loadGames,
   savePick,
   loadPicks,
-  getTotalGames,
-  getNumberOfPicks
+  getTotalGames
 } from "../data/firebaseGameAPI";
 import { gamesReducer, gameActions } from "../data/reducers/gamesReducer";
 import { PickPage } from "./Styled/Picker";
@@ -15,14 +20,13 @@ import ActionButton from "./Styled/ActionButton";
 import chevron from "../img/Chevron.png";
 import { animated, useSpring } from "react-spring";
 import getCurrentWeek from "../helpers/getCurrentWeek";
+import { getWeekScore } from "../data/firebaseUserAPI";
 const Picker = ({ user, history, setHeader }) => {
   const weekBox = useRef();
   const [state, dispatch] = useReducer(gamesReducer, { games: [] });
-
   const [week, setWeek] = useState(getCurrentWeek());
   const { id: userId, displayName } = user;
-  const [ratio, setRatio] = useState("");
-
+  const [score, setScore] = useState();
   useEffect(() => {
     const getGames = async () => {
       const games = await loadGames(week);
@@ -36,22 +40,37 @@ const Picker = ({ user, history, setHeader }) => {
       dispatch({ type: gameActions.USER_PICKS_LOADED, value: userPicks });
       dispatch({ type: gameActions.GAME_PICKS_LOADED, value: gamePicks });
     };
+    const getScores = async () => {
+      const s = await getWeekScore(userId, week);
+      setScore(s);
+    };
+    getScores();
     getPicks();
   }, [userId, week]);
-  useEffect(() => {
-    const getRatio = async () => {
-      const picks = await getNumberOfPicks(userId, week);
-      const totalGames = getTotalGames(week);
-      setRatio(`${picks} / ${totalGames}`);
-    };
-    getRatio();
-    const header = (
+  const totalGames = getTotalGames(week);
+  const getHeaderValue = useCallback(() => {
+    console.log("here");
+    return (
       <>
-        Make Your Picks <span>{ratio}</span>
+        {score && (
+          <span className="highlight">
+            {score}
+            <sup>pts</sup>
+          </span>
+        )}{" "}
+        Make Your Picks{" "}
+        {state.count > 0 && (
+          <span>
+            <sup>{state.count}</sup>&frasl;<sub>{totalGames}</sub>
+          </span>
+        )}
       </>
     );
-    setHeader(header);
-  }, [ratio, setHeader, userId, week]);
+  }, [state.count, score, totalGames]);
+
+  useEffect(() => {
+    setHeader(getHeaderValue);
+  }, [week, state.count, setHeader, getHeaderValue]);
 
   useEffect(() => {
     if (weekBox.current) {

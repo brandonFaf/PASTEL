@@ -17,9 +17,15 @@ export const updateUser = (userId, userData) => {
   console.log("update:", userId);
   return usersRef.doc(userId).set(userData, { merge: true });
 };
-export const displayNameIsUnique = async (userName, uid) => {
+export const displayNameIsUnique = (userName, uid) => {
   return usersRef
     .where("displayName", "==", userName)
     .get()
     .then(doc => (doc.size === 0 ? true : doc.docs[0].id === uid));
+};
+export const getWeekScore = (uid, week) => {
+  return usersRef
+    .doc(uid)
+    .get()
+    .then(doc => doc.data().weekScores[week - 1]);
 };

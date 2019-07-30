@@ -11,9 +11,10 @@ import { useSpring } from "react-spring";
 import useRouter from "./hooks/useRouter";
 import PickSkeleton, { GameContainer as GC } from "./PickSkeleton";
 import GameContainer from "./GameContainer";
-const MakePicks = ({ week, uid }) => {
+// import Picker from "./Picker";
+const MakePicks = ({ week, uid, user, setHeader }) => {
   const [game, setGame] = useState({});
-  const [ratio, setRatio] = useState("");
+  const [ratio, setRatio] = useState([]);
   const { history } = useRouter();
   const [activated, setActivated] = useState(false);
   const save = () => {};
@@ -25,7 +26,7 @@ const MakePicks = ({ week, uid }) => {
     const getRatio = async () => {
       const picks = await getNumberOfPicks(uid, week);
       const totalGames = getTotalGames(week);
-      setRatio(`${picks} / ${totalGames}`);
+      setRatio([picks, totalGames]);
     };
     getFirstGame();
     getRatio();
@@ -48,7 +49,11 @@ const MakePicks = ({ week, uid }) => {
         <ActionButton onClick={activate}>
           <img src={chevron} alt="chevron" />
           Make Your Picks
-          <span>{ratio}</span>
+          {ratio && (
+            <span>
+              <sup>{ratio[0]}</sup>&frasl;<sub>{ratio[1]}</sub>
+            </span>
+          )}
         </ActionButton>
       )}
       {!activated ? (
@@ -61,6 +66,7 @@ const MakePicks = ({ week, uid }) => {
         </GC>
       ) : (
         <PickSkeleton />
+        // <Picker user={user} setHeader={setHeader} />
       )}
     </Footer>
   );

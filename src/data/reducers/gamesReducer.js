@@ -20,9 +20,9 @@ export const gamesReducer = (state, action) => {
         }
         return g;
       });
-      return { games };
+      const count = games.filter(g => g.selected).length;
+      return { games, count };
     case LOAD_GAMES:
-      console.log("games Loaded");
       return { games: action.value };
 
     case USER_PICKS_LOADED: {
@@ -34,7 +34,8 @@ export const gamesReducer = (state, action) => {
         }
         return g;
       });
-      return { ...state, games };
+      const count = action.value.length;
+      return { ...state, games, count };
     }
     case GAME_PICKS_LOADED: {
       console.log("picks Loaded");

@@ -48,7 +48,7 @@ const Dashboard = ({ user, setHeader }) => {
         </div>
       </WeekStatus>
       <Leaderboard users={users} user={user} />
-      <MakePicks week={week} uid={user.id} />
+      <MakePicks week={week} user={user} setHeader={setHeader} uid={user.id} />
     </>
   );
 };
