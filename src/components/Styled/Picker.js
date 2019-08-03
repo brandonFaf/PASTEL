@@ -25,7 +25,6 @@ export const ProgressBar = styled.div`
   line-height: 75px;
   vertical-align: midle;
   overflow: hidden;
-  font-family: arial, sans-serif;
   font-weight: bold;
   font-size: 30px;
   border-bottom: 4px solid ${background};
@@ -37,7 +36,7 @@ export const TeamName = styled.div`
 
 export const TeamButton = styled.div`
   background-color: transparent;
-  font-weight: 900;
+  font-weight: 700;
   border: none;
   font-size: 13px;
   text-transform: uppercase;

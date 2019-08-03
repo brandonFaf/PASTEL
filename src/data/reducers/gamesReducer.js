@@ -36,15 +36,14 @@ const sortGames = games => {
 export const gamesReducer = (state, action) => {
   switch (action.type) {
     case SAVE_PICK: {
-      let games = state.games.upcoming.map(g => {
+      let upcoming = state.games.upcoming.map(g => {
         if (g.id === action.value.gameId) {
           g.selected = action.value.selected;
         }
         return g;
       });
-      games = sortGames(games);
-      const count = allGames(games).filter(g => g.selected).length;
-      return { games, count };
+      const count = allGames(upcoming).filter(g => g.selected).length;
+      return { games: { ...state.games, upcoming }, count };
     }
     case LOAD_GAMES: {
       const games = sortGames(action.value);

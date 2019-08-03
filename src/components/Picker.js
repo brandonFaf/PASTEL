@@ -110,7 +110,6 @@ const Picker = ({ user, history, setHeader }) => {
     <animated.div
       style={{ ...props, position: activated ? "fixed" : "static" }}
     >
-      {console.log("games", allGames(state.games))}
       {allGames(state.games).length === 0 ? (
         <PickSkeleton />
       ) : (
@@ -118,9 +117,10 @@ const Picker = ({ user, history, setHeader }) => {
           <ActionButton small onClick={close}>
             <img src={chevron} className="down" alt="chevron" />
           </ActionButton>
+
           <GameSection>
-            <div className="title">Completed</div>
-            {state.games.completed.map(game => (
+            <div className="title">Upcoming</div>
+            {state.games.upcoming.map(game => (
               <GameContainer game={game} save={save} key={game.id} />
             ))}
           </GameSection>
@@ -131,8 +131,8 @@ const Picker = ({ user, history, setHeader }) => {
             ))}
           </GameSection>
           <GameSection>
-            <div className="title">Upcoming</div>
-            {state.games.upcoming.map(game => (
+            <div className="title">Completed</div>
+            {state.games.completed.map(game => (
               <GameContainer game={game} save={save} key={game.id} />
             ))}
           </GameSection>

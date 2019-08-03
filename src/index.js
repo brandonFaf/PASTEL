@@ -7,7 +7,7 @@ import UserStore from "./contexts/UserContext";
 import styled from "styled-components";
 import { background } from "./components/Styled/colors";
 const Body = styled.div`
-  font-family: Acumin Pro;
+  font-family: "acumin-pro", sans-serif;
   background-color: ${background};
   color: #fff;
 `;

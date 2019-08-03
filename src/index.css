@@ -1,4 +1,8 @@
 body {
   background-color: #0c1d34;
   margin: 0;
+  font-family: "acumin-pro", sans-serif;
+}
+button {
+  font-family: "acumin-pro", sans-serif;
 }

@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import moment from "moment";
+import "moment-timezone";
 import {
   TeamButton,
   Game as Container,
@@ -19,8 +21,11 @@ const EndGame = ({ game }) => {
     pickedHomeTm,
     pickedVisTm,
     homeScore,
-    visScore
+    visScore,
+    date,
+    time
   } = game;
+  const gameDate = moment(`${date} ${time}`, "YYYY-MM-DD HH:mm:ss");
   const visPer =
     game.pickedVisTm && game.totalPicks
       ? (game.pickedVisTm.length / game.totalPicks).toFixed(2) * 100
@@ -46,8 +51,8 @@ const EndGame = ({ game }) => {
     if (!outcome) {
       return (
         <>
-          <div>IN</div>
-          <div>PROGRESS</div>
+          <div>{gameDate.format("ddd M/D")}</div>
+          <div>{gameDate.format("h:mm A")}</div>
         </>
       );
     }
