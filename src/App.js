@@ -12,18 +12,24 @@ import { StickyContainer, Sticky } from "react-sticky";
 import Header from "./components/Styled/Header";
 import ProfilePhoto from "./components/Styled/ProfilePhoto";
 import { useTransition } from "react-spring";
-import { ProfileSlidingPage } from "./components/Styled/ProfilePage";
-
+import { SlidingPage, SlidingHeader } from "./components/Styled/SlidingPage";
+import Groups from "./components/Groups";
+import CreateGroup from "./components/CreateGroup";
 const App = () => {
   const { user, setUser } = useContext(UserContext);
   const [loading, setLoading] = useState(true);
   const [showProfile, setShowProfile] = useState(false);
+  const [showGroups, setShowGroups] = useState(false);
   const toggleProfile = () => {
     setShowProfile(!showProfile);
+  };
+  const toggleGroups = () => {
+    setShowGroups(!showGroups);
   };
   console.log("user", user);
 
   useEffect(() => {
+    console.log("running");
     const setAuth = async u => {
       console.log("u", u);
       if (!u) {
@@ -49,11 +55,12 @@ const App = () => {
     };
   }, [setUser]);
   const [header, setHeader] = useState("");
-  const transitions = useTransition(showProfile, null, {
+  const profileTransitions = useTransition(showProfile, null, {
     from: { transform: "translate3d(100vh,0,0)" },
     enter: { transform: "translate3d(10vh,0,0)" },
     leave: { transform: "translate3d(100vh,0,0)" }
   });
+
   return (
     <>
       <Router>
@@ -61,6 +68,7 @@ const App = () => {
           <Sticky>
             {({ style }) => (
               <Header style={{ ...style, height: "5vh" }}>
+                <div onClick={toggleGroups}>G</div>
                 <div className="header-text">{header}</div>
                 {header && user && (
                   <ProfilePhoto
@@ -96,23 +104,40 @@ const App = () => {
             component={Profile}
             setHeader={setHeader}
           />
+          <PrivateRoute
+            exact
+            path="/groups/create"
+            loading={loading}
+            user={user}
+            component={CreateGroup}
+            setHeader={setHeader}
+          />
+          <PublicRoute
+            path="/login"
+            loading={loading}
+            user={user}
+            component={Login}
+            setHeader={setHeader}
+          />
+          {profileTransitions.map(
+            ({ item, key, props }) =>
+              item && (
+                <SlidingPage key={key} style={props}>
+                  <SlidingHeader>
+                    <div>Profile</div>
+                    <span onClick={toggleProfile}>X</span>
+                  </SlidingHeader>
+                  <Profile user={user} />
+                </SlidingPage>
+              )
+          )}
+          <Groups
+            showGroups={showGroups}
+            user={user}
+            toggleGroups={toggleGroups}
+          />
         </StickyContainer>
-        <PublicRoute
-          path="/login"
-          loading={loading}
-          user={user}
-          component={Login}
-          setHeader={setHeader}
-        />
       </Router>
-      {transitions.map(
-        ({ item, key, props }) =>
-          item && (
-            <ProfileSlidingPage key={key} style={props}>
-              <Profile user={user} toggleProfile={toggleProfile} />
-            </ProfileSlidingPage>
-          )
-      )}
     </>
   );
 };

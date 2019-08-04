@@ -21,7 +21,7 @@ export const ProfileForm = styled.form`
     border: none;
   }
 `;
-export const ProfileSlidingPage = styled(animated.div)`
+export const SlidingPage = styled(animated.div)`
   position: fixed;
   top: 0;
   z-index: 50;

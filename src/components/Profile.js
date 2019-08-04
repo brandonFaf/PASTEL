@@ -12,18 +12,8 @@ import ActionButton from "./Styled/ActionButton";
 import Toggle from "react-toggle";
 import "./ToggleCSS.css";
 import { UserContext } from "../contexts/UserContext";
-import Header from "./Styled/Header";
-import styled from "styled-components";
 
-const ProfileHeader = styled(Header)`
-  height: 5vh;
-  position: absolute;
-  top: 0;
-  width: 82vw;
-  background-color: transparent;
-`;
-
-const Profile = ({ user, history, toggleProfile }) => {
+const Profile = ({ user, history }) => {
   const { values, handleChange } = useForm({
     ...user
   });
@@ -107,12 +97,6 @@ const Profile = ({ user, history, toggleProfile }) => {
   return (
     <>
       <ProfileForm onSubmit={submitForm}>
-        {toggleProfile && (
-          <ProfileHeader>
-            <div>Profile</div>
-            {user && <span onClick={toggleProfile}>X</span>}
-          </ProfileHeader>
-        )}
         {user && (
           <div style={{ justifySelf: "center" }}>
             <ProfilePhoto
