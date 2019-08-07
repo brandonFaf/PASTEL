@@ -3,15 +3,18 @@ const usersRef = db.collection("users");
 export const loadUser = uid => {
   return usersRef.doc(uid).get();
 };
-export const loadAllUsers = () => {
-  return usersRef
-    .orderBy("score", "desc")
-    .get()
-    .then(userSS => {
-      return userSS.docs.map(u => {
-        return { id: u.id, ...u.data() };
-      });
-    });
+export const loadAllUsers = group => {
+  return (
+    usersRef
+      .where("groups", "array-contains", group)
+      // .orderBy("score", "desc")
+      .get()
+      .then(userSS => {
+        return userSS.docs.map(u => {
+          return { id: u.id, ...u.data() };
+        });
+      })
+  );
 };
 export const updateUser = (userId, userData) => {
   console.log("update:", userId);

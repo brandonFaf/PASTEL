@@ -7,10 +7,16 @@ export default class UserStore extends React.Component {
     super(props);
     this.state = {
       user: undefined,
+      group: undefined,
       setUser: this.setUser,
-      setPhotoURL: this.setPhotoURL
+      setPhotoURL: this.setPhotoURL,
+      setGroup: this.setGroup
     };
   }
+  setGroup = group => {
+    this.setState({ group });
+  };
+
   setPhotoURL = photoURL => {
     if (this.state.user) {
       this.setState(state => {
@@ -26,8 +32,9 @@ export default class UserStore extends React.Component {
     }
     const userSnap = await loadUser(uid);
     const user = userSnap.data();
+    const group = user.groups ? user.groups[0] : "";
 
-    this.setState({ user: { ...user, id: userSnap.id } });
+    this.setState({ user: { ...user, id: userSnap.id }, group });
   };
 
   render() {

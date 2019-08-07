@@ -15,6 +15,7 @@ import { useTransition } from "react-spring";
 import { SlidingPage, SlidingHeader } from "./components/Styled/SlidingPage";
 import Groups from "./components/Groups";
 import CreateGroup from "./components/CreateGroup";
+import JoinGroupPage from "./components/JoinGroupPage";
 const App = () => {
   const { user, setUser } = useContext(UserContext);
   const [loading, setLoading] = useState(true);
@@ -110,6 +111,14 @@ const App = () => {
             loading={loading}
             user={user}
             component={CreateGroup}
+            setHeader={setHeader}
+          />
+          <PrivateRoute
+            exact
+            path="/groups/join"
+            loading={loading}
+            user={user}
+            component={JoinGroupPage}
             setHeader={setHeader}
           />
           <PublicRoute
