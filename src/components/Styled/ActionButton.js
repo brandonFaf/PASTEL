@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from "styled-components/macro";
 import { highlight, highlight_text } from "./colors";
 const ActionButton = styled.button`
   width: ${props => (props.small ? "10vw" : "47vw")};

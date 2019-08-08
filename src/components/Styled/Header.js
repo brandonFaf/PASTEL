@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from'styled-components/macro';
 import { background, highlight } from "./colors";
 const Header = styled.div`
   padding: 16px 0;
@@ -8,16 +8,18 @@ const Header = styled.div`
   backdrop-filter: blur(5px);
   align-items: center;
   display: grid;
-  grid-template-columns: 90% 10%;
+  grid-template-columns: 10% 80% 10%;
   font-size: 12px;
   line-height: 14px;
   text-align: center;
   letter-spacing: 0.2em;
   text-transform: uppercase;
   div.header-text {
-    margin-left: 10vw;
     /* display: grid;
     grid-template-columns: 1fr 1fr 1fr; */
+  }
+  div.menu {
+    font-size: 15px;
   }
   span {
     font-size: 8px;

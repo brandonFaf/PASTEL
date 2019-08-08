@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from'styled-components/macro';
 import { background } from "./colors";
 export const WhoPickedContainer = styled.div`
   height: 100%;

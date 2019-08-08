@@ -1,5 +1,5 @@
 import React from "react";
-import styled from "styled-components";
+import styled from "styled-components/macro";
 import { highlight } from "./Styled/colors";
 
 const FloatingLabelInput = styled.article`
@@ -41,8 +41,8 @@ const FloatingInput = styled.input`
   border: none;
   outline: none;
   font-size: 25px;
-  line-height:30px;
-  color:${highlight}
+  line-height: 30px;
+  color: ${highlight};
   background-color: transparent;
   &::placeholder {
     color: #fff;

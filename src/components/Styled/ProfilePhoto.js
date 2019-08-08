@@ -1,5 +1,5 @@
 import React from "react";
-import styled from "styled-components";
+import styled from'styled-components/macro';
 import { lightBlue, highlight } from "./colors";
 const PhotoImg = styled.img`
   border-radius: 90px;

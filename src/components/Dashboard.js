@@ -11,12 +11,14 @@ const Dashboard = ({ user, setHeader }) => {
   const { group } = useContext(UserContext);
   useEffect(() => {
     const getAllUsers = async () => {
-      const us = await loadAllUsers(group);
+      const us = await loadAllUsers(group.id);
       us.sort((a, b) => b.score - a.score);
       setUsers(us);
     };
-    setHeader("Dashboard");
-    getAllUsers();
+    if (group) {
+      getAllUsers();
+      setHeader(group.groupName);
+    }
   }, [group, setHeader]);
   const getOrdinal = v => {
     return ["th", "st", "nd", "rd"][

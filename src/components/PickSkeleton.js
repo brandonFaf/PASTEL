@@ -1,6 +1,6 @@
 import React from "react";
 import { ProgressBar, BarVis, BarHome, PickPage } from "./Styled/Picker";
-import styled from "styled-components";
+import styled from "styled-components/macro";
 import ActionButton from "./Styled/ActionButton";
 import chevron from "../img/Chevron.png";
 const PickSkeleton = () => {
@@ -29,6 +29,7 @@ const PickSkeleton = () => {
 // `;
 export const GameContainer = styled.div`
   padding: 0 5vw;
+  margin-top: -25px;
 `;
 
 export default PickSkeleton;

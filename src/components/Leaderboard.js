@@ -2,7 +2,7 @@ import React from "react";
 
 import { StickyTable, Row, Cell as C } from "react-sticky-table";
 import "react-sticky-table/dist/react-sticky-table.css";
-import styled from "styled-components";
+import styled from'styled-components/macro';
 import ProfilePhoto from "./Styled/ProfilePhoto";
 import { highlight } from "./Styled/colors";
 

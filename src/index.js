@@ -4,7 +4,7 @@ import "./index.css";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 import UserStore from "./contexts/UserContext";
-import styled from "styled-components";
+import styled from'styled-components/macro';
 import { background } from "./components/Styled/colors";
 const Body = styled.div`
   font-family: "acumin-pro", sans-serif;

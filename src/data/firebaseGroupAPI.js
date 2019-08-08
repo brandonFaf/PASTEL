@@ -8,6 +8,12 @@ export const groupNameIsUnique = groupName => {
     .get()
     .then(doc => doc.size === 0);
 };
+export const getGroup = groupId => {
+  return groupsRef
+    .doc(groupId)
+    .get()
+    .then(d => ({ id: d.id, ...d.data() }));
+};
 export const getAllGroups = () => {
   return groupsRef
     .get()

@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from'styled-components/macro';
 import { lightBlue, highlight, highlight_text } from "./colors";
 const WeekSlider = styled.div`
   position: fixed;

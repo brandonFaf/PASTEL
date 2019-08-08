@@ -3,8 +3,12 @@ import ActionButton from "./Styled/ActionButton";
 import { Link } from "react-router-dom";
 import { useTransition } from "react-spring";
 import { getGroupsForUser, removeFromGroup } from "../data/firebaseGroupAPI";
-import { SlidingPage, SlidingHeader } from "./Styled/SlidingPage";
-import { GroupList } from "./Styled/Groups";
+import {
+  GroupList,
+  GroupsSlidingHeader,
+  GroupsSlider,
+  GroupSliderButtons
+} from "./Styled/Groups";
 import Group from "./Group";
 import { UserContext } from "../contexts/UserContext";
 const Groups = ({ user, showGroups, toggleGroups }) => {
@@ -28,18 +32,18 @@ const Groups = ({ user, showGroups, toggleGroups }) => {
     await removeFromGroup(user.id, groupId);
     const newGroups = groups.filter(g => g.id !== groupId);
     setGroups(newGroups);
-    setGroup(newGroups[0].id);
+    setGroup(newGroups[0]);
   };
   return (
     <>
       {groupTransitions.map(
         ({ item, key, props }) =>
           item && (
-            <SlidingPage key={key} style={props}>
-              <SlidingHeader left>
+            <GroupsSlider key={key} style={props}>
+              <GroupsSlidingHeader>
                 <span onClick={toggleGroups}>X</span>
                 <div>Your Leagues</div>
-              </SlidingHeader>
+              </GroupsSlidingHeader>
               <GroupList>
                 {groups.map(g => (
                   <Group
@@ -50,13 +54,15 @@ const Groups = ({ user, showGroups, toggleGroups }) => {
                   />
                 ))}
               </GroupList>
-              <ActionButton onClick={toggleGroups}>
-                <Link to="/groups/join">Join</Link>
-              </ActionButton>
-              <ActionButton onClick={toggleGroups}>
-                <Link to="/groups/create">Create</Link>
-              </ActionButton>{" "}
-            </SlidingPage>
+              <GroupSliderButtons>
+                <ActionButton onClick={toggleGroups}>
+                  <Link to="/groups/join">Join</Link>
+                </ActionButton>
+                <ActionButton onClick={toggleGroups}>
+                  <Link to="/groups/create">Create</Link>
+                </ActionButton>
+              </GroupSliderButtons>
+            </GroupsSlider>
           )
       )}
       {/* <GroupList>

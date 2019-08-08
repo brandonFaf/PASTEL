@@ -1,5 +1,6 @@
 import React, { createContext } from "react";
 import { loadUser } from "../data/firebaseUserAPI";
+import { getGroup } from "../data/firebaseGroupAPI";
 export const UserContext = createContext();
 
 export default class UserStore extends React.Component {
@@ -32,7 +33,11 @@ export default class UserStore extends React.Component {
     }
     const userSnap = await loadUser(uid);
     const user = userSnap.data();
-    const group = user.groups ? user.groups[0] : "";
+    const groupId = user.groups ? user.groups[0] : "";
+    let group = {};
+    if (groupId) {
+      group = await getGroup(groupId);
+    }
 
     this.setState({ user: { ...user, id: userSnap.id }, group });
   };

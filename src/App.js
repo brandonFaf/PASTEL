@@ -69,7 +69,9 @@ const App = () => {
           <Sticky>
             {({ style }) => (
               <Header style={{ ...style, height: "5vh" }}>
-                <div onClick={toggleGroups}>G</div>
+                <div className="menu" onClick={toggleGroups}>
+                  &#9776;
+                </div>
                 <div className="header-text">{header}</div>
                 {header && user && (
                   <ProfilePhoto
