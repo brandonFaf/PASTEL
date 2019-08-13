@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import Input from "./FloatingInput";
 import useForm from "./hooks/useForm";
-import { ProfileForm } from "./Styled/ProfilePage";
 import ActionButton from "./Styled/ActionButton";
 import { groupNameIsUnique, saveGroup } from "../data/firebaseGroupAPI";
 import Toggle from "react-toggle";
 import "./ToggleCSS.css";
+import { CreateGroupForm, GroupFormError } from "./Styled/Groups";
 const CreateGroup = ({ user, history }) => {
   const { values, handleChange } = useForm({ groupName: "" });
   const [
@@ -22,7 +22,6 @@ const CreateGroup = ({ user, history }) => {
   };
   const submitForm = async e => {
     e.preventDefault();
-
     if (await validateForm()) {
       try {
         const group = { groupName: values.groupName };
@@ -47,6 +46,12 @@ const CreateGroup = ({ user, history }) => {
     let pcv = true;
     if (!values.groupName) {
       gnv = false;
+      setValid({
+        groupNameValid: gnv,
+        passcodeValid,
+        groupNameUnique
+      });
+      return false;
     } else {
       //username exists, is longer than 4 and less than 20
       gnv = values.groupName.length > 4 && values.groupName.length < 20;
@@ -66,7 +71,7 @@ const CreateGroup = ({ user, history }) => {
   };
   return (
     <>
-      <ProfileForm onSubmit={submitForm}>
+      <CreateGroupForm onSubmit={submitForm}>
         <fieldset>
           <Input
             autocomplete="off"
@@ -77,10 +82,14 @@ const CreateGroup = ({ user, history }) => {
             value={values.groupName}
           />
           {!groupNameValid && (
-            <label className="error">Invalid Display Name</label>
+            <GroupFormError className="error">
+              Please enter a display name between 4 and 20 characters
+            </GroupFormError>
           )}
           {!groupNameUnique && (
-            <label className="error">Display Name Taken</label>
+            <GroupFormError className="error">
+              Display Name Taken
+            </GroupFormError>
           )}
           {makePrivate && (
             <>
@@ -93,7 +102,9 @@ const CreateGroup = ({ user, history }) => {
                 value={values.passcode}
               />
               {!passcodeValid && (
-                <label className="error">Please Enter a Passcode</label>
+                <GroupFormError className="error">
+                  Please Enter a Passcode
+                </GroupFormError>
               )}
             </>
           )}
@@ -106,8 +117,10 @@ const CreateGroup = ({ user, history }) => {
             onChange={togglePrivate}
           />
         </fieldset>
-        <ActionButton type="submit">NEXT</ActionButton>
-      </ProfileForm>
+        <ActionButton onClick={submitForm} type="submit">
+          NEXT
+        </ActionButton>
+      </CreateGroupForm>
     </>
   );
 };

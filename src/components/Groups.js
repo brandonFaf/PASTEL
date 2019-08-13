@@ -42,24 +42,27 @@ const Groups = ({ user, showGroups, toggleGroups }) => {
             <GroupsSlider key={key} style={props}>
               <GroupsSlidingHeader>
                 <span onClick={toggleGroups}>X</span>
-                <div>Your Leagues</div>
+                <div>Your Groups</div>
               </GroupsSlidingHeader>
               <GroupList>
-                {groups.map(g => (
-                  <Group
-                    leaveGroup={leaveGroup}
-                    userId={user.id}
-                    group={g}
-                    key={g.id}
-                  />
-                ))}
+                {groups
+                  .sort((a, b) => (a < b ? -1 : 1))
+                  .map(g => (
+                    <Group
+                      dash
+                      leaveGroup={leaveGroup}
+                      userId={user.id}
+                      group={g}
+                      key={g.id}
+                    />
+                  ))}
               </GroupList>
               <GroupSliderButtons>
                 <ActionButton onClick={toggleGroups}>
-                  <Link to="/groups/join">Join</Link>
+                  <Link to="/groups/join">Join a Group</Link>
                 </ActionButton>
                 <ActionButton onClick={toggleGroups}>
-                  <Link to="/groups/create">Create</Link>
+                  <Link to="/groups/create">Create a Group</Link>
                 </ActionButton>
               </GroupSliderButtons>
             </GroupsSlider>

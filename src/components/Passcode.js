@@ -1,9 +1,11 @@
 import React, { useState } from "react";
+import styled from "styled-components/macro";
 import Input from "./FloatingInput";
 import ActionButton from "./Styled/ActionButton";
 import { addUserToGroup } from "../data/firebaseGroupAPI";
+import { GroupFormError } from "./Styled/Groups";
 
-const Passcode = ({ group, history, user }) => {
+const Passcode = ({ group, history, user, changeStage }) => {
   const [passcode, setPasscode] = useState("");
   const [error, setError] = useState(false);
   const handleChange = e => {
@@ -18,7 +20,7 @@ const Passcode = ({ group, history, user }) => {
     }
   };
   return (
-    <>
+    <div style={{ width: "70vw" }}>
       <Input
         autocomplete="off"
         id="passcode"
@@ -28,13 +30,26 @@ const Passcode = ({ group, history, user }) => {
         value={passcode}
       />
       {error && (
-        <div>
-          That passcode is incorrect. Please Try Again with a different passcode{" "}
-        </div>
+        <GroupFormError>
+          That passcode is incorrect. Please try again with a different passcode
+        </GroupFormError>
       )}
-      <ActionButton onClick={submit}>Join</ActionButton>
-    </>
+      <ButtonContainer>
+        <Button onClick={submit}>Join</Button>
+        <Button onClick={changeStage}>Cancel</Button>
+      </ButtonContainer>
+    </div>
   );
 };
+
+const ButtonContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
+const Button = styled(ActionButton)`
+  margin-bottom: 15px;
+`;
 
 export default Passcode;

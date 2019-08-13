@@ -61,7 +61,6 @@ export const getGroupsForUser = uid => {
     .then(docs => {
       console.log(docs.size);
       return docs.docs.map(d => {
-        console.log("id ", d, d.data());
         return { id: d.id, ...d.data() };
       });
     });

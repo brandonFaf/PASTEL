@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Input from "./FloatingInput";
 import { getAllGroups, addUserToGroup } from "../data/firebaseGroupAPI";
-import Group from "./Group";
+import SearchGroup from "./SearchGroup";
 const JoinGroup = ({ user, history, changeStage }) => {
   const [groups, setGroups] = useState([]);
   const [currentGroups, setCurrentGroups] = useState([]);
@@ -31,7 +31,7 @@ const JoinGroup = ({ user, history, changeStage }) => {
     }
   };
   return (
-    <>
+    <div style={{ width: "70vw" }}>
       <Input
         autocomplete="off"
         id="searchterm"
@@ -41,9 +41,14 @@ const JoinGroup = ({ user, history, changeStage }) => {
         value={search}
       />
       {currentGroups.map(g => (
-        <Group joinGroup={joinGroup} userId={user.id} group={g} key={g.id} />
+        <SearchGroup
+          joinGroup={joinGroup}
+          userId={user.id}
+          group={g}
+          key={g.id}
+        />
       ))}
-    </>
+    </div>
   );
 };
 

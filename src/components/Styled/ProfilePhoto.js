@@ -1,6 +1,6 @@
 import React from "react";
-import styled from'styled-components/macro';
-import { lightBlue, highlight } from "./colors";
+import styled from "styled-components/macro";
+import { highlight } from "./colors";
 const PhotoImg = styled.img`
   border-radius: 90px;
   justify-self: center;
@@ -12,7 +12,7 @@ const PhotoDiv = styled.div`
   justify-self: center;
   height: ${props => (props.size === "large" ? "150px" : "30px")};
   width: ${props => (props.size === "large" ? "150px" : "30px")};
-  background-color: ${lightBlue};
+  background-color: #265087;
   color: ${highlight};
   font-size: ${props => (props.size === "large" ? "50px" : "12px")};
   display: inline-grid;
@@ -21,13 +21,30 @@ const PhotoDiv = styled.div`
 `;
 
 const ProfilePhoto = ({ onClick, size, src, displayName }) => {
-  const initals = displayName && displayName.split(" ").map(w => w[0]);
+  let initals =
+    displayName &&
+    displayName.split(" ").reduce((acc, w) => {
+      const word = w.toLowerCase();
+      if (
+        word !== "the" &&
+        word !== "of" &&
+        word !== "a" &&
+        word !== "an" &&
+        word !== "to"
+      ) {
+        acc += w[0];
+      }
+      return acc;
+    }, "");
+  if (initals === "") {
+    initals = "?";
+  }
   if (src) {
     return <PhotoImg onClick={onClick} size={size} src={src} alt="profile" />;
   }
   return (
     <PhotoDiv onClick={onClick} size={size}>
-      {initals}
+      {initals.substring(0, 2).toUpperCase()}
     </PhotoDiv>
   );
 };

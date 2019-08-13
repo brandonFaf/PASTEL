@@ -1,5 +1,10 @@
 import React, { useEffect, useContext, useState } from "react";
-import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Link,
+  Redirect
+} from "react-router-dom";
 import Login from "./components/Login";
 import Picker from "./components/Picker";
 import Dashboard from "./components/Dashboard";
@@ -16,6 +21,7 @@ import { SlidingPage, SlidingHeader } from "./components/Styled/SlidingPage";
 import Groups from "./components/Groups";
 import CreateGroup from "./components/CreateGroup";
 import JoinGroupPage from "./components/JoinGroupPage";
+import homeIcon from "./img/home.png";
 const App = () => {
   const { user, setUser } = useContext(UserContext);
   const [loading, setLoading] = useState(true);
@@ -61,7 +67,27 @@ const App = () => {
     enter: { transform: "translate3d(10vh,0,0)" },
     leave: { transform: "translate3d(100vh,0,0)" }
   });
-
+  const getAction = () => {
+    if (window.location.pathname.includes("group")) {
+      return (
+        <div className="menu">
+          <Link to="/">
+            <img
+              style={{ width: "25px", height: "25px" }}
+              alt="home"
+              src={homeIcon}
+            />
+          </Link>
+        </div>
+      );
+    } else {
+      return (
+        <div className="menu" onClick={toggleGroups}>
+          &#9776;
+        </div>
+      );
+    }
+  };
   return (
     <>
       <Router>
@@ -69,9 +95,7 @@ const App = () => {
           <Sticky>
             {({ style }) => (
               <Header style={{ ...style, height: "5vh" }}>
-                <div className="menu" onClick={toggleGroups}>
-                  &#9776;
-                </div>
+                {getAction()}
                 <div className="header-text">{header}</div>
                 {header && user && (
                   <ProfilePhoto
