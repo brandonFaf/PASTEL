@@ -27,9 +27,14 @@ export const addUserToGroup = (groupId, userId) => {
 };
 
 export const saveGroup = (userId, group) => {
+  let docId;
   return groupsRef
     .add({ ...group, admin: userId, members: [userId] })
-    .then(doc => addGroupToUser(userId, doc.id));
+    .then(doc => {
+      docId = doc.id;
+      return addGroupToUser(userId, doc.id);
+    })
+    .then(_ => docId);
 };
 export const changeAdmin = (userId, groupId) => {
   return groupsRef.doc(groupId).update({ admin: userId });

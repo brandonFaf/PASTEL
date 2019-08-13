@@ -5,9 +5,11 @@ import Leaderboard from "./Leaderboard";
 import MakePicks from "./MakePicks";
 import getCurrentWeek from "../helpers/getCurrentWeek";
 import { UserContext } from "../contexts/UserContext";
+import NoGroupMessage from "./NoGroupMessage";
 const Dashboard = ({ user, setHeader }) => {
   const [users, setUsers] = useState([]);
   const [week] = useState(getCurrentWeek());
+  const [noGroupMessage, setNoGroupMessage] = useState(false);
   const { group } = useContext(UserContext);
   useEffect(() => {
     const getAllUsers = async () => {
@@ -15,9 +17,13 @@ const Dashboard = ({ user, setHeader }) => {
       us.sort((a, b) => b.score - a.score);
       setUsers(us);
     };
+    console.log(group);
     if (group) {
       getAllUsers();
       setHeader(group.groupName);
+    } else {
+      setNoGroupMessage(true);
+      setHeader(" ");
     }
   }, [group, setHeader]);
   const getOrdinal = v => {
@@ -37,7 +43,9 @@ const Dashboard = ({ user, setHeader }) => {
       </>
     );
   };
-
+  if (noGroupMessage) {
+    return <NoGroupMessage />;
+  }
   return (
     <>
       <WeekStatus>
