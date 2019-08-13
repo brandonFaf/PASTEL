@@ -23,7 +23,7 @@ const Header = styled.div`
     color: #fff;
   }
   span {
-    font-size: 15px;
+    font-size: 12px;
     font-weight: bold;
   }
   .highlight {

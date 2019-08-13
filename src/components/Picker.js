@@ -56,7 +56,6 @@ const Picker = ({ user, history, setHeader }) => {
   }, [userId, week]);
   const totalGames = getTotalGames(week);
   const getHeaderValue = useCallback(() => {
-    console.log("here");
     return (
       <>
         {score && (
@@ -64,8 +63,8 @@ const Picker = ({ user, history, setHeader }) => {
             {score}
             <sup>pts</sup>
           </span>
-        )}{" "}
-        Make Your Picks{" "}
+        )}
+        {week < getCurrentWeek() ? ` Week ${week} Picks ` : ` Make Your Picks `}
         {state.count > 0 && (
           <span>
             <sup>{state.count}</sup>&frasl;<sub>{totalGames}</sub>
@@ -73,7 +72,7 @@ const Picker = ({ user, history, setHeader }) => {
         )}
       </>
     );
-  }, [state.count, score, totalGames]);
+  }, [score, week, state.count, totalGames]);
 
   useEffect(() => {
     setHeader(getHeaderValue);
@@ -117,25 +116,31 @@ const Picker = ({ user, history, setHeader }) => {
           <ActionButton small onClick={close}>
             <img src={chevron} className="down" alt="chevron" />
           </ActionButton>
-
-          <GameSection>
-            <div className="title">Upcoming</div>
-            {state.games.upcoming.map(game => (
-              <GameContainer game={game} save={save} key={game.id} />
-            ))}
-          </GameSection>
-          <GameSection>
-            <div className="title">In Progress</div>
-            {state.games.inProgress.map(game => (
-              <GameContainer game={game} save={save} key={game.id} />
-            ))}
-          </GameSection>
-          <GameSection>
-            <div className="title">Completed</div>
-            {state.games.completed.map(game => (
-              <GameContainer game={game} save={save} key={game.id} />
-            ))}
-          </GameSection>
+          {console.log("upcoming: ", state.games.upcoming)}
+          {state.games.upcoming.length > 0 && (
+            <GameSection>
+              <div className="title">Upcoming</div>
+              {state.games.upcoming.map(game => (
+                <GameContainer game={game} save={save} key={game.id} />
+              ))}
+            </GameSection>
+          )}
+          {state.games.inProgress.length > 0 && (
+            <GameSection>
+              <div className="title">In Progress</div>
+              {state.games.inProgress.map(game => (
+                <GameContainer game={game} save={save} key={game.id} />
+              ))}
+            </GameSection>
+          )}
+          {state.games.completed.length > 0 && (
+            <GameSection>
+              <div className="title">Completed</div>
+              {state.games.completed.map(game => (
+                <GameContainer game={game} save={save} key={game.id} />
+              ))}
+            </GameSection>
+          )}
         </PickPage>
       )}
       {allGames(state.games).length > 0 && (
