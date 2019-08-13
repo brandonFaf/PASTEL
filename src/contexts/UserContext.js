@@ -33,7 +33,9 @@ export default class UserStore extends React.Component {
     }
     const userSnap = await loadUser(uid);
     const user = userSnap.data();
-    const groupId = user.groups ? user.groups[0] : "";
+    const groupId = user.groups
+      ? user.groups.sort((a, b) => (a < b ? -1 : 1))[0]
+      : "";
     let group = {};
     if (groupId) {
       group = await getGroup(groupId);

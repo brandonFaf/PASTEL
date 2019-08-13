@@ -19,7 +19,6 @@ export const GroupsSlider = styled(animated.div)`
   background-color: rgba(22, 51, 89, 0.95);
 `;
 export const GroupsSlidingHeader = styled(Header)`
-  grid-template-columns: 10% 90%;
   height: 5vh;
   position: absolute;
   top: 0;

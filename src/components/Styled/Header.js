@@ -20,6 +20,7 @@ const Header = styled.div`
   }
   div.menu {
     font-size: 15px;
+    color: #fff;
   }
   span {
     font-size: 15px;
