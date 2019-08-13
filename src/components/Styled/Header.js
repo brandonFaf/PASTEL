@@ -1,4 +1,4 @@
-import styled from'styled-components/macro';
+import styled from "styled-components/macro";
 import { background, highlight } from "./colors";
 const Header = styled.div`
   padding: 16px 0;
@@ -22,7 +22,7 @@ const Header = styled.div`
     font-size: 15px;
   }
   span {
-    font-size: 8px;
+    font-size: 15px;
     font-weight: bold;
   }
   .highlight {

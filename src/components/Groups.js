@@ -47,6 +47,7 @@ const Groups = ({ user, showGroups, toggleGroups }) => {
               <GroupList>
                 {groups.map(g => (
                   <Group
+                    dash
                     leaveGroup={leaveGroup}
                     userId={user.id}
                     group={g}
@@ -56,10 +57,10 @@ const Groups = ({ user, showGroups, toggleGroups }) => {
               </GroupList>
               <GroupSliderButtons>
                 <ActionButton onClick={toggleGroups}>
-                  <Link to="/groups/join">Join</Link>
+                  <Link to="/groups/join">Join a Group</Link>
                 </ActionButton>
                 <ActionButton onClick={toggleGroups}>
-                  <Link to="/groups/create">Create</Link>
+                  <Link to="/groups/create">Create a Group</Link>
                 </ActionButton>
               </GroupSliderButtons>
             </GroupsSlider>

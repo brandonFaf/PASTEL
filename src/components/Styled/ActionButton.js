@@ -25,5 +25,8 @@ const ActionButton = styled.button`
   span {
     font-size: 8px;
   }
+  :focus {
+    outline: none;
+  }
 `;
 export default ActionButton;
