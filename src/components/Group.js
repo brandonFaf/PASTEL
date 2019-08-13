@@ -8,12 +8,15 @@ import {
 } from "./Styled/Groups";
 import { UserContext } from "../contexts/UserContext";
 import ProfilePhoto from "./Styled/ProfilePhoto";
-const Group = ({ group, leaveGroup, userId }) => {
+const Group = ({ group, leaveGroup, toggleGroups, userId }) => {
   //make the array of groups in user a map and store score and place there.
   const { setGroup, group: currentGroup } = useContext(UserContext);
-
+  const selectGroup = () => {
+    setGroup(group);
+    toggleGroups();
+  };
   return (
-    <G onClick={() => setGroup(group)}>
+    <G onClick={selectGroup}>
       {currentGroup.id === group.id ? <GroupActive /> : <div />}
       <GroupPhoto>
         <ProfilePhoto displayName={group.groupName} />

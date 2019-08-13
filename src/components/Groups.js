@@ -49,11 +49,11 @@ const Groups = ({ user, showGroups, toggleGroups }) => {
                   .sort((a, b) => (a < b ? -1 : 1))
                   .map(g => (
                     <Group
-                      dash
                       leaveGroup={leaveGroup}
                       userId={user.id}
                       group={g}
                       key={g.id}
+                      toggleGroups={toggleGroups}
                     />
                   ))}
               </GroupList>
