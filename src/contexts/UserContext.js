@@ -36,7 +36,7 @@ export default class UserStore extends React.Component {
     const groupId = user.groups
       ? user.groups.sort((a, b) => (a < b ? -1 : 1))[0]
       : "";
-    let group = {};
+    let group;
     if (groupId) {
       group = await getGroup(groupId);
     }

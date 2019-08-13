@@ -18,7 +18,7 @@ const Groups = ({ user, showGroups, toggleGroups }) => {
     leave: { transform: "translate3d(-90vh,0,0)" }
   });
   const [groups, setGroups] = useState([]);
-  const { setGroup } = useContext(UserContext);
+  const { group, setGroup } = useContext(UserContext);
   useEffect(() => {
     const getGroups = async () => {
       const groups = await getGroupsForUser(user.id);
@@ -27,7 +27,7 @@ const Groups = ({ user, showGroups, toggleGroups }) => {
     if (user) {
       getGroups();
     }
-  }, [user]);
+  }, [user, group]);
   const leaveGroup = async groupId => {
     await removeFromGroup(user.id, groupId);
     const newGroups = groups.filter(g => g.id !== groupId);
@@ -58,12 +58,16 @@ const Groups = ({ user, showGroups, toggleGroups }) => {
                   ))}
               </GroupList>
               <GroupSliderButtons>
-                <ActionButton onClick={toggleGroups}>
-                  <Link to="/groups/join">Join a Group</Link>
-                </ActionButton>
-                <ActionButton onClick={toggleGroups}>
-                  <Link to="/groups/create">Create a Group</Link>
-                </ActionButton>
+                <Link to="/groups/join">
+                  <ActionButton onClick={toggleGroups}>
+                    Join a Group
+                  </ActionButton>
+                </Link>
+                <Link to="/groups/create">
+                  <ActionButton onClick={toggleGroups}>
+                    Create a Group
+                  </ActionButton>
+                </Link>
               </GroupSliderButtons>
             </GroupsSlider>
           )
