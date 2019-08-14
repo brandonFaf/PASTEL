@@ -54,6 +54,7 @@ const Groups = ({ user, showGroups, toggleGroups }) => {
                       userId={user.id}
                       group={g}
                       key={g.id}
+                      toggleGroups={toggleGroups}
                     />
                   ))}
               </GroupList>

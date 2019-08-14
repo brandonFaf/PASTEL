@@ -30,5 +30,8 @@ export const getWeekScore = (uid, week) => {
   return usersRef
     .doc(uid)
     .get()
-    .then(doc => doc.data().weekScores[week - 1]);
+    .then(doc => {
+      const weekScores = doc.data().weekScores || [];
+      return weekScores[week - 1];
+    });
 };
