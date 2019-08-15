@@ -16,12 +16,11 @@ import { UserContext } from "./contexts/UserContext";
 import { StickyContainer, Sticky } from "react-sticky";
 import Header from "./components/Styled/Header";
 import ProfilePhoto from "./components/Styled/ProfilePhoto";
-import { useTransition } from "react-spring";
-import { SlidingPage, SlidingHeader } from "./components/Styled/SlidingPage";
 import Groups from "./components/Groups";
 import CreateGroup from "./components/CreateGroup";
 import JoinGroupPage from "./components/JoinGroupPage";
 import homeIcon from "./img/home.png";
+import EditProfile from "./components/EditProfile";
 const App = () => {
   const { user, setUser } = useContext(UserContext);
   const [loading, setLoading] = useState(true);
@@ -62,11 +61,7 @@ const App = () => {
     };
   }, [setUser]);
   const [header, setHeader] = useState("");
-  const profileTransitions = useTransition(showProfile, null, {
-    from: { transform: "translate3d(100vh,0,0)" },
-    enter: { transform: "translate3d(10vh,0,0)" },
-    leave: { transform: "translate3d(100vh,0,0)" }
-  });
+
   const getAction = () => {
     if (window.location.pathname.includes("group")) {
       return (
@@ -95,7 +90,7 @@ const App = () => {
           <Sticky>
             {({ style }) => (
               <Header style={{ ...style, height: "5vh" }}>
-                {getAction()}
+                {header && user && getAction()}
                 <div className="header-text">{header}</div>
                 {header && user && (
                   <ProfilePhoto
@@ -154,18 +149,13 @@ const App = () => {
             component={Login}
             setHeader={setHeader}
           />
-          {profileTransitions.map(
-            ({ item, key, props }) =>
-              item && (
-                <SlidingPage key={key} style={props}>
-                  <SlidingHeader>
-                    <div>Profile</div>
-                    <span onClick={toggleProfile}>X</span>
-                  </SlidingHeader>
-                  <Profile user={user} />
-                </SlidingPage>
-              )
-          )}
+          <EditProfile
+            showProfile={showProfile}
+            user={user}
+            setHeader={setHeader}
+            toggleProfile={toggleProfile}
+          />
+
           <Groups
             showGroups={showGroups}
             user={user}

@@ -8,15 +8,18 @@ export const SlidingPage = styled(animated.div)`
   width: 90vw;
   height: 100vh;
   display: grid;
+  grid-template-columns: 1fr;
+  grid-template-areas: "header" "guts" "button";
+  grid-template-rows: 10vh 69vh 5vh;
   justify-content: center;
-  align-items: center;
+  justify-items: center;
   background-color: rgba(22, 51, 89, 0.95);
 `;
 export const SlidingHeader = styled(Header)`
-  grid-template-columns: ${props => (props.left ? "10% 90%" : "90% 10%")};
+  grid-template-columns: 90% 10%;
   height: 5vh;
   position: absolute;
   top: 0;
-  width: 82vw;
+  width: 70vw;
   background-color: transparent;
 `;

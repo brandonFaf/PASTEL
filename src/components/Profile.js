@@ -13,11 +13,11 @@ import Toggle from "react-toggle";
 import "./ToggleCSS.css";
 import { UserContext } from "../contexts/UserContext";
 
-const Profile = ({ user, history }) => {
+const Profile = ({ user, history, toggle }) => {
   const { values, handleChange } = useForm({
     ...user
   });
-  const { setPhotoURL } = useContext(UserContext);
+  const { setUser, setPhotoURL } = useContext(UserContext);
   const [
     { displayNameValid, emailValid, phoneNumberValid, displayNameUnique },
     setValid
@@ -38,10 +38,15 @@ const Profile = ({ user, history }) => {
           email: values.email || "",
           phoneNumber: values.phoneNumber || ""
         });
+        setUser(user.id);
       } catch (e) {
         alert("Can't save right now. Try again Later");
       } finally {
-        history.push("/");
+        if (history) {
+          history.push("/");
+        } else {
+          toggle();
+        }
       }
     }
   };
@@ -158,18 +163,16 @@ const Profile = ({ user, history }) => {
               {!emailValid && <label className="error">Invalid email</label>}
             </>
           )}
+          <label className="toggle-label" htmlFor="notifications">
+            Notifications
+          </label>
           <Toggle
             id="notifications"
             defaultChecked={allowNotifications}
             onChange={toggleNotifications}
           />
-          <label className="toggle-label" htmlFor="notifications">
-            Notifications
-          </label>
         </fieldset>
-        {window.location.pathname.includes("/profile") && (
-          <ActionButton type="submit">NEXT</ActionButton>
-        )}
+        <ActionButton type="submit">Save</ActionButton>
       </ProfileForm>
     </>
   );

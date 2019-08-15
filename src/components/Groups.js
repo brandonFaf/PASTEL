@@ -72,11 +72,6 @@ const Groups = ({ user, showGroups, toggleGroups }) => {
             </GroupsSlider>
           )
       )}
-      {/* <GroupList>
-            {groups.map(g=>{
-              <Group group={g} key={g.id}/>
-            })}
-      </GroupList> */}
     </>
   );
 };

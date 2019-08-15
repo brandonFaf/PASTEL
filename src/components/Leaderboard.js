@@ -28,7 +28,8 @@ const LBoard = styled.div`
   height: 35vh;
 `;
 
-const Leaderboard = ({ users, user, group: { weekWinners = [] } }) => {
+const Leaderboard = ({ users, user, group = {} }) => {
+  const weekWinners = group.weekWinners || [];
   const getWins = id => weekWinners.filter(x => x === id).length;
   return (
     <LBoard>

@@ -1,6 +1,5 @@
 import styled from "styled-components/macro";
 import Edit from "../../img/Edit.svg";
-import { animated } from "react-spring";
 
 export const EditLabel = styled.label`
   background-image: url(${Edit});
@@ -15,20 +14,11 @@ export const EditLabel = styled.label`
 
 export const ProfileForm = styled.form`
   display: grid;
-  grid-template-rows: 30vh 45vh 5vh;
+  grid-area: guts;
+  grid-template-rows: 25vh 37vh 5vh;
   justify-content: center;
+  justify-items: center;
   fieldset {
     border: none;
   }
-`;
-export const SlidingPage = styled(animated.div)`
-  position: fixed;
-  top: 0;
-  z-index: 50;
-  width: 90vw;
-  height: 100vh;
-  display: grid;
-  justify-content: center;
-  align-items: center;
-  background-color: rgba(22, 51, 89, 0.95);
 `;

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import styled from "styled-components/macro";
 import ActionButton from "./Styled/ActionButton";
 import Footer from "./Styled/Footer";
 import chevron from "../img/Chevron.png";
@@ -12,6 +13,11 @@ import useRouter from "./hooks/useRouter";
 import PickSkeleton, { GameContainer as GC } from "./PickSkeleton";
 import GameContainer from "./GameContainer";
 // import Picker from "./Picker";
+
+const Button = styled(ActionButton)`
+  margin-bottom: -20px;
+`;
+
 const MakePicks = ({ week, uid, user, setHeader }) => {
   const [game, setGame] = useState({});
   const [ratio, setRatio] = useState([]);
@@ -46,7 +52,7 @@ const MakePicks = ({ week, uid, user, setHeader }) => {
   return (
     <Footer style={props}>
       {!activated && (
-        <ActionButton onClick={activate}>
+        <Button onClick={activate}>
           <img src={chevron} alt="chevron" />
           Make Your Picks
           {ratio && (
@@ -54,7 +60,7 @@ const MakePicks = ({ week, uid, user, setHeader }) => {
               <sup>{ratio[0]}</sup>&frasl;<sub>{ratio[1]}</sub>
             </span>
           )}
-        </ActionButton>
+        </Button>
       )}
       {!activated ? (
         <GC>
