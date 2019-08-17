@@ -1,21 +1,21 @@
-import React, { useEffect, useState, useContext } from "react";
-import ActionButton from "./Styled/ActionButton";
-import { Link } from "react-router-dom";
-import { useTransition } from "react-spring";
-import { getGroupsForUser, removeFromGroup } from "../data/firebaseGroupAPI";
+import React, { useEffect, useState, useContext } from 'react';
+import ActionButton from './Styled/ActionButton';
+import { Link } from 'react-router-dom';
+import { useTransition } from 'react-spring';
+import { getGroupsForUser, removeFromGroup } from '../data/firebaseGroupAPI';
 import {
   GroupList,
   GroupsSlidingHeader,
   GroupsSlider,
   GroupSliderButtons
-} from "./Styled/Groups";
-import Group from "./Group";
-import { UserContext } from "../contexts/UserContext";
+} from './Styled/Groups';
+import Group from './Group';
+import { UserContext } from '../contexts/UserContext';
 const Groups = ({ user, showGroups, toggleGroups }) => {
   const groupTransitions = useTransition(showGroups, null, {
-    from: { transform: "translate3d(-90vh,0,0)" },
-    enter: { transform: "translate3d(0vh,0,0)" },
-    leave: { transform: "translate3d(-90vh,0,0)" }
+    from: { transform: 'translate3d(-90vh,0,0)' },
+    enter: { transform: 'translate3d(0vh,0,0)' },
+    leave: { transform: 'translate3d(-90vh,0,0)' }
   });
   const [groups, setGroups] = useState([]);
   const { group, setGroup } = useContext(UserContext);

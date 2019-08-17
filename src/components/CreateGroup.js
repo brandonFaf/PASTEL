@@ -1,14 +1,14 @@
-import React, { useState, useEffect, useContext } from "react";
-import Input from "./FloatingInput";
-import useForm from "./hooks/useForm";
-import ActionButton from "./Styled/ActionButton";
-import { groupNameIsUnique, saveGroup } from "../data/firebaseGroupAPI";
-import Toggle from "react-toggle";
-import "./ToggleCSS.css";
-import { CreateGroupForm, GroupFormError } from "./Styled/Groups";
-import { UserContext } from "../contexts/UserContext";
+import React, { useState, useEffect, useContext } from 'react';
+import Input from './FloatingInput';
+import useForm from './hooks/useForm';
+import ActionButton from './Styled/ActionButton';
+import { groupNameIsUnique, saveGroup } from '../data/firebaseGroupAPI';
+import Toggle from 'react-toggle';
+import './ToggleCSS.css';
+import { CreateGroupForm, GroupFormError } from './Styled/Groups';
+import { UserContext } from '../contexts/UserContext';
 const CreateGroup = ({ user, history, setHeader }) => {
-  const { values, handleChange } = useForm({ groupName: "" });
+  const { values, handleChange } = useForm({ groupName: '' });
   const [
     { groupNameValid, groupNameUnique, passcodeValid },
     setValid
@@ -23,7 +23,7 @@ const CreateGroup = ({ user, history, setHeader }) => {
     setMakePrivate(!makePrivate);
   };
   useEffect(() => {
-    setHeader("Create A Group");
+    setHeader('Create A Group');
   }, [setHeader]);
   const submitForm = async e => {
     e.preventDefault();
@@ -43,7 +43,7 @@ const CreateGroup = ({ user, history, setHeader }) => {
         console.log(e);
         alert("Can't save right now. Try again Later");
       } finally {
-        history.push("/");
+        history.push('/');
       }
     }
   };

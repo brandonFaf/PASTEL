@@ -1,16 +1,16 @@
-import React from "react";
+import React from 'react';
 
-import { WhoPickedContainer, PickGroup, Divider } from "./Styled/WhoPicked";
-import { animated, useTransition } from "react-spring";
+import { WhoPickedContainer, PickGroup, Divider } from './Styled/WhoPicked';
+import { animated, useTransition } from 'react-spring';
 
 const WhoPicked = ({
   showUsers,
   data: { pickedVisTm = [], pickedHomeTm = [] }
 }) => {
   const transitions = useTransition(showUsers, null, {
-    from: { opacity: 0, height: "0vh" },
-    enter: { opacity: 1, height: "15vh" },
-    leave: { opacity: 0, height: "0vh" }
+    from: { opacity: 0, height: '0vh' },
+    enter: { opacity: 1, height: '15vh' },
+    leave: { opacity: 0, height: '0vh' }
   });
   const meat = (
     <WhoPickedContainer>

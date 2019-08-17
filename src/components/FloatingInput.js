@@ -1,11 +1,11 @@
-import React from "react";
-import styled from "styled-components/macro";
-import { highlight } from "./Styled/colors";
+import React from 'react'
+import styled from 'styled-components/macro'
+import { highlight } from './Styled/colors'
 
 const FloatingLabelInput = styled.article`
   width: 100%;
   margin-bottom: 15px;
-`;
+`
 
 const FloatingLabelInputContainer = styled.div`
   display: flex;
@@ -15,7 +15,7 @@ const FloatingLabelInputContainer = styled.div`
   height: 50px;
   border-bottom: 2px solid ${highlight};
   font-size: inherit;
-`;
+`
 
 const FloatingLabel = styled.label`
   padding: 0;
@@ -32,8 +32,8 @@ const FloatingLabel = styled.label`
   pointer-events: none;
   width: 66.6%;
   transform: ${props =>
-    props.active ? "translate3d(0, -100%, 0) scale(0.70)" : "none"};
-`;
+    props.active ? 'translate3d(0, -100%, 0) scale(0.70)' : 'none'};
+`
 
 const FloatingInput = styled.input`
   padding: 0;
@@ -49,48 +49,40 @@ const FloatingInput = styled.input`
     opacity: ${props => (props.active ? 1 : 0)};
     transition: opacity 0.2s cubic-bezier(0.6, 0.04, 0.98, 0.335);
   }
-`;
+`
 
 export default class TextInput extends React.PureComponent {
   constructor(props) {
-    super(props);
+    super(props)
     if (!props.id && !props.name) {
-      throw new Error("expected id but none present");
+      throw new Error('expected id but none present')
     }
 
     this.state = {
-      active: props.value && props.value.length > 0
-    };
+      active: props.value && props.value.length > 0,
+    }
 
-    this.onFocus = this.onFocus.bind(this);
-    this.onBlur = this.onBlur.bind(this);
+    this.onFocus = this.onFocus.bind(this)
+    this.onBlur = this.onBlur.bind(this)
   }
 
   onFocus(event) {
-    this.setState({ active: true });
+    this.setState({ active: true })
     if (this.props.onFocus) {
-      this.props.onFocus(event);
+      this.props.onFocus(event)
     }
   }
 
   onBlur(event) {
-    this.setState({ active: event.target.value.length !== 0 });
+    this.setState({ active: event.target.value.length !== 0 })
     if (this.props.onBlur) {
-      this.props.onBlur(event);
+      this.props.onBlur(event)
     }
   }
 
   render() {
-    const {
-      id,
-      label,
-      onBlur,
-      onFocus,
-      type,
-      refs,
-      ...otherProps
-    } = this.props;
-    const { active } = this.state;
+    const { id, label, onBlur, onFocus, type, refs, ...otherProps } = this.props
+    const { active } = this.state
 
     return (
       <FloatingLabelInput>
@@ -109,6 +101,6 @@ export default class TextInput extends React.PureComponent {
           />
         </FloatingLabelInputContainer>
       </FloatingLabelInput>
-    );
+    )
   }
 }

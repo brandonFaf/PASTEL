@@ -1,37 +1,34 @@
-import { db } from "./firebaseConfig";
-const usersRef = db.collection("users");
+import { db } from './firebaseConfig'
+const usersRef = db.collection('users')
 export const loadUser = uid => {
-  return usersRef.doc(uid).get();
-};
+  return usersRef.doc(uid).get()
+}
 export const loadAllUsers = group => {
   return (
     usersRef
-      .where("groups", "array-contains", group)
+      .where('groups', 'array-contains', group)
       // .orderBy("score", "desc")
       .get()
       .then(userSS => {
         return userSS.docs.map(u => {
-          return { id: u.id, ...u.data() };
-        });
+          return { id: u.id, ...u.data() }
+        })
       })
-  );
-};
+  )
+}
 export const updateUser = (userId, userData) => {
-  console.log("update:", userId);
-  return usersRef.doc(userId).set(userData, { merge: true });
-};
+  console.log('update:', userId)
+  return usersRef.doc(userId).set(userData, { merge: true })
+}
 export const displayNameIsUnique = (userName, uid) => {
   return usersRef
-    .where("displayName", "==", userName)
+    .where('displayName', '==', userName)
     .get()
-    .then(doc => (doc.size === 0 ? true : doc.docs[0].id === uid));
-};
+    .then(doc => (doc.size === 0 ? true : doc.docs[0].id === uid))
+}
 export const getWeekScore = (uid, week) => {
-  return usersRef
-    .doc(uid)
-    .get()
-    .then(doc => {
-      const weekScores = doc.data().weekScores || [];
-      return weekScores[week - 1];
-    });
-};
+  return usersRef.doc(uid).get().then(doc => {
+    const weekScores = doc.data().weekScores || []
+    return weekScores[week - 1]
+  })
+}

@@ -1,10 +1,10 @@
-import React from "react";
+import React from 'react'
 
-import { StickyTable, Row, Cell as C } from "react-sticky-table";
-import "react-sticky-table/dist/react-sticky-table.css";
-import styled from "styled-components/macro";
-import ProfilePhoto from "./Styled/ProfilePhoto";
-import { highlight } from "./Styled/colors";
+import { StickyTable, Row, Cell as C } from 'react-sticky-table'
+import 'react-sticky-table/dist/react-sticky-table.css'
+import styled from 'styled-components/macro'
+import ProfilePhoto from './Styled/ProfilePhoto'
+import { highlight } from './Styled/colors'
 
 const Cell = styled(C)`
   background-color: #0c1d34;
@@ -13,7 +13,7 @@ const Cell = styled(C)`
   &.current {
     color: ${highlight};
   }
-`;
+`
 // const StickyTable = styled(ST)`
 //   display: grid;
 //   justify-content: center;
@@ -26,11 +26,11 @@ const LBoard = styled.div`
   align-items: center;
   overflow-x: hidden;
   height: 35vh;
-`;
+`
 
 const Leaderboard = ({ users, user, group = {} }) => {
-  const weekWinners = group.weekWinners || [];
-  const getWins = id => weekWinners.filter(x => x === id).length;
+  const weekWinners = group.weekWinners || []
+  const getWins = id => weekWinners.filter(x => x === id).length
   return (
     <LBoard>
       <div>
@@ -43,26 +43,34 @@ const Leaderboard = ({ users, user, group = {} }) => {
             <Cell>Wins</Cell>
           </Row>
           {users.map(({ id, displayName, photoURL, score }, i) => {
-            let cn = "";
+            let cn = ''
             if (id === user.id) {
-              cn = "current";
+              cn = 'current'
             }
             return (
               <Row key={i} className={cn}>
-                <Cell>{i + 1}.</Cell>
+                <Cell>
+                  {i + 1}.
+                </Cell>
                 <Cell>
                   <ProfilePhoto displayName={displayName} src={photoURL} />
                 </Cell>
-                <Cell className={cn}>{displayName}</Cell>
-                <Cell>{score}</Cell>
-                <Cell>{getWins(id)}</Cell>
+                <Cell className={cn}>
+                  {displayName}
+                </Cell>
+                <Cell>
+                  {score}
+                </Cell>
+                <Cell>
+                  {getWins(id)}
+                </Cell>
               </Row>
-            );
+            )
           })}
         </StickyTable>
       </div>
     </LBoard>
-  );
-};
+  )
+}
 
-export default Leaderboard;
+export default Leaderboard

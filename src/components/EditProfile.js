@@ -1,19 +1,19 @@
-import React, { useContext } from "react";
-import styled from "styled-components";
-import { UserContext } from "../contexts/UserContext";
-import { useTransition } from "react-spring";
-import { SlidingPage, SlidingHeader } from "./Styled/SlidingPage";
-import Profile from "./Profile";
-import firebase from "firebase/app";
-import "firebase/auth";
-import { Link } from "react-router-dom";
-import ActionButton from "./Styled/ActionButton";
+import React, { useContext } from 'react';
+import styled from 'styled-components';
+import { UserContext } from '../contexts/UserContext';
+import { useTransition } from 'react-spring';
+import { SlidingPage, SlidingHeader } from './Styled/SlidingPage';
+import Profile from './Profile';
+import firebase from 'firebase/app';
+import 'firebase/auth';
+import { Link } from 'react-router-dom';
+import ActionButton from './Styled/ActionButton';
 
 const EditProfile = ({ showProfile, toggleProfile, user, setHeader }) => {
   const profileTransitions = useTransition(showProfile, null, {
-    from: { transform: "translate3d(100vh,0,0)" },
-    enter: { transform: "translate3d(10vh,0,0)" },
-    leave: { transform: "translate3d(100vh,0,0)" }
+    from: { transform: 'translate3d(100vh,0,0)' },
+    enter: { transform: 'translate3d(10vh,0,0)' },
+    leave: { transform: 'translate3d(100vh,0,0)' }
   });
   const { setUser } = useContext(UserContext);
 
@@ -24,7 +24,7 @@ const EditProfile = ({ showProfile, toggleProfile, user, setHeader }) => {
       .then(x => {
         setUser();
         toggleProfile();
-        setHeader("");
+        setHeader('');
       });
   };
   return (
@@ -43,7 +43,7 @@ const EditProfile = ({ showProfile, toggleProfile, user, setHeader }) => {
                 setHeader={setHeader}
                 logout={logout}
               />
-              <LogoutButton to={"/login"}>
+              <LogoutButton to={'/login'}>
                 <ActionButton onClick={logout}>Logout</ActionButton>
               </LogoutButton>
             </SlidingPage>

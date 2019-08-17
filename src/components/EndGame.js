@@ -1,6 +1,6 @@
-import React, { useState } from "react";
-import moment from "moment";
-import "moment-timezone";
+import React, { useState } from 'react';
+import moment from 'moment';
+import 'moment-timezone';
 import {
   TeamButton,
   Game as Container,
@@ -8,8 +8,8 @@ import {
   BarHome,
   MiddleButton,
   ProgressBar
-} from "./Styled/Picker";
-import WhoPicked from "./WhoPicked";
+} from './Styled/Picker';
+import WhoPicked from './WhoPicked';
 const EndGame = ({ game }) => {
   const {
     visActive,
@@ -25,7 +25,7 @@ const EndGame = ({ game }) => {
     date,
     time
   } = game;
-  const gameDate = moment(`${date} ${time}`, "YYYY-MM-DD HH:mm:ss");
+  const gameDate = moment(`${date} ${time}`, 'YYYY-MM-DD HH:mm:ss');
   const visPer =
     game.pickedVisTm && game.totalPicks
       ? (game.pickedVisTm.length / game.totalPicks).toFixed(2) * 100
@@ -34,7 +34,7 @@ const EndGame = ({ game }) => {
     game.pickedHomeTm && game.totalPicks
       ? (game.pickedHomeTm.length / game.totalPicks).toFixed(2) * 100
       : 67;
-  const outcome = !winner ? "" : winner === selected ? "RIGHT" : "WRONG";
+  const outcome = !winner ? '' : winner === selected ? 'RIGHT' : 'WRONG';
   const [showUsers, setShowUsers] = useState(false);
   const pickData = {
     homePer,
@@ -51,12 +51,12 @@ const EndGame = ({ game }) => {
     if (!outcome) {
       return (
         <>
-          <div>{gameDate.format("ddd M/D")}</div>
-          <div>{gameDate.format("h:mm A")}</div>
+          <div>{gameDate.format('ddd M/D')}</div>
+          <div>{gameDate.format('h:mm A')}</div>
         </>
       );
     }
-    if (outcome === "RIGHT") {
+    if (outcome === 'RIGHT') {
       return (
         <>
           <div>&#10004;</div>

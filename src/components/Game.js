@@ -1,14 +1,14 @@
-import React from "react";
+import React from 'react'
 import {
   TeamButton,
   Game as Container,
   BarVis,
   BarHome,
   MiddleButton,
-  ProgressBar
-} from "./Styled/Picker";
-import moment from "moment";
-import "moment-timezone";
+  ProgressBar,
+} from './Styled/Picker'
+import moment from 'moment'
+import 'moment-timezone'
 const Game = ({ game, save }) => {
   const {
     visActive,
@@ -20,12 +20,12 @@ const Game = ({ game, save }) => {
     date,
     time,
     visTmDisplay,
-    homeTmDisplay
-  } = game;
+    homeTmDisplay,
+  } = game
 
-  const gameDate = moment(`${date} ${time}`, "YYYY-MM-DD HH:mm:ss");
-  const visPer = visActive ? 33 : 100; //(game.pickedVisTm.length / game.totalPicks).toFixed(2) * 100
-  const homePer = homeActive ? 33 : 67;
+  const gameDate = moment(`${date} ${time}`, 'YYYY-MM-DD HH:mm:ss')
+  const visPer = visActive ? 33 : 100 //(game.pickedVisTm.length / game.totalPicks).toFixed(2) * 100
+  const homePer = homeActive ? 33 : 67
 
   const gameBlock = (
     <div className="container">
@@ -34,15 +34,19 @@ const Game = ({ game, save }) => {
           {visTmDisplay}
         </TeamButton>
         <MiddleButton>
-          <div>{gameDate.format("ddd M/D")}</div>
-          <div>{gameDate.format("h:mm A")}</div>
+          <div>
+            {gameDate.format('ddd M/D')}
+          </div>
+          <div>
+            {gameDate.format('h:mm A')}
+          </div>
         </MiddleButton>
         <TeamButton active={homeActive} onClick={save(id, homeTm, week)}>
           {homeTmDisplay}
         </TeamButton>
       </Container>
     </div>
-  );
+  )
   return (
     <ProgressBar>
       <BarVis active={visActive} percent={visPer}>
@@ -52,7 +56,7 @@ const Game = ({ game, save }) => {
         {gameBlock}
       </BarHome>
     </ProgressBar>
-  );
-};
+  )
+}
 
-export default Game;
+export default Game

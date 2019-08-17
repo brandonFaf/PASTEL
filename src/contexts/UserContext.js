@@ -1,54 +1,54 @@
-import React, { createContext } from "react";
-import { loadUser } from "../data/firebaseUserAPI";
-import { getGroup } from "../data/firebaseGroupAPI";
-export const UserContext = createContext();
+import React, { createContext } from 'react'
+import { loadUser } from '../data/firebaseUserAPI'
+import { getGroup } from '../data/firebaseGroupAPI'
+export const UserContext = createContext()
 
 export default class UserStore extends React.Component {
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       user: undefined,
       group: undefined,
       setUser: this.setUser,
       setPhotoURL: this.setPhotoURL,
-      setGroup: this.setGroup
-    };
+      setGroup: this.setGroup,
+    }
   }
   setGroup = group => {
-    this.setState({ group });
-  };
+    this.setState({ group })
+  }
 
   setPhotoURL = photoURL => {
     if (this.state.user) {
       this.setState(state => {
-        const user = { ...state.user, photoURL };
-        return { ...state, user };
-      });
+        const user = { ...state.user, photoURL }
+        return { ...state, user }
+      })
     }
-  };
+  }
   setUser = async uid => {
     if (!uid) {
-      this.setState({ user: null });
-      return;
+      this.setState({ user: null })
+      return
     }
-    const userSnap = await loadUser(uid);
-    const user = userSnap.data();
+    const userSnap = await loadUser(uid)
+    const user = userSnap.data()
     const groupId = user.groups
       ? user.groups.sort((a, b) => (a < b ? -1 : 1))[0]
-      : "";
-    let group;
+      : ''
+    let group
     if (groupId) {
-      group = await getGroup(groupId);
+      group = await getGroup(groupId)
     }
 
-    this.setState({ user: { ...user, id: userSnap.id }, group });
-  };
+    this.setState({ user: { ...user, id: userSnap.id }, group })
+  }
 
   render() {
     return (
       <UserContext.Provider value={this.state}>
         {this.props.children}
       </UserContext.Provider>
-    );
+    )
   }
 }
