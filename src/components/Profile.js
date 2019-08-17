@@ -1,19 +1,19 @@
 /* eslint-disable no-useless-escape */
-import React, { useState, useContext } from "react";
-import FileUploader from "react-firebase-file-uploader";
-import firebase from "firebase/app";
-import "firebase/storage";
-import { updateUser, displayNameIsUnique } from "../data/firebaseUserAPI";
-import useForm from "./hooks/useForm";
-import Input from "./FloatingInput";
-import ProfilePhoto from "./Styled/ProfilePhoto";
-import { ProfileForm, EditLabel } from "./Styled/ProfilePage";
-import ActionButton from "./Styled/ActionButton";
-import Toggle from "react-toggle";
-import "./ToggleCSS.css";
-import { UserContext } from "../contexts/UserContext";
+import React, { useState, useContext } from 'react';
+import FileUploader from 'react-firebase-file-uploader';
+import firebase from 'firebase/app';
+import 'firebase/storage';
+import { updateUser, displayNameIsUnique } from '../data/firebaseUserAPI';
+import useForm from './hooks/useForm';
+import Input from './FloatingInput';
+import ProfilePhoto from './Styled/ProfilePhoto';
+import { ProfileForm, EditLabel } from './Styled/ProfilePage';
+import ActionButton from './Styled/ActionButton';
+import Toggle from 'react-toggle';
+import './ToggleCSS.css';
+import { UserContext } from '../contexts/UserContext';
 
-const Profile = ({ user, history, toggle }) => {
+const Profile = ({ user, history, toggle, setHeader }) => {
   const { values, handleChange } = useForm({
     ...user
   });
@@ -27,7 +27,7 @@ const Profile = ({ user, history, toggle }) => {
     phoneNumberValid: true,
     displayNameUnique: true
   });
-
+  setHeader('Profile Details');
   const submitForm = async e => {
     e.preventDefault();
 
@@ -35,15 +35,16 @@ const Profile = ({ user, history, toggle }) => {
       try {
         await updateUser(user.id, {
           displayName: values.displayName,
-          email: values.email || "",
-          phoneNumber: values.phoneNumber || ""
+          email: values.email || '',
+          phoneNumber: values.phoneNumber || '',
+          hasVisited: true
         });
-        setUser(user.id);
+        await setUser(user.id);
       } catch (e) {
         alert("Can't save right now. Try again Later");
       } finally {
         if (history) {
-          history.push("/");
+          history.push('/');
         } else {
           toggle();
         }
@@ -81,20 +82,20 @@ const Profile = ({ user, history, toggle }) => {
   const handleUploadSuccess = filename => {
     firebase
       .storage()
-      .ref("images")
+      .ref('images')
       .child(filename)
       .getDownloadURL()
       .then(photoURL => {
         updateUser(user.id, { photoURL });
         setPhotoURL(photoURL);
-        handleChange({ target: { name: "photoURL", value: photoURL } });
+        handleChange({ target: { name: 'photoURL', value: photoURL } });
       });
   };
   const [allowNotifications, setAllowNotifications] = useState(false);
   const toggleNotifications = () => {
     setAllowNotifications(!allowNotifications);
   };
-  const handleUploadStart = () => console.log("starting");
+  const handleUploadStart = () => console.log('starting');
   const handleUploadError = error => {
     console.error(error);
   };
@@ -103,7 +104,7 @@ const Profile = ({ user, history, toggle }) => {
     <>
       <ProfileForm onSubmit={submitForm}>
         {user && (
-          <div style={{ justifySelf: "center" }}>
+          <div style={{ justifySelf: 'center' }}>
             <ProfilePhoto
               size="large"
               src={values.photoURL}
@@ -115,7 +116,7 @@ const Profile = ({ user, history, toggle }) => {
                 accept="image/*"
                 name="avatar"
                 randomizeFilename
-                storageRef={firebase.storage().ref("images")}
+                storageRef={firebase.storage().ref('images')}
                 onUploadStart={handleUploadStart}
                 onUploadError={handleUploadError}
                 onUploadSuccess={handleUploadSuccess}

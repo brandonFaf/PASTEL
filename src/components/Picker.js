@@ -3,30 +3,33 @@ import React, {
   useEffect,
   useReducer,
   useRef,
-  useCallback
-} from "react";
+  useCallback,
+  useContext
+} from 'react';
 import {
   loadGames,
   savePick,
   loadPicks,
   getTotalGames
-} from "../data/firebaseGameAPI";
-import { gamesReducer, gameActions } from "../data/reducers/gamesReducer";
-import { PickPage, GameSection } from "./Styled/Picker";
-import GameContainer from "./GameContainer";
-import WeekSlider from "./Styled/WeekSlider";
-import PickSkeleton from "./PickSkeleton";
-import ActionButton from "./Styled/ActionButton";
-import chevron from "../img/Chevron.png";
-import { animated, useSpring } from "react-spring";
-import getCurrentWeek from "../helpers/getCurrentWeek";
-import { getWeekScore } from "../data/firebaseUserAPI";
+} from '../data/firebaseGameAPI';
+import { gamesReducer, gameActions } from '../data/reducers/gamesReducer';
+import { PickPage, GameSection } from './Styled/Picker';
+import GameContainer from './GameContainer';
+import WeekSlider from './Styled/WeekSlider';
+import PickSkeleton from './PickSkeleton';
+import ActionButton from './Styled/ActionButton';
+import chevron from '../img/Chevron.png';
+import { animated, useSpring } from 'react-spring';
+import getCurrentWeek from '../helpers/getCurrentWeek';
+import { getWeekScore } from '../data/firebaseUserAPI';
+import { UserContext } from '../contexts/UserContext';
 const Picker = ({ user, history, setHeader }) => {
   const weekBox = useRef();
   const [state, dispatch] = useReducer(gamesReducer, { games: [] });
   const [week, setWeek] = useState(getCurrentWeek());
   const { id: userId, displayName } = user;
   const [score, setScore] = useState();
+  const { group } = useContext(UserContext);
   const allGames = games => {
     if (Array.isArray(games)) {
       return games;
@@ -43,7 +46,7 @@ const Picker = ({ user, history, setHeader }) => {
   }, [week]);
   useEffect(() => {
     const getPicks = async () => {
-      const { userPicks, gamePicks } = await loadPicks(userId, week);
+      const { userPicks, gamePicks } = await loadPicks(userId, week, group.id);
       dispatch({ type: gameActions.USER_PICKS_LOADED, value: userPicks });
       dispatch({ type: gameActions.GAME_PICKS_LOADED, value: gamePicks });
     };
@@ -53,7 +56,7 @@ const Picker = ({ user, history, setHeader }) => {
     };
     getScores();
     getPicks();
-  }, [userId, week]);
+  }, [group, group.groupId, userId, week]);
   const totalGames = getTotalGames(week);
   const getHeaderValue = useCallback(() => {
     return (
@@ -84,30 +87,37 @@ const Picker = ({ user, history, setHeader }) => {
     }
   }, [week]);
   const save = (gameId, selected, week) => () => {
-    savePick({ gameId, selected, userId, displayName, week });
+    savePick({
+      gameId,
+      selected,
+      userId,
+      displayName,
+      week,
+      groups: user.groups
+    });
     dispatch({ type: gameActions.SAVE_PICK, value: { gameId, selected } });
-    console.log("save", selected);
+    console.log('save', selected);
   };
   const changeWeek = week => () => {
     setWeek(week);
   };
-  const weekNumbers = new Array(17).fill("1");
+  const weekNumbers = new Array(17).fill('1');
   const [activated, setActivated] = useState(false);
   const close = () => {
     setActivated(true);
     dispatch({ type: gameActions.CLEAR });
     setTimeout(() => {
-      history.push("/");
+      history.push('/');
     }, 600);
   };
   const props = useSpring({
     config: { duration: 500 },
-    from: { top: "5vh" },
-    to: { top: activated ? "75vh" : "5vh" }
+    from: { top: '5vh' },
+    to: { top: activated ? '75vh' : '5vh' }
   });
   return (
     <animated.div
-      style={{ ...props, position: activated ? "fixed" : "static" }}
+      style={{ ...props, position: activated ? 'fixed' : 'static' }}
     >
       {allGames(state.games).length === 0 ? (
         <PickSkeleton />
@@ -116,7 +126,6 @@ const Picker = ({ user, history, setHeader }) => {
           <ActionButton small onClick={close}>
             <img src={chevron} className="down" alt="chevron" />
           </ActionButton>
-          {console.log("upcoming: ", state.games.upcoming)}
           {state.games.upcoming.length > 0 && (
             <GameSection>
               <div className="title">Upcoming</div>
@@ -148,10 +157,10 @@ const Picker = ({ user, history, setHeader }) => {
           {weekNumbers.map((x, i) => (
             <div
               key={i}
-              className={i + 1 === week ? "active" : ""}
+              className={i + 1 === week ? 'active' : ''}
               onClick={changeWeek(i + 1)}
             >
-              <div>{i + 1 === week && "WEEK"}</div>
+              <div>{i + 1 === week && 'WEEK'}</div>
               {i + 1}
             </div>
           ))}

@@ -1,5 +1,5 @@
-import styled from "styled-components/macro";
-import { background, highlight } from "./colors";
+import styled from 'styled-components/macro';
+import { background, highlight } from './colors';
 const Header = styled.div`
   padding: 16px 0;
   background-color: ${background};
@@ -8,7 +8,7 @@ const Header = styled.div`
   backdrop-filter: blur(5px);
   align-items: center;
   display: grid;
-  grid-template-columns: 10% 80% 10%;
+  grid-template-columns: 15% 70% 15%;
   font-size: 12px;
   line-height: 14px;
   text-align: center;

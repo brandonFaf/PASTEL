@@ -1,13 +1,13 @@
-import { db } from "./firebaseConfig";
-import { isPastTime } from "../helpers/isPastTime";
-const picksRef = db.collection("picks");
-let gamesRef = db.collection("games");
-if (window.location.pathname.includes("past")) {
-  gamesRef = db.collection("pastGames");
+import { db } from './firebaseConfig';
+import { isPastTime } from '../helpers/isPastTime';
+const picksRef = db.collection('picks');
+let gamesRef = db.collection('games');
+if (window.location.pathname.includes('past')) {
+  gamesRef = db.collection('pastGames');
 }
 export const loadGames = (week = 1) => {
   return gamesRef
-    .where("week", "==", week)
+    .where('week', '==', week)
     .get()
     .then(games => {
       return games.docs.map(x => ({ ...x.data(), id: x.id }));
@@ -15,8 +15,8 @@ export const loadGames = (week = 1) => {
 };
 export const loadFirstGame = (week = 1) => {
   return gamesRef
-    .where("week", ">=", week)
-    .where("week", "<=", week + 1)
+    .where('week', '>=', week)
+    .where('week', '<=', week + 1)
     .limit(17)
     .get()
     .then(games => {
@@ -28,9 +28,10 @@ export const loadFirstGame = (week = 1) => {
 export const savePick = pick => {
   return picksRef.doc(`${pick.gameId}${pick.userId}`).set(pick);
 };
-export const loadPicks = (userId, week = 1) => {
+export const loadPicks = (userId, week = 1, groupId) => {
   return picksRef
-    .where("week", "==", week)
+    .where('week', '==', week)
+    .where('groups', 'array-contains', groupId)
     .get()
     .then(picks => {
       return picks.docs.reduce(
@@ -50,8 +51,8 @@ export const loadPicks = (userId, week = 1) => {
 };
 export const getNumberOfPicks = (uid, week) => {
   return picksRef
-    .where("week", "==", week)
-    .where("userId", "==", uid)
+    .where('week', '==', week)
+    .where('userId', '==', uid)
     .get()
     .then(snap => snap.size);
 };

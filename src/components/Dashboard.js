@@ -1,12 +1,12 @@
-import React, { useEffect, useContext, useState } from "react";
-import { loadAllUsers } from "../data/firebaseUserAPI";
-import WeekStatus from "./Styled/WeekStatus";
-import Leaderboard from "./Leaderboard";
-import MakePicks from "./MakePicks";
-import getCurrentWeek from "../helpers/getCurrentWeek";
-import { UserContext } from "../contexts/UserContext";
-import NoGroupMessage from "./NoGroupMessage";
-const Dashboard = ({ user, setHeader }) => {
+import React, { useEffect, useContext, useState } from 'react';
+import { loadAllUsers } from '../data/firebaseUserAPI';
+import WeekStatus from './Styled/WeekStatus';
+import Leaderboard from './Leaderboard';
+import MakePicks from './MakePicks';
+import getCurrentWeek from '../helpers/getCurrentWeek';
+import { UserContext } from '../contexts/UserContext';
+import NoGroupMessage from './NoGroupMessage';
+const Dashboard = ({ user, setHeader, history }) => {
   const [users, setUsers] = useState([]);
   const [week] = useState(getCurrentWeek());
   const [noGroupMessage, setNoGroupMessage] = useState(false);
@@ -18,23 +18,26 @@ const Dashboard = ({ user, setHeader }) => {
       setUsers(us);
     };
     console.log(group);
+    if (!user.hasVisited) {
+      history.push('/profile');
+    }
     if (group) {
       getAllUsers();
       setHeader(group.groupName);
     } else {
       setNoGroupMessage(true);
-      setHeader(" ");
+      setHeader(' ');
     }
-  }, [group, setHeader]);
+  }, [group, history, setHeader, user.hasVisited, user.isNew]);
   const getOrdinal = v => {
-    return ["th", "st", "nd", "rd"][
+    return ['th', 'st', 'nd', 'rd'][
       Math.abs(~[1, 2, 3].indexOf(+(+v).toFixed().substr(-1)))
     ];
   };
   const getRank = () => {
     const rank = users.findIndex(u => u.id === user.id) + 1;
     if (rank === 0) {
-      return "last";
+      return 'last';
     }
     return (
       <>
@@ -53,7 +56,7 @@ const Dashboard = ({ user, setHeader }) => {
         <div className="main">
           You're in <strong>{getRank()}</strong> Place,
           <br />
-          with{" "}
+          with{' '}
           <strong>
             {user.score || 0}
             <sup>pts</sup>
