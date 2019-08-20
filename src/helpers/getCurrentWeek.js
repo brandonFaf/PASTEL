@@ -1,7 +1,7 @@
-import moment from 'moment'
+import moment from 'moment';
 const getCurrentWeek = () => {
-  let now = moment()
-  const w = now.subtract(2, 'd').week() - 35
-  return w > 0 ? w : 3
-}
-export default getCurrentWeek
+  let now = moment();
+  const w = now.subtract(2, 'd').week() - 35;
+  return w > 0 ? w : 4;
+};
+export default getCurrentWeek;

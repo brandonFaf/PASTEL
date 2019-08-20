@@ -83,7 +83,9 @@ const App = () => {
       );
     }
   };
-  return (
+  return loading ? (
+    <div>loading</div>
+  ) : (
     <>
       <Router>
         <StickyContainer>
@@ -106,14 +108,12 @@ const App = () => {
           <PrivateRoute
             exact
             path="/"
-            loading={loading}
             user={user}
             component={Dashboard}
             setHeader={setHeader}
           />
           <PrivateRoute
             path="/pick"
-            loading={loading}
             user={user}
             component={Picker}
             setHeader={setHeader}
@@ -121,7 +121,6 @@ const App = () => {
           <PrivateRoute
             exact
             path="/profile"
-            loading={loading}
             user={user}
             component={Profile}
             setHeader={setHeader}
@@ -129,7 +128,6 @@ const App = () => {
           <PrivateRoute
             exact
             path="/groups/create"
-            loading={loading}
             user={user}
             component={CreateGroup}
             setHeader={setHeader}
@@ -137,14 +135,12 @@ const App = () => {
           <PrivateRoute
             exact
             path="/groups/join"
-            loading={loading}
             user={user}
             component={JoinGroupPage}
             setHeader={setHeader}
           />
           <PublicRoute
             path="/login"
-            loading={loading}
             user={user}
             component={Login}
             setHeader={setHeader}
@@ -169,9 +165,7 @@ const App = () => {
 
 export default App;
 const PrivateRoute = ({ component: Component, user, loading, ...rest }) => {
-  return loading ? (
-    <div>loading</div>
-  ) : (
+  return (
     <>
       <Route
         {...rest}
@@ -192,9 +186,7 @@ const PrivateRoute = ({ component: Component, user, loading, ...rest }) => {
   );
 };
 const PublicRoute = ({ component: Component, user, loading, ...rest }) => {
-  return loading ? (
-    <div>loading</div>
-  ) : (
+  return (
     <>
       <Route
         {...rest}

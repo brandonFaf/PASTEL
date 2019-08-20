@@ -20,7 +20,7 @@ const Group = ({ group, leaveGroup, userId, toggleGroups }) => {
       Math.abs(~[1, 2, 3].indexOf(+(+v).toFixed().substr(-1)))
     ]
   }
-  const rank = group.ranks[userId] + 1
+  const rank = group.ranks ? group.ranks[userId] + 1 : 1;
   return (
     <G onClick={selectGroup}>
       {currentGroup.id === group.id ? <GroupActive /> : <div />}

@@ -1,9 +1,9 @@
-import { isPastTime } from "../../helpers/isPastTime";
-const USER_PICKS_LOADED = "USER_PICKS_LOADED";
-const GAME_PICKS_LOADED = "GAME_PICKS_LOADED";
-const LOAD_GAMES = "LOAD_GAMES";
-const SAVE_PICK = "SAVE_PICK";
-const CLEAR = "CLEAR";
+import { isPastTime } from '../../helpers/isPastTime';
+const USER_PICKS_LOADED = 'USER_PICKS_LOADED';
+const GAME_PICKS_LOADED = 'GAME_PICKS_LOADED';
+const LOAD_GAMES = 'LOAD_GAMES';
+const SAVE_PICK = 'SAVE_PICK';
+const CLEAR = 'CLEAR';
 export const gameActions = {
   USER_PICKS_LOADED,
   LOAD_GAMES,
@@ -50,20 +50,36 @@ export const gamesReducer = (state, action) => {
       return { games: games };
     }
     case USER_PICKS_LOADED: {
-      console.log("User picks Loaded");
+      console.log('User picks Loaded');
       let games = allGames(state.games).map(g => {
-        const pick = action.value.find(p => p.gameId === g.id);
-        if (pick) {
-          g.selected = pick.selected;
+        const picks = action.value.filter(p => p.gameId === g.id);
+        if (picks.length === 0) {
+          return g;
         }
-        return g;
+        if (picks.length === 1) {
+          const pick = picks[0];
+          if (pick) {
+            g.selected = pick.selected;
+          } else {
+            g.selected = '';
+          }
+          return g;
+        } else {
+          debugger;
+          if (picks.every(p => p.selected === picks[0].selected)) {
+            g.selected = picks[0].selected;
+          } else {
+            g.selected = '';
+          }
+          return g;
+        }
       });
       games = sortGames(games);
       const count = action.value.length;
       return { ...state, games, count };
     }
     case GAME_PICKS_LOADED: {
-      console.log("picks Loaded");
+      console.log('picks Loaded');
       let games = allGames(state.games).map(game => {
         const gamePicks = action.value[game.id] || [];
         game.totalPicks = gamePicks.length;

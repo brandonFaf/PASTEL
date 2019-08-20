@@ -2,7 +2,6 @@ import React, {
   useState,
   useEffect,
   useReducer,
-  useRef,
   useCallback,
   useContext
 } from 'react';
@@ -23,8 +22,9 @@ import { animated, useSpring } from 'react-spring';
 import getCurrentWeek from '../helpers/getCurrentWeek';
 import { getWeekScore } from '../data/firebaseUserAPI';
 import { UserContext } from '../contexts/UserContext';
+import { HeaderGroupName } from './Styled/Header';
 const Picker = ({ user, history, setHeader }) => {
-  const weekBox = useRef();
+  // const weekBox = useRef();
   const [state, dispatch] = useReducer(gamesReducer, { games: [] });
   const [week, setWeek] = useState(getCurrentWeek());
   const { id: userId, displayName } = user;
@@ -45,6 +45,7 @@ const Picker = ({ user, history, setHeader }) => {
     getGames();
   }, [week]);
   useEffect(() => {
+    console.log('load Picks');
     const getPicks = async () => {
       const { userPicks, gamePicks } = await loadPicks(userId, week, group.id);
       dispatch({ type: gameActions.USER_PICKS_LOADED, value: userPicks });
@@ -67,7 +68,16 @@ const Picker = ({ user, history, setHeader }) => {
             <sup>pts</sup>
           </span>
         )}
-        {week < getCurrentWeek() ? ` Week ${week} Picks ` : ` Make Your Picks `}
+        <div>
+          <div>
+            {week < getCurrentWeek()
+              ? ` Week ${week} Picks `
+              : ` Make Your Picks `}
+          </div>
+          <HeaderGroupName>
+            Picking for: <strong>{group.groupName}</strong>
+          </HeaderGroupName>
+        </div>
         {state.count > 0 && (
           <span>
             <sup>{state.count}</sup>&frasl;<sub>{totalGames}</sub>
@@ -75,26 +85,34 @@ const Picker = ({ user, history, setHeader }) => {
         )}
       </>
     );
-  }, [score, week, state.count, totalGames]);
+  }, [score, week, group.groupName, state.count, totalGames]);
 
   useEffect(() => {
     setHeader(getHeaderValue);
   }, [week, state.count, setHeader, getHeaderValue]);
 
-  useEffect(() => {
-    if (weekBox.current) {
-      weekBox.current.scrollLeft = ((week - 1) * window.innerWidth) / 5;
-    }
-  }, [week]);
+  const weekBox = useCallback(
+    node => {
+      console.log(node, week);
+      if (node) {
+        node.scrollLeft = ((week - 1) * window.innerWidth) / 5;
+      }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    },
+    [week]
+  );
   const save = (gameId, selected, week) => () => {
-    savePick({
-      gameId,
-      selected,
-      userId,
-      displayName,
-      week,
-      groups: user.groups
-    });
+    const groups = group.id === 'all' ? user.groups : [group.id];
+    for (const groupId of groups) {
+      savePick({
+        gameId,
+        selected,
+        userId,
+        displayName,
+        week,
+        groupId
+      });
+    }
     dispatch({ type: gameActions.SAVE_PICK, value: { gameId, selected } });
     console.log('save', selected);
   };

@@ -30,4 +30,11 @@ const Header = styled.div`
     color: ${highlight};
   }
 `;
+export const HeaderGroupName = styled.div`
+  font-size: 8px;
+  color: ${highlight};
+  strong: {
+    font-size: 10px;
+  }
+`;
 export default Header;

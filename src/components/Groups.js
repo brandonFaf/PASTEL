@@ -11,6 +11,7 @@ import {
 } from './Styled/Groups';
 import Group from './Group';
 import { UserContext } from '../contexts/UserContext';
+import AllGroup from './AllGroup';
 const Groups = ({ user, showGroups, toggleGroups }) => {
   const groupTransitions = useTransition(showGroups, null, {
     from: { transform: 'translate3d(-90vh,0,0)' },
@@ -45,6 +46,9 @@ const Groups = ({ user, showGroups, toggleGroups }) => {
                 <div>Your Groups</div>
               </GroupsSlidingHeader>
               <GroupList>
+                {window.location.pathname.includes('pick') && (
+                  <AllGroup toggleGroups={toggleGroups} />
+                )}
                 {groups
                   .sort((a, b) => (a < b ? -1 : 1))
                   .map(g => (
