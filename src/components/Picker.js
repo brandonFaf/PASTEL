@@ -2,7 +2,6 @@ import React, {
   useState,
   useEffect,
   useReducer,
-  useRef,
   useCallback,
   useContext
 } from 'react';
@@ -19,17 +18,27 @@ import WeekSlider from './Styled/WeekSlider';
 import PickSkeleton from './PickSkeleton';
 import ActionButton from './Styled/ActionButton';
 import chevron from '../img/Chevron.png';
-import { animated, useSpring } from 'react-spring';
+import { animated, useSpring, useTrail } from 'react-spring';
 import getCurrentWeek from '../helpers/getCurrentWeek';
 import { getWeekScore } from '../data/firebaseUserAPI';
 import { UserContext } from '../contexts/UserContext';
+import animateScrollTo from 'animated-scroll-to';
+
 const Picker = ({ user, history, setHeader }) => {
-  const weekBox = useRef();
+  // const weekBox = useRef();
   const [state, dispatch] = useReducer(gamesReducer, { games: [] });
   const [week, setWeek] = useState(getCurrentWeek());
   const { id: userId, displayName } = user;
   const [score, setScore] = useState();
   const { group } = useContext(UserContext);
+  const num = state.games.upcoming ? state.games.upcoming.length : 0;
+  const [trail, start] = useTrail(num, () => ({
+    opacity: 0,
+    height: 0,
+    config: {
+      duration: 500
+    }
+  }));
   const allGames = games => {
     if (Array.isArray(games)) {
       return games;
@@ -40,15 +49,20 @@ const Picker = ({ user, history, setHeader }) => {
   useEffect(() => {
     const getGames = async () => {
       const games = await loadGames(week);
-      dispatch({ type: gameActions.LOAD_GAMES, value: games });
+      setTimeout(() => {
+        dispatch({ type: gameActions.LOAD_GAMES, value: games });
+        start({ opacity: 1, height: 75 });
+      }, 500);
     };
     getGames();
-  }, [week]);
+  }, [start, week]);
   useEffect(() => {
     const getPicks = async () => {
       const { userPicks, gamePicks } = await loadPicks(userId, week, group.id);
-      dispatch({ type: gameActions.USER_PICKS_LOADED, value: userPicks });
-      dispatch({ type: gameActions.GAME_PICKS_LOADED, value: gamePicks });
+      setTimeout(() => {
+        dispatch({ type: gameActions.USER_PICKS_LOADED, value: userPicks });
+        dispatch({ type: gameActions.GAME_PICKS_LOADED, value: gamePicks });
+      }, 500);
     };
     const getScores = async () => {
       const s = await getWeekScore(userId, week);
@@ -81,11 +95,25 @@ const Picker = ({ user, history, setHeader }) => {
     setHeader(getHeaderValue);
   }, [week, state.count, setHeader, getHeaderValue]);
 
-  useEffect(() => {
-    if (weekBox.current) {
-      weekBox.current.scrollLeft = ((week - 1) * window.innerWidth) / 5;
-    }
-  }, [week]);
+  // useEffect(() => {
+  //   if (weekBox.current) {
+  //     weekBox.current.scrollLeft = ((week - 1) * window.innerWidth) / 5;
+  //   }
+  // }, [week]);
+  const weekBox = useCallback(
+    node => {
+      if (node) {
+        console.log('here');
+        animateScrollTo(((week - 1) * window.innerWidth) / 5, {
+          element: node,
+          horizontal: true,
+          speed: 1
+        });
+      }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    },
+    [week]
+  );
   const save = (gameId, selected, week) => () => {
     savePick({
       gameId,
@@ -100,6 +128,7 @@ const Picker = ({ user, history, setHeader }) => {
   };
   const changeWeek = week => () => {
     setWeek(week);
+    start({ opacity: 0, height: 0, config: { duration: 500 } });
   };
   const weekNumbers = new Array(17).fill('1');
   const [activated, setActivated] = useState(false);
@@ -129,9 +158,18 @@ const Picker = ({ user, history, setHeader }) => {
           {state.games.upcoming.length > 0 && (
             <GameSection>
               <div className="title">Upcoming</div>
-              {state.games.upcoming.map(game => (
-                <GameContainer game={game} save={save} key={game.id} />
+
+              {trail.map(({ height, ...rest }, index) => (
+                <animated.div style={{ ...rest, height }} key={index}>
+                  <GameContainer
+                    game={state.games.upcoming[index]}
+                    save={save}
+                  />
+                </animated.div>
               ))}
+              {/* {state.games.upcoming.map(game => (
+                <GameContainer game={game} save={save} key={game.id} />
+              ))} */}
             </GameSection>
           )}
           {state.games.inProgress.length > 0 && (
