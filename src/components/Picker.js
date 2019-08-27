@@ -18,23 +18,20 @@ import WeekSlider from './Styled/WeekSlider';
 import PickSkeleton from './PickSkeleton';
 import ActionButton from './Styled/ActionButton';
 import chevron from '../img/Chevron.png';
-import { animated, useSpring, useTrail } from 'react-spring';
+import { animated, useSpring } from 'react-spring';
 import getCurrentWeek from '../helpers/getCurrentWeek';
 import { getWeekScore } from '../data/firebaseUserAPI';
 import { UserContext } from '../contexts/UserContext';
 import animateScrollTo from 'animated-scroll-to';
 
 const Picker = ({ user, history, setHeader }) => {
-  // const weekBox = useRef();
   const [state, dispatch] = useReducer(gamesReducer, { games: [] });
   const [week, setWeek] = useState(getCurrentWeek());
   const { id: userId, displayName } = user;
   const [score, setScore] = useState();
   const { group } = useContext(UserContext);
-  const num = state.games.upcoming ? state.games.upcoming.length : 0;
-  const [trail, start] = useTrail(num, () => ({
+  const [gameAnimationProps, start] = useSpring(() => ({
     opacity: 0,
-    height: 0,
     config: {
       duration: 500
     }
@@ -51,7 +48,7 @@ const Picker = ({ user, history, setHeader }) => {
       const games = await loadGames(week);
       setTimeout(() => {
         dispatch({ type: gameActions.LOAD_GAMES, value: games });
-        start({ opacity: 1, height: 75 });
+        start({ opacity: 1, config: { duration: 500 } });
       }, 500);
     };
     getGames();
@@ -128,7 +125,7 @@ const Picker = ({ user, history, setHeader }) => {
   };
   const changeWeek = week => () => {
     setWeek(week);
-    start({ opacity: 0, height: 0, config: { duration: 500 } });
+    start({ opacity: 0, config: { duration: 500 } });
   };
   const weekNumbers = new Array(17).fill('1');
   const [activated, setActivated] = useState(false);
@@ -159,17 +156,19 @@ const Picker = ({ user, history, setHeader }) => {
             <GameSection>
               <div className="title">Upcoming</div>
 
-              {trail.map(({ height, ...rest }, index) => (
+              {/* {trail.map(({ height, ...rest }, index) => (
                 <animated.div style={{ ...rest, height }} key={index}>
                   <GameContainer
                     game={state.games.upcoming[index]}
                     save={save}
                   />
                 </animated.div>
-              ))}
-              {/* {state.games.upcoming.map(game => (
-                <GameContainer game={game} save={save} key={game.id} />
               ))} */}
+              {state.games.upcoming.map(game => (
+                <animated.div style={gameAnimationProps} key={game.id}>
+                  <GameContainer game={game} save={save} />
+                </animated.div>
+              ))}
             </GameSection>
           )}
           {state.games.inProgress.length > 0 && (
