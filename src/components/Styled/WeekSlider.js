@@ -17,6 +17,9 @@ const WeekSlider = styled.div`
   box-shadow: 0px -14px 16px 0px rgba(0, 0, 0, 0.7);
   font-size: 20px;
 
+  .current {
+    color: ${highlight};
+  }
   .active {
     color: ${highlight_text};
     background-color: ${highlight};

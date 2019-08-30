@@ -25,6 +25,7 @@ import { UserContext } from '../contexts/UserContext';
 import animateScrollTo from 'animated-scroll-to';
 import { HeaderGroupName } from './Styled/Header';
 
+const currentWeek = getCurrentWeek();
 const Picker = ({ user, history, setHeader }) => {
   const [state, dispatch] = useReducer(gamesReducer, { games: [] });
   const [week, setWeek] = useState(getCurrentWeek());
@@ -101,12 +102,6 @@ const Picker = ({ user, history, setHeader }) => {
   useEffect(() => {
     setHeader(getHeaderValue);
   }, [week, state.count, setHeader, getHeaderValue]);
-
-  // useEffect(() => {
-  //   if (weekBox.current) {
-  //     weekBox.current.scrollLeft = ((week - 1) * window.innerWidth) / 5;
-  //   }
-  // }, [week]);
   const weekBox = useCallback(
     node => {
       if (node) {
@@ -166,15 +161,6 @@ const Picker = ({ user, history, setHeader }) => {
           {state.games.upcoming.length > 0 && (
             <GameSection>
               <div className="title">Upcoming</div>
-
-              {/* {trail.map(({ height, ...rest }, index) => (
-                <animated.div style={{ ...rest, height }} key={index}>
-                  <GameContainer
-                    game={state.games.upcoming[index]}
-                    save={save}
-                  />
-                </animated.div>
-              ))} */}
               {state.games.upcoming.map(game => (
                 <animated.div style={gameAnimationProps} key={game.id}>
                   <GameContainer game={game} save={save} />
@@ -202,16 +188,16 @@ const Picker = ({ user, history, setHeader }) => {
       )}
       {allGames(state.games).length > 0 && (
         <WeekSlider ref={weekBox}>
-          {weekNumbers.map((x, i) => (
-            <div
-              key={i}
-              className={i + 1 === week ? 'active' : ''}
-              onClick={changeWeek(i + 1)}
-            >
-              <div>{i + 1 === week && 'WEEK'}</div>
-              {i + 1}
-            </div>
-          ))}
+          {weekNumbers.map((x, i) => {
+            let cn = i + 1 === week ? 'active' : '';
+            cn += i + 1 === currentWeek ? ' current' : '';
+            return (
+              <div key={i} className={cn} onClick={changeWeek(i + 1)}>
+                <div>{i + 1 === week && 'WEEK'}</div>
+                {i + 1}
+              </div>
+            );
+          })}
         </WeekSlider>
       )}
     </animated.div>
