@@ -42,7 +42,7 @@ export const gamesReducer = (state, action) => {
         }
         return g;
       });
-      const count = allGames(upcoming).filter(g => g.selected).length;
+      const count = allGames({ upcoming }).filter(g => g.selected).length;
       return { games: { ...state.games, upcoming }, count };
     }
     case LOAD_GAMES: {
@@ -55,6 +55,8 @@ export const gamesReducer = (state, action) => {
         const pick = action.value.find(p => p.gameId === g.id);
         if (pick) {
           g.selected = pick.selected;
+        } else {
+          g.selected = '';
         }
         return g;
       });
