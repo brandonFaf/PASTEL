@@ -115,7 +115,7 @@ const Profile = ({ user, history, toggle, setHeader }) => {
                 hidden
                 accept="image/*"
                 name="avatar"
-                randomizeFilename
+                filename={file => user.id}
                 storageRef={firebase.storage().ref('images')}
                 onUploadStart={handleUploadStart}
                 onUploadError={handleUploadError}

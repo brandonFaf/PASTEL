@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "animated-scroll-to": "^1.2.2",
     "firebase": "^6.2.3",
     "moment": "^2.24.0",
     "moment-timezone": "^0.5.26",

@@ -22,14 +22,21 @@ import { animated, useSpring } from 'react-spring';
 import getCurrentWeek from '../helpers/getCurrentWeek';
 import { getWeekScore } from '../data/firebaseUserAPI';
 import { UserContext } from '../contexts/UserContext';
+import animateScrollTo from 'animated-scroll-to';
 import { HeaderGroupName } from './Styled/Header';
+
 const Picker = ({ user, history, setHeader }) => {
-  // const weekBox = useRef();
   const [state, dispatch] = useReducer(gamesReducer, { games: [] });
   const [week, setWeek] = useState(getCurrentWeek());
   const { id: userId, displayName } = user;
   const [score, setScore] = useState();
   const { group } = useContext(UserContext);
+  const [gameAnimationProps, start] = useSpring(() => ({
+    opacity: 0,
+    config: {
+      duration: 500
+    }
+  }));
   const allGames = games => {
     if (Array.isArray(games)) {
       return games;
@@ -40,15 +47,20 @@ const Picker = ({ user, history, setHeader }) => {
   useEffect(() => {
     const getGames = async () => {
       const games = await loadGames(week);
-      dispatch({ type: gameActions.LOAD_GAMES, value: games });
+      setTimeout(() => {
+        dispatch({ type: gameActions.LOAD_GAMES, value: games });
+        start({ opacity: 1, config: { duration: 500 } });
+      }, 500);
     };
     getGames();
-  }, [week]);
+  }, [start, week]);
   useEffect(() => {
     const getPicks = async () => {
       const { userPicks, gamePicks } = await loadPicks(userId, week, group.id);
-      dispatch({ type: gameActions.USER_PICKS_LOADED, value: userPicks });
-      dispatch({ type: gameActions.GAME_PICKS_LOADED, value: gamePicks });
+      setTimeout(() => {
+        dispatch({ type: gameActions.USER_PICKS_LOADED, value: userPicks });
+        dispatch({ type: gameActions.GAME_PICKS_LOADED, value: gamePicks });
+      }, 500);
     };
     const getScores = async () => {
       const s = await getWeekScore(userId, week);
@@ -90,11 +102,20 @@ const Picker = ({ user, history, setHeader }) => {
     setHeader(getHeaderValue);
   }, [week, state.count, setHeader, getHeaderValue]);
 
+  // useEffect(() => {
+  //   if (weekBox.current) {
+  //     weekBox.current.scrollLeft = ((week - 1) * window.innerWidth) / 5;
+  //   }
+  // }, [week]);
   const weekBox = useCallback(
     node => {
-      console.log(node, week);
       if (node) {
-        node.scrollLeft = ((week - 1) * window.innerWidth) / 5;
+        console.log('here');
+        animateScrollTo(((week - 1) * window.innerWidth) / 5, {
+          element: node,
+          horizontal: true,
+          speed: 1
+        });
       }
       // eslint-disable-next-line react-hooks/exhaustive-deps
     },
@@ -115,6 +136,7 @@ const Picker = ({ user, history, setHeader }) => {
   };
   const changeWeek = week => () => {
     setWeek(week);
+    start({ opacity: 0, config: { duration: 500 } });
   };
   const weekNumbers = new Array(17).fill('1');
   const [activated, setActivated] = useState(false);
@@ -144,8 +166,19 @@ const Picker = ({ user, history, setHeader }) => {
           {state.games.upcoming.length > 0 && (
             <GameSection>
               <div className="title">Upcoming</div>
+
+              {/* {trail.map(({ height, ...rest }, index) => (
+                <animated.div style={{ ...rest, height }} key={index}>
+                  <GameContainer
+                    game={state.games.upcoming[index]}
+                    save={save}
+                  />
+                </animated.div>
+              ))} */}
               {state.games.upcoming.map(game => (
-                <GameContainer game={game} save={save} key={game.id} />
+                <animated.div style={gameAnimationProps} key={game.id}>
+                  <GameContainer game={game} save={save} />
+                </animated.div>
               ))}
             </GameSection>
           )}

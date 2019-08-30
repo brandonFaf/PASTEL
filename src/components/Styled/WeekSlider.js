@@ -1,5 +1,5 @@
-import styled from'styled-components/macro';
-import { lightBlue, highlight, highlight_text } from "./colors";
+import styled from 'styled-components/macro';
+import { lightBlue, highlight, highlight_text } from './colors';
 const WeekSlider = styled.div`
   position: fixed;
   bottom: 0;
@@ -14,12 +14,7 @@ const WeekSlider = styled.div`
   background-color: ${lightBlue};
   align-items: center;
   z-index: 12;
-  scroll-snap-type: x mandatory;
   box-shadow: 0px -14px 16px 0px rgba(0, 0, 0, 0.7);
-
-  div {
-    scroll-snap-align: center;
-  }
   font-size: 20px;
 
   .active {
