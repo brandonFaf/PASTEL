@@ -52,27 +52,11 @@ export const gamesReducer = (state, action) => {
     case USER_PICKS_LOADED: {
       console.log('User picks Loaded');
       let games = allGames(state.games).map(g => {
-        const picks = action.value.filter(p => p.gameId === g.id);
-        if (picks.length === 0) {
-          return g;
+        const pick = action.value.find(p => p.gameId === g.id);
+        if (pick) {
+          g.selected = pick.selected;
         }
-        if (picks.length === 1) {
-          const pick = picks[0];
-          if (pick) {
-            g.selected = pick.selected;
-          } else {
-            g.selected = '';
-          }
-          return g;
-        } else {
-          debugger;
-          if (picks.every(p => p.selected === picks[0].selected)) {
-            g.selected = picks[0].selected;
-          } else {
-            g.selected = '';
-          }
-          return g;
-        }
+        return g;
       });
       games = sortGames(games);
       const count = action.value.length;

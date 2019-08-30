@@ -29,27 +29,25 @@ export const savePick = pick => {
   return picksRef.doc(`${pick.gameId}${pick.userId}${pick.groupId}`).set(pick);
 };
 export const loadPicks = (userId, week = 1, groupId) => {
-  let q = picksRef.where('week', '==', week);
-  if (groupId !== 'all') {
-    q = q.where('groupId', '==', groupId);
-  } else {
-    q = q.where('userId', '==', userId);
-  } //maybe only need user's picks here
-  return q.get().then(picks => {
-    return picks.docs.reduce(
-      (acc, pick) => {
-        const pickData = { ...pick.data(), id: pick.id };
-        if (pickData.userId === userId) {
-          acc.userPicks.push(pickData);
-        }
-        const gamePicks = acc.gamePicks[pickData.gameId] || [];
-        gamePicks.push(pickData);
-        acc.gamePicks[pickData.gameId] = gamePicks;
-        return acc;
-      },
-      { gamePicks: {}, userPicks: [] }
-    );
-  });
+  return picksRef
+    .where('week', '==', week)
+    .where('groupId', '==', groupId)
+    .get()
+    .then(picks => {
+      return picks.docs.reduce(
+        (acc, pick) => {
+          const pickData = { ...pick.data(), id: pick.id };
+          if (pickData.userId === userId) {
+            acc.userPicks.push(pickData);
+          }
+          const gamePicks = acc.gamePicks[pickData.gameId] || [];
+          gamePicks.push(pickData);
+          acc.gamePicks[pickData.gameId] = gamePicks;
+          return acc;
+        },
+        { gamePicks: {}, userPicks: [] }
+      );
+    });
 };
 export const getNumberOfPicks = (uid, week) => {
   return picksRef

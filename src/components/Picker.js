@@ -45,7 +45,6 @@ const Picker = ({ user, history, setHeader }) => {
     getGames();
   }, [week]);
   useEffect(() => {
-    console.log('load Picks');
     const getPicks = async () => {
       const { userPicks, gamePicks } = await loadPicks(userId, week, group.id);
       dispatch({ type: gameActions.USER_PICKS_LOADED, value: userPicks });
@@ -102,17 +101,15 @@ const Picker = ({ user, history, setHeader }) => {
     [week]
   );
   const save = (gameId, selected, week) => () => {
-    const groups = group.id === 'all' ? user.groups : [group.id];
-    for (const groupId of groups) {
-      savePick({
-        gameId,
-        selected,
-        userId,
-        displayName,
-        week,
-        groupId
-      });
-    }
+    savePick({
+      gameId,
+      selected,
+      userId,
+      displayName,
+      week,
+      groupId: group.id
+    });
+
     dispatch({ type: gameActions.SAVE_PICK, value: { gameId, selected } });
     console.log('save', selected);
   };
