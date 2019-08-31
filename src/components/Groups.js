@@ -59,14 +59,10 @@ const Groups = ({ user, showGroups, toggleGroups }) => {
               </GroupList>
               <GroupSliderButtons>
                 <Link to="/groups/join">
-                  <ActionButton onClick={toggleGroups}>
-                    Join a League
-                  </ActionButton>
+                  <ActionButton>Join a League</ActionButton>
                 </Link>
                 <Link to="/groups/create">
-                  <ActionButton onClick={toggleGroups}>
-                    Create a League
-                  </ActionButton>
+                  <ActionButton>Create a League</ActionButton>
                 </Link>
               </GroupSliderButtons>
             </GroupsSlider>

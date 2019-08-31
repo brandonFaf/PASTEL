@@ -1,5 +1,5 @@
 import styled from 'styled-components/macro';
-import { wrong, highlight } from './colors';
+import { wrong, highlight, background } from './colors';
 import { Header } from './Header';
 import { animated } from 'react-spring';
 
@@ -12,7 +12,7 @@ export const GroupsSlider = styled(animated.div)`
   display: grid;
   grid-template-columns: 1fr;
   grid-template-areas: 'header' 'guts' 'button';
-  grid-template-rows: 10vh 60vh 15vh;
+  grid-template-rows: 75px 60vh 15vh;
   justify-content: center;
   justify-items: center;
   align-items: center;
@@ -86,10 +86,12 @@ export const GroupFormError = styled.div`
 
 export const CreateGroupForm = styled.div`
   display: flex;
-  height: 70vh;
-  justify-content: space-between;
   align-items: center;
   flex-direction: column;
+  background-color: ${background};
+  height: 100vh;
+  width: 100vw;
+  z-index: 60;
   fieldset {
     border: none;
     width: 70vw;

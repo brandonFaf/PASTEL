@@ -1,13 +1,14 @@
-import React from "react";
-import ReactDOM from "react-dom";
-import "./index.css";
-import App from "./App";
-import * as serviceWorker from "./serviceWorker";
-import UserStore from "./contexts/UserContext";
-import styled from'styled-components/macro';
-import { background } from "./components/Styled/colors";
+import React from 'react';
+import ReactDOM from 'react-dom';
+import './index.css';
+import App from './App';
+import * as serviceWorker from './serviceWorker';
+import UserStore from './contexts/UserContext';
+import styled from 'styled-components/macro';
+import { background } from './components/Styled/colors';
+import { BrowserRouter as Router } from 'react-router-dom';
 const Body = styled.div`
-  font-family: "acumin-pro", sans-serif;
+  font-family: 'acumin-pro', sans-serif;
   background-color: ${background};
   color: #fff;
 `;
@@ -15,12 +16,14 @@ const Body = styled.div`
 const MainApp = () => (
   <Body>
     <UserStore>
-      <App />
+      <Router>
+        <App />
+      </Router>
     </UserStore>
   </Body>
 );
 
-ReactDOM.render(<MainApp />, document.getElementById("root"));
+ReactDOM.render(<MainApp />, document.getElementById('root'));
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.

@@ -7,6 +7,8 @@ import Toggle from 'react-toggle';
 import './ToggleCSS.css';
 import { CreateGroupForm, GroupFormError } from './Styled/Groups';
 import { UserContext } from '../contexts/UserContext';
+import { Sticky } from 'react-sticky';
+import StickyHeader from './StickyHeader';
 const CreateGroup = ({ user, history, setHeader }) => {
   const { values, handleChange } = useForm({ groupName: '' });
   const [
@@ -78,6 +80,15 @@ const CreateGroup = ({ user, history, setHeader }) => {
   };
   return (
     <>
+      <Sticky>
+        {({ style }) => (
+          <StickyHeader
+            style={{ ...style, opacity: 1 }}
+            headerText={'Create A League'}
+            close={() => history.goBack()}
+          />
+        )}
+      </Sticky>
       <CreateGroupForm onSubmit={submitForm}>
         <fieldset>
           <Input

@@ -1,5 +1,6 @@
 import styled from 'styled-components/macro';
 import Edit from '../../img/Edit.svg';
+import { background } from './colors';
 
 export const EditLabel = styled.label`
   background-image: url(${Edit});
@@ -19,6 +20,10 @@ export const ProfileForm = styled.form`
   grid-template-rows: 25vh 37vh 5vh;
   justify-content: center;
   justify-items: center;
+  background-color: ${background};
+  width: 100%;
+  height: 100%;
+  position: absolute;
   fieldset {
     border: none;
   }

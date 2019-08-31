@@ -1,5 +1,5 @@
 import React, { useEffect, useContext, useState } from 'react';
-import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
+import { Switch, __RouterContext, Route, Redirect } from 'react-router-dom';
 import Login from './components/Login';
 import Picker from './components/Picker';
 import Dashboard from './components/Dashboard';
@@ -14,11 +14,14 @@ import Groups from './components/Groups';
 import CreateGroup from './components/CreateGroup';
 import JoinGroupPage from './components/JoinGroupPage';
 import EditProfile from './components/EditProfile';
+import { animated, useTransition } from 'react-spring';
 const App = () => {
   const { user, setUser } = useContext(UserContext);
   const [loading, setLoading] = useState(true);
   const [showProfile, setShowProfile] = useState(false);
   const [showGroups, setShowGroups] = useState(false);
+  const { location } = useContext(__RouterContext);
+  console.log('location:', location);
   const toggleProfile = () => {
     setShowProfile(!showProfile);
     setShowGroups(false);
@@ -28,6 +31,11 @@ const App = () => {
     setShowProfile(false);
   };
   console.log('user', user);
+  const transitions = useTransition(location, location => location.pathname, {
+    from: { transform: 'translate3d(0,100vh,0)' },
+    enter: { transform: 'translate3d(0,0,0)' },
+    leave: { transform: 'translate3d(0,100vh,0)' }
+  });
 
   useEffect(() => {
     console.log('running');
@@ -60,73 +68,76 @@ const App = () => {
     <div>loading</div>
   ) : (
     <>
-      <Router>
-        <StickyContainer>
-          <Sticky>
-            {({ style }) => (
-              <StickyHeader
+      <StickyContainer>
+        {transitions.map(({ item, props, key }) => (
+          <animated.div
+            key={key}
+            style={{ position: 'absolute', zIndex: 60, ...props }}
+          >
+            <Switch location={item}>
+              <PrivateRoute
+                exact
+                path="/groups/create"
                 user={user}
-                style={style}
-                headerText={header}
-                toggleGroups={toggleGroups}
-                toggleProfile={toggleProfile}
+                component={CreateGroup}
+                setHeader={setHeader}
               />
-            )}
-          </Sticky>
-          <PrivateRoute
-            exact
-            path="/"
-            user={user}
-            component={Dashboard}
-            setHeader={setHeader}
-          />
-          <PrivateRoute
-            path="/pick"
-            user={user}
-            component={Picker}
-            setHeader={setHeader}
-          />
-          <PrivateRoute
-            exact
-            path="/profile"
-            user={user}
-            component={Profile}
-            setHeader={setHeader}
-          />
-          <PrivateRoute
-            exact
-            path="/groups/create"
-            user={user}
-            component={CreateGroup}
-            setHeader={setHeader}
-          />
-          <PrivateRoute
-            exact
-            path="/groups/join"
-            user={user}
-            component={JoinGroupPage}
-            setHeader={setHeader}
-          />
-          <PublicRoute
-            path="/login"
-            user={user}
-            component={Login}
-            setHeader={setHeader}
-          />
-          <EditProfile
-            showProfile={showProfile}
-            user={user}
-            setHeader={setHeader}
-            toggleProfile={toggleProfile}
-          />
+              <PrivateRoute
+                exact
+                path="/groups/join"
+                user={user}
+                component={JoinGroupPage}
+                setHeader={setHeader}
+              />
+            </Switch>
+          </animated.div>
+        ))}
+        <Sticky>
+          {({ style }) => (
+            <StickyHeader
+              user={user}
+              style={style}
+              headerText={header}
+              toggleGroups={toggleGroups}
+              toggleProfile={toggleProfile}
+            />
+          )}
+        </Sticky>
+        <PrivateRoute
+          path="/"
+          user={user}
+          component={Dashboard}
+          setHeader={setHeader}
+        />
+        <PrivateRoute
+          path="/pick"
+          user={user}
+          component={Picker}
+          setHeader={setHeader}
+        />
+        <PrivateRoute
+          exact
+          path="/profile"
+          user={user}
+          component={Profile}
+          setHeader={setHeader}
+        />
+        <PublicRoute
+          path="/login"
+          user={user}
+          component={Login}
+          setHeader={setHeader}
+        />
+      </StickyContainer>
 
-          <Groups
-            showGroups={showGroups}
-            user={user}
-            toggleGroups={toggleGroups}
-          />
-        </StickyContainer>
-      </Router>
+      <EditProfile
+        showProfile={showProfile}
+        user={user}
+        setHeader={setHeader}
+        toggleProfile={toggleProfile}
+      />
+
+      <Groups showGroups={showGroups} user={user} toggleGroups={toggleGroups} />
     </>
   );
 };

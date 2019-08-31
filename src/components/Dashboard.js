@@ -1,4 +1,5 @@
 import React, { useEffect, useContext, useState } from 'react';
+import styled from 'styled-components/macro';
 import { loadAllUsers } from '../data/firebaseUserAPI';
 import WeekStatus from './Styled/WeekStatus';
 import Leaderboard from './Leaderboard';
@@ -6,6 +7,7 @@ import MakePicks from './MakePicks';
 import getCurrentWeek from '../helpers/getCurrentWeek';
 import { UserContext } from '../contexts/UserContext';
 import NoGroupMessage from './NoGroupMessage';
+
 const Dashboard = ({ user, setHeader, history }) => {
   const [users, setUsers] = useState([]);
   const [week] = useState(getCurrentWeek());
@@ -50,23 +52,41 @@ const Dashboard = ({ user, setHeader, history }) => {
     return <NoGroupMessage />;
   }
   return (
-    <>
-      <WeekStatus>
-        <div className="week">Week {week}</div>
-        <div className="main">
-          You're in <strong>{getRank()}</strong> Place,
-          <br />
-          with{' '}
-          <strong>
-            {user.score || 0}
-            <sup>pts</sup>
-          </strong>
-        </div>
-      </WeekStatus>
-      <Leaderboard users={users} user={user} group={group} />
-      <MakePicks week={week} user={user} setHeader={setHeader} uid={user.id} />
-    </>
+    <D>
+      <DRel>
+        <WeekStatus>
+          <div className="week">Week {week}</div>
+          <div className="main">
+            You're in <strong>{getRank()}</strong> Place,
+            <br />
+            with{' '}
+            <strong>
+              {user.score || 0}
+              <sup>pts</sup>
+            </strong>
+          </div>
+        </WeekStatus>
+        <Leaderboard users={users} user={user} group={group} />
+        <MakePicks
+          week={week}
+          user={user}
+          setHeader={setHeader}
+          uid={user.id}
+        />
+      </DRel>
+    </D>
   );
 };
 
+const D = styled.div`
+  position: absolute;
+`;
+const DRel = styled.div`
+  position: relative;
+  width: 100vw;
+  margin-left: auto;
+  margin-right: auto;
+  left: 0;
+  right: 0;
+`;
 export default Dashboard;

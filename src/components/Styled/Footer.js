@@ -1,6 +1,6 @@
-import styled from'styled-components/macro';
-import { animated } from "react-spring";
-import { background } from "./colors";
+import styled from 'styled-components/macro';
+import { animated } from 'react-spring';
+import { background } from './colors';
 const Footer = styled(animated.div)`
   position: fixed;
   text-align: center;
