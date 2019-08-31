@@ -32,11 +32,11 @@ const App = () => {
   };
   console.log('user', user);
   const transitions = useTransition(location, location => location.pathname, {
-    from: { transform: 'translate3d(0,100vh,0)' },
+    from: { transform: 'translate3d(0,75vh,0)' },
     enter: { transform: 'translate3d(0,0,0)' },
-    leave: { transform: 'translate3d(0,100vh,0)' }
+    leave: { transform: 'translate3d(0,75vh,0)' },
+    config: { duration: 500 }
   });
-
   useEffect(() => {
     console.log('running');
     const setAuth = async u => {
@@ -58,7 +58,6 @@ const App = () => {
     const unregisterAuthObserver = firebase.auth().onAuthStateChanged(u => {
       setAuth(u);
     });
-
     return () => {
       unregisterAuthObserver();
     };
@@ -80,13 +79,17 @@ const App = () => {
                 path="/groups/create"
                 user={user}
                 component={CreateGroup}
-                setHeader={setHeader}
               />
               <PrivateRoute
                 exact
                 path="/groups/join"
                 user={user}
                 component={JoinGroupPage}
+              />
+              <PrivateRoute
+                path="/pick"
+                user={user}
+                component={Picker}
                 setHeader={setHeader}
               />
             </Switch>
@@ -103,18 +106,20 @@ const App = () => {
             />
           )}
         </Sticky>
-        <PrivateRoute
-          path="/"
-          user={user}
-          component={Dashboard}
-          setHeader={setHeader}
-        />
-        <PrivateRoute
-          path="/pick"
-          user={user}
-          component={Picker}
-          setHeader={setHeader}
-        />
+        <Switch>
+          <PublicRoute
+            path="/login"
+            user={user}
+            component={Login}
+            setHeader={setHeader}
+          />
+          <PrivateRoute
+            path="/"
+            user={user}
+            component={Dashboard}
+            setHeader={setHeader}
+          />
+        </Switch>
         <PrivateRoute
           exact
           path="/profile"
@@ -122,26 +127,17 @@ const App = () => {
           component={Profile}
           setHeader={setHeader}
         />
-        <PublicRoute
-          path="/login"
-          user={user}
-          component={Login}
-          setHeader={setHeader}
-        />
       </StickyContainer>
-
       <EditProfile
         showProfile={showProfile}
         user={user}
         setHeader={setHeader}
         toggleProfile={toggleProfile}
       />
-
       <Groups showGroups={showGroups} user={user} toggleGroups={toggleGroups} />
     </>
   );
 };
-
 export default App;
 const PrivateRoute = ({ component: Component, user, loading, ...rest }) => {
   return (

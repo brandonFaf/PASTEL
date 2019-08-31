@@ -1,4 +1,4 @@
-import styled from'styled-components/macro';
+import styled from 'styled-components/macro';
 import {
   background,
   highlight,
@@ -6,7 +6,7 @@ import {
   lightBlue,
   lightBlue_text,
   wrong
-} from "./colors";
+} from './colors';
 
 export const GameSection = styled.div`
   div.title {
@@ -53,6 +53,10 @@ export const PickPage = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  background-color: ${background};
+  width: 100vw;
+  z-index: 60;
+  margin-top: 75px;
 `;
 const Bar = styled.div`
   position: absolute;
@@ -70,9 +74,9 @@ const Bar = styled.div`
 `;
 export const BarVis = styled(Bar)`
   background: ${props =>
-    props.active ? (props.outcome === "WRONG" ? wrong : highlight) : lightBlue};
+    props.active ? (props.outcome === 'WRONG' ? wrong : highlight) : lightBlue};
   left: 0;
-  width: ${props => props.percent + "%"};
+  width: ${props => props.percent + '%'};
   .container {
     left: 0;
     color: ${props => (props.active ? highlight_text : lightBlue_text)};
@@ -85,9 +89,9 @@ export const MiddleButton = styled.div`
 `;
 export const BarHome = styled(Bar)`
   background: ${props =>
-    props.active ? (props.outcome === "WRONG" ? wrong : highlight) : lightBlue};
+    props.active ? (props.outcome === 'WRONG' ? wrong : highlight) : lightBlue};
   right: 0;
-  width: ${props => props.percent + "%"};
+  width: ${props => props.percent + '%'};
   .container {
     right: 0;
     color: ${props => (props.active ? highlight_text : lightBlue_text)};

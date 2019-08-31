@@ -3,6 +3,7 @@ import { animated } from 'react-spring';
 import { background } from './colors';
 const Footer = styled(animated.div)`
   position: fixed;
+  top: 75vh;
   text-align: center;
   background-color: ${background};
   z-index: 5;

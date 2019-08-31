@@ -18,7 +18,7 @@ import WeekSlider from './Styled/WeekSlider';
 import PickSkeleton from './PickSkeleton';
 import ActionButton from './Styled/ActionButton';
 import chevron from '../img/Chevron.png';
-import { animated, useSpring } from 'react-spring';
+import { animated, useSpring, useTransition } from 'react-spring';
 import getCurrentWeek from '../helpers/getCurrentWeek';
 import { getWeekScore } from '../data/firebaseUserAPI';
 import { UserContext } from '../contexts/UserContext';
@@ -27,7 +27,7 @@ import { HeaderGroupName } from './Styled/Header';
 
 const currentWeek = getCurrentWeek();
 const Picker = ({ user, history, setHeader }) => {
-  const [state, dispatch] = useReducer(gamesReducer, { games: [] });
+  const [state, dispatch] = useReducer(gamesReducer, { count: 0, games: {} });
   const [week, setWeek] = useState(getCurrentWeek());
   const { id: userId, displayName } = user;
   const [score, setScore] = useState();
@@ -128,58 +128,58 @@ const Picker = ({ user, history, setHeader }) => {
     start({ opacity: 0, config: { duration: 500 } });
   };
   const weekNumbers = new Array(17).fill('1');
-  const [activated, setActivated] = useState(false);
   const close = () => {
-    setActivated(true);
-    dispatch({ type: gameActions.CLEAR });
-    setTimeout(() => {
-      history.push('/');
-    }, 600);
+    setHeader(group.groupName);
+    start({ opacity: 0, config: { duration: 500 } });
+    history.push('/');
   };
-  const props = useSpring({
-    config: { duration: 500 },
-    from: { top: '5vh' },
-    to: { top: activated ? '75vh' : '5vh' }
+  const transitions = useTransition(allGames(state.games).length === 0, null, {
+    from: { opacity: 0 },
+    enter: { opacity: 1 },
+    leave: { opacity: 0 },
+    config: { duration: 500 }
   });
   return (
-    <animated.div
-      style={{ ...props, position: activated ? 'fixed' : 'static' }}
-    >
-      {allGames(state.games).length === 0 ? (
-        <PickSkeleton />
-      ) : (
-        <PickPage>
-          <ActionButton small onClick={close}>
-            <img src={chevron} className="down" alt="chevron" />
-          </ActionButton>
-          {state.games.upcoming.length > 0 && (
-            <GameSection>
-              <div className="title">Upcoming</div>
-              {state.games.upcoming.map(game => (
-                <animated.div style={gameAnimationProps} key={game.id}>
-                  <GameContainer game={game} save={save} />
-                </animated.div>
-              ))}
-            </GameSection>
-          )}
-          {state.games.inProgress.length > 0 && (
-            <GameSection>
-              <div className="title">In Progress</div>
-              {state.games.inProgress.map(game => (
-                <GameContainer game={game} save={save} key={game.id} />
-              ))}
-            </GameSection>
-          )}
-          {state.games.completed.length > 0 && (
-            <GameSection>
-              <div className="title">Completed</div>
-              {state.games.completed.map(game => (
-                <GameContainer game={game} save={save} key={game.id} />
-              ))}
-            </GameSection>
-          )}
-        </PickPage>
-      )}
+    <>
+      <PickPage>
+        <ActionButton small onClick={close}>
+          <img src={chevron} className="down" alt="chevron" />
+        </ActionButton>
+        {transitions.map(
+          ({ item, key, props }) =>
+            item && (
+              <animated.div key={key} style={props}>
+                <PickSkeleton />
+              </animated.div>
+            )
+        )}
+        {state.games.upcoming && state.games.upcoming.length > 0 && (
+          <GameSection>
+            <div className="title">Upcoming</div>
+            {state.games.upcoming.map(game => (
+              <animated.div style={gameAnimationProps} key={game.id}>
+                <GameContainer game={game} save={save} />
+              </animated.div>
+            ))}
+          </GameSection>
+        )}
+        {state.games.inProgress && state.games.inProgress.length > 0 && (
+          <GameSection>
+            <div className="title">In Progress</div>
+            {state.games.inProgress.map(game => (
+              <GameContainer game={game} save={save} key={game.id} />
+            ))}
+          </GameSection>
+        )}
+        {state.games.completed && state.games.completed.length > 0 && (
+          <GameSection>
+            <div className="title">Completed</div>
+            {state.games.completed.map(game => (
+              <GameContainer game={game} save={save} key={game.id} />
+            ))}
+          </GameSection>
+        )}
+      </PickPage>
       {allGames(state.games).length > 0 && (
         <WeekSlider ref={weekBox}>
           {weekNumbers.map((x, i) => {
@@ -194,7 +194,7 @@ const Picker = ({ user, history, setHeader }) => {
           })}
         </WeekSlider>
       )}
-    </animated.div>
+    </>
   );
 };
 

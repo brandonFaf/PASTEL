@@ -1,7 +1,7 @@
 import styled from 'styled-components/macro';
 import { lightBlue, highlight, highlight_text } from './colors';
 const WeekSlider = styled.div`
-  position: fixed;
+  position: sticky;
   bottom: 0;
   color: #fff;
   text-align: center;

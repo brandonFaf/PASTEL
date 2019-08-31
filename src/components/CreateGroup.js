@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import Input from './FloatingInput';
 import useForm from './hooks/useForm';
 import ActionButton from './Styled/ActionButton';
@@ -24,9 +24,7 @@ const CreateGroup = ({ user, history, setHeader }) => {
   const togglePrivate = () => {
     setMakePrivate(!makePrivate);
   };
-  useEffect(() => {
-    setHeader('Create A League');
-  }, [setHeader]);
+
   const submitForm = async e => {
     e.preventDefault();
     if (await validateForm()) {
