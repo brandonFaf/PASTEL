@@ -13,7 +13,7 @@ import Toggle from 'react-toggle';
 import './ToggleCSS.css';
 import { UserContext } from '../contexts/UserContext';
 
-const Profile = ({ user, history, toggle, setHeader }) => {
+const Profile = ({ user, history, toggle, setHeader, side }) => {
   const { values, handleChange } = useForm({
     ...user
   });
@@ -104,7 +104,7 @@ const Profile = ({ user, history, toggle, setHeader }) => {
 
   return (
     <>
-      <ProfileForm onSubmit={submitForm}>
+      <ProfileForm onSubmit={submitForm} side>
         {user && (
           <div style={{ justifySelf: 'center' }}>
             <ProfilePhoto

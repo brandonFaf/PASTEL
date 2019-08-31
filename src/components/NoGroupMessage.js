@@ -27,8 +27,12 @@ const NoGroupMessage = () => {
 const Container = styled.div`
   display: grid;
   justify-content: center;
+  grid-template-areas: '.' 'button';
+  text-align: center;
+  justify-items: center;
+  grid-template-rows: 60vh 15vh;
   align-items: center;
-  height: 80vh;
+  height: calc(100vh - 75px);
 `;
 
 export default NoGroupMessage;

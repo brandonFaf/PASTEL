@@ -10,7 +10,7 @@ export const SlidingPage = styled(animated.div)`
   display: grid;
   grid-template-columns: 1fr;
   grid-template-areas: 'header' 'guts' 'button';
-  grid-template-rows: 10vh 69vh 5vh;
+  grid-template-rows: 75px 60vh 15vh;
   justify-content: center;
   justify-items: center;
   background-color: rgba(22, 51, 89, 0.95);

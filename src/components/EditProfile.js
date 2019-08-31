@@ -38,7 +38,12 @@ const EditProfile = ({ showProfile, toggleProfile, user, setHeader }) => {
                 <div>Profile</div>
                 <span onClick={toggleProfile}>X</span>
               </SlidingHeader>
-              <Profile user={user} toggle={toggleProfile} logout={logout} />
+              <Profile
+                user={user}
+                toggle={toggleProfile}
+                logout={logout}
+                side
+              />
               <LogoutButton to={'/login'}>
                 <ActionButton onClick={logout}>Logout</ActionButton>
               </LogoutButton>
@@ -51,5 +56,7 @@ const EditProfile = ({ showProfile, toggleProfile, user, setHeader }) => {
 
 const LogoutButton = styled(Link)`
   grid-area: button;
+  margin-top: 15px;
+  align-self: center;
 `;
 export default EditProfile;

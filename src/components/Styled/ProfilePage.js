@@ -17,14 +17,16 @@ export const EditLabel = styled.label`
 export const ProfileForm = styled.form`
   display: grid;
   grid-area: guts;
-  grid-template-rows: 25vh 37vh 5vh;
+  grid-template-rows: 25vh 35vh 5vh;
+  align-items: center;
   justify-content: center;
   justify-items: center;
-  background-color: ${background};
+  background-color: ${props => (props.side ? 'transparent' : background)};
   width: 100%;
   height: 100%;
   position: absolute;
   fieldset {
     border: none;
+    align-self: baseline;
   }
 `;

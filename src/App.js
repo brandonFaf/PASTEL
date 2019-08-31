@@ -114,19 +114,19 @@ const App = () => {
             setHeader={setHeader}
           />
           <PrivateRoute
+            exact
+            path="/profile"
+            user={user}
+            component={Profile}
+            setHeader={setHeader}
+          />
+          <PrivateRoute
             path="/"
             user={user}
             component={Dashboard}
             setHeader={setHeader}
           />
         </Switch>
-        <PrivateRoute
-          exact
-          path="/profile"
-          user={user}
-          component={Profile}
-          setHeader={setHeader}
-        />
       </StickyContainer>
       <EditProfile
         showProfile={showProfile}
