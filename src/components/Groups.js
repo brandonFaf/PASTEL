@@ -42,7 +42,7 @@ const Groups = ({ user, showGroups, toggleGroups }) => {
             <GroupsSlider key={key} style={props}>
               <GroupsSlidingHeader>
                 <span onClick={toggleGroups}>X</span>
-                <div>Your Groups</div>
+                <div>Your Leagues</div>
               </GroupsSlidingHeader>
               <GroupList>
                 {groups
@@ -60,12 +60,12 @@ const Groups = ({ user, showGroups, toggleGroups }) => {
               <GroupSliderButtons>
                 <Link to="/groups/join">
                   <ActionButton onClick={toggleGroups}>
-                    Join a Group
+                    Join a League
                   </ActionButton>
                 </Link>
                 <Link to="/groups/create">
                   <ActionButton onClick={toggleGroups}>
-                    Create a Group
+                    Create a League
                   </ActionButton>
                 </Link>
               </GroupSliderButtons>

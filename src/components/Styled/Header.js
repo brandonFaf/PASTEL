@@ -1,5 +1,5 @@
 import styled from 'styled-components/macro';
-import { highlight } from './colors';
+import { background, highlight } from './colors';
 export const Header = styled.div`
   height: 75px;
   display: grid;
@@ -11,6 +11,10 @@ export const Header = styled.div`
   align-items: center;
   justify-items: center;
   text-transform: uppercase;
+  opacity: 0.75;
+  z-index: 12;
+  backdrop-filter: blur(5px);
+  background-color: ${background};
 
   .header-middle {
     text-align: center;

@@ -23,7 +23,7 @@ const CreateGroup = ({ user, history, setHeader }) => {
     setMakePrivate(!makePrivate);
   };
   useEffect(() => {
-    setHeader('Create A Group');
+    setHeader('Create A League');
   }, [setHeader]);
   const submitForm = async e => {
     e.preventDefault();
@@ -83,7 +83,7 @@ const CreateGroup = ({ user, history, setHeader }) => {
           <Input
             autocomplete="off"
             id="groupName"
-            label="Group Name"
+            label="League Name"
             name="groupName"
             onChange={handleChange}
             value={values.groupName}
@@ -125,7 +125,7 @@ const CreateGroup = ({ user, history, setHeader }) => {
           />
         </fieldset>
         <ActionButton onClick={submitForm} type="submit">
-          NEXT
+          CREATE
         </ActionButton>
       </CreateGroupForm>
     </>

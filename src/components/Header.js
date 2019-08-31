@@ -5,14 +5,16 @@ import hamburger from '../img/Hamburger.svg';
 const Header = ({ style, user, headerText, toggleProfile, toggleGroups }) => {
   return (
     <H style={{ ...style }}>
-      <img src={hamburger} alt={'hamburger'} onClick={toggleGroups} />
+      {user && <img src={hamburger} alt={'hamburger'} onClick={toggleGroups} />}
       <div className="header-text">{headerText}</div>
-      <ProfilePhoto
-        onClick={toggleProfile}
-        displayName={user.displayName}
-        src={user.photoURL}
-        size="small"
-      />
+      {user && (
+        <ProfilePhoto
+          onClick={toggleProfile}
+          displayName={user.displayName}
+          src={user.photoURL}
+          size="small"
+        />
+      )}
     </H>
   );
 };
