@@ -1,17 +1,17 @@
-import styled from "styled-components/macro";
-import { wrong, highlight } from "./colors";
-import Header from "./Header";
-import { animated } from "react-spring";
+import styled from 'styled-components/macro';
+import { wrong, highlight } from './colors';
+import { Header } from './Header';
+import { animated } from 'react-spring';
 
 export const GroupsSlider = styled(animated.div)`
   position: fixed;
   top: 0;
   z-index: 50;
-  width: 90vw;
+  width: 85vw;
   height: 100vh;
   display: grid;
   grid-template-columns: 1fr;
-  grid-template-areas: "header" "guts" "button";
+  grid-template-areas: 'header' 'guts' 'button';
   grid-template-rows: 10vh 60vh 15vh;
   justify-content: center;
   justify-items: center;
@@ -19,10 +19,8 @@ export const GroupsSlider = styled(animated.div)`
   background-color: rgba(22, 51, 89, 0.95);
 `;
 export const GroupsSlidingHeader = styled(Header)`
-  height: 5vh;
   position: absolute;
   top: 0;
-  width: 82vw;
   background-color: transparent;
 `;
 export const GroupSliderButtons = styled.div`
@@ -41,7 +39,7 @@ export const GroupList = styled.div`
 `;
 export const Group = styled.div`
   display: grid;
-  grid-template-areas: "active . name" "active photo name" "active photo details" "active . .";
+  grid-template-areas: 'active . name' 'active photo name' 'active photo details' 'active . .';
   grid-template-columns: 5% 10% 40%;
   grid-template-rows: 8px 20px 12px 10px;
   grid-row-gap: 0;

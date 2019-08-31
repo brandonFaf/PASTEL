@@ -11,9 +11,9 @@ import ActionButton from './Styled/ActionButton';
 
 const EditProfile = ({ showProfile, toggleProfile, user, setHeader }) => {
   const profileTransitions = useTransition(showProfile, null, {
-    from: { transform: 'translate3d(100vh,0,0)' },
-    enter: { transform: 'translate3d(10vh,0,0)' },
-    leave: { transform: 'translate3d(100vh,0,0)' }
+    from: { transform: 'translate3d(100vw,0,0)' },
+    enter: { transform: 'translate3d(15vw,0,0)' },
+    leave: { transform: 'translate3d(100vw,0,0)' }
   });
   const { setUser } = useContext(UserContext);
 
@@ -34,15 +34,11 @@ const EditProfile = ({ showProfile, toggleProfile, user, setHeader }) => {
           item && (
             <SlidingPage key={key} style={props}>
               <SlidingHeader>
+                <div />
                 <div>Profile</div>
                 <span onClick={toggleProfile}>X</span>
               </SlidingHeader>
-              <Profile
-                user={user}
-                toggle={toggleProfile}
-                setHeader={setHeader}
-                logout={logout}
-              />
+              <Profile user={user} toggle={toggleProfile} logout={logout} />
               <LogoutButton to={'/login'}>
                 <ActionButton onClick={logout}>Logout</ActionButton>
               </LogoutButton>

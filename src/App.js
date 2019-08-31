@@ -1,10 +1,5 @@
 import React, { useEffect, useContext, useState } from 'react';
-import {
-  BrowserRouter as Router,
-  Route,
-  Link,
-  Redirect
-} from 'react-router-dom';
+import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
 import Login from './components/Login';
 import Picker from './components/Picker';
 import Dashboard from './components/Dashboard';
@@ -14,12 +9,10 @@ import firebase from 'firebase/app';
 import 'firebase/auth';
 import { UserContext } from './contexts/UserContext';
 import { StickyContainer, Sticky } from 'react-sticky';
-import Header from './components/Styled/Header';
-import ProfilePhoto from './components/Styled/ProfilePhoto';
+import StickyHeader from './components/StickyHeader';
 import Groups from './components/Groups';
 import CreateGroup from './components/CreateGroup';
 import JoinGroupPage from './components/JoinGroupPage';
-import homeIcon from './img/home.png';
 import EditProfile from './components/EditProfile';
 const App = () => {
   const { user, setUser } = useContext(UserContext);
@@ -28,9 +21,11 @@ const App = () => {
   const [showGroups, setShowGroups] = useState(false);
   const toggleProfile = () => {
     setShowProfile(!showProfile);
+    setShowGroups(false);
   };
   const toggleGroups = () => {
     setShowGroups(!showGroups);
+    setShowProfile(false);
   };
   console.log('user', user);
 
@@ -61,28 +56,6 @@ const App = () => {
     };
   }, [setUser]);
   const [header, setHeader] = useState('');
-
-  const getAction = () => {
-    if (window.location.pathname.includes('group')) {
-      return (
-        <div className="menu">
-          <Link to="/">
-            <img
-              style={{ width: '25px', height: '25px' }}
-              alt="home"
-              src={homeIcon}
-            />
-          </Link>
-        </div>
-      );
-    } else {
-      return (
-        <div className="menu" onClick={toggleGroups}>
-          &#9776;
-        </div>
-      );
-    }
-  };
   return loading ? (
     <div>loading</div>
   ) : (
@@ -91,18 +64,13 @@ const App = () => {
         <StickyContainer>
           <Sticky>
             {({ style }) => (
-              <Header style={{ ...style, height: '5vh' }}>
-                {header && user && getAction()}
-                <div className="header-text">{header}</div>
-                {header && user && (
-                  <ProfilePhoto
-                    onClick={toggleProfile}
-                    displayName={user.displayName}
-                    src={user.photoURL}
-                    size="small"
-                  />
-                )}
-              </Header>
+              <StickyHeader
+                user={user}
+                style={style}
+                headerText={header}
+                toggleGroups={toggleGroups}
+                toggleProfile={toggleProfile}
+              />
             )}
           </Sticky>
           <PrivateRoute

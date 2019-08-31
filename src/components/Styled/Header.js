@@ -1,40 +1,22 @@
 import styled from 'styled-components/macro';
-import { background, highlight } from './colors';
-const Header = styled.div`
-  padding: 16px 0;
-  background-color: ${background};
-  opacity: 0.85;
-  z-index: 12;
-  backdrop-filter: blur(5px);
-  align-items: center;
+import { highlight } from './colors';
+export const Header = styled.div`
+  height: 75px;
   display: grid;
-  grid-template-columns: 15% 70% 15%;
-  font-size: 12px;
-  line-height: 14px;
-  text-align: center;
-  letter-spacing: 0.2em;
+  font-weight: bold;
+  font-size: 15px;
+  width: 100%;
+  grid-template-columns: 70px 1fr 70px;
+  justify-content: center;
+  align-items: center;
+  justify-items: center;
   text-transform: uppercase;
-  div.header-text {
-    /* display: grid;
-    grid-template-columns: 1fr 1fr 1fr; */
-  }
-  div.menu {
-    font-size: 15px;
-    color: #fff;
-  }
-  span {
-    font-size: 12px;
-    font-weight: bold;
-  }
-  .highlight {
-    color: ${highlight};
+
+  .header-middle {
+    text-align: center;
   }
 `;
 export const HeaderGroupName = styled.div`
-  font-size: 8px;
+  font-size: 14px;
   color: ${highlight};
-  strong: {
-    font-size: 10px;
-  }
 `;
-export default Header;

@@ -1,10 +1,11 @@
-import styled from "styled-components/macro";
-import Edit from "../../img/Edit.svg";
+import styled from 'styled-components/macro';
+import Edit from '../../img/Edit.svg';
 
 export const EditLabel = styled.label`
   background-image: url(${Edit});
-  height: 25px;
-  width: 25px;
+  height: 20px;
+  width: 20px;
+  margin-left: -20px;
   float: right;
   background-repeat: no-repeat;
   background-size: contain;

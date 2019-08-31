@@ -27,7 +27,9 @@ const Profile = ({ user, history, toggle, setHeader }) => {
     phoneNumberValid: true,
     displayNameUnique: true
   });
-  setHeader('Profile Details');
+  if (setHeader) {
+    setHeader('Profile Details');
+  }
   const submitForm = async e => {
     e.preventDefault();
 

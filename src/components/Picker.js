@@ -74,30 +74,24 @@ const Picker = ({ user, history, setHeader }) => {
   const getHeaderValue = useCallback(() => {
     return (
       <>
-        {score && (
-          <span className="highlight">
-            {score}
-            <sup>pts</sup>
-          </span>
-        )}
-        <div>
-          <div>
-            {week < getCurrentWeek()
-              ? ` Week ${week} Picks `
-              : ` Make Your Picks `}
-          </div>
+        <div className="header-middle">
           <HeaderGroupName>
-            Picking for: <strong>{group.groupName}</strong>
+            <strong>{group.groupName}</strong>
           </HeaderGroupName>
+          <div>
+            {week < getCurrentWeek() ? (
+              <>
+                <span>{`Week ${week} Picks `}</span>
+                <span>{`${score} PTS`}</span>
+              </>
+            ) : (
+              `Make Your Picks ${state.count} / ${totalGames}`
+            )}
+          </div>
         </div>
-        {state.count > 0 && (
-          <span>
-            <sup>{state.count}</sup>&frasl;<sub>{totalGames}</sub>
-          </span>
-        )}
       </>
     );
-  }, [score, week, group.groupName, state.count, totalGames]);
+  }, [group.groupName, week, score, state.count, totalGames]);
 
   useEffect(() => {
     setHeader(getHeaderValue);
