@@ -6,7 +6,7 @@ import { animated } from 'react-spring';
 export const GroupsSlider = styled(animated.div)`
   position: fixed;
   top: 0;
-  z-index: 50;
+  z-index: 70;
   width: 85vw;
   height: 100vh;
   display: grid;
@@ -16,6 +16,7 @@ export const GroupsSlider = styled(animated.div)`
   justify-content: center;
   justify-items: center;
   align-items: center;
+  overflow: hidden;
   background-color: rgba(22, 51, 89, 0.95);
 `;
 export const GroupsSlidingHeader = styled(Header)`
@@ -40,7 +41,7 @@ export const GroupList = styled.div`
 export const Group = styled.div`
   display: grid;
   grid-template-areas: 'active . name' 'active photo name' 'active photo details' 'active . .';
-  grid-template-columns: 5% 10% 40%;
+  grid-template-columns: 10% 10% 1fr;
   grid-template-rows: 8px 20px 12px 10px;
   grid-row-gap: 0;
   grid-column-gap: 10px;
@@ -70,10 +71,34 @@ export const GroupName = styled.div`
     text-overflow: ellipsis;
   }
 `;
+export const LeaveButton = styled.div`
+  background-color: ${wrong};
+  width: 100px;
+  height: 50px;
+  display: grid;
+  justify-content: center;
+  align-items: center;
+  font-size: 11px;
+  color: #fff;
+`;
+export const LeaveGroupButton = styled.div`
+  width: 20px;
+  height: 20px;
+  background-color: #e36655;
+  color: #fff;
+  font-size: 20px;
+  border-radius: 90px;
+  justify-self: end;
+  align-self: center;
+  grid-row: 2/4;
+  text-align: center;
+  line-height: 16px;
+  font-weight: bold;
+`;
 export const GroupActive = styled.div`
   background-color: ${highlight};
   height: 100%;
-  width: 50%;
+  width: 25%;
   border-radius: 0px 10px 10px 0px;
   grid-row: 1/-1;
 `;

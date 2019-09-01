@@ -15,21 +15,26 @@ import CreateGroup from './components/CreateGroup';
 import JoinGroupPage from './components/JoinGroupPage';
 import EditProfile from './components/EditProfile';
 import { animated, useTransition } from 'react-spring';
+import useClickOutsideToggle from './components/hooks/useClickOutsideToggle';
+
 const App = () => {
   const { user, setUser } = useContext(UserContext);
   const [loading, setLoading] = useState(true);
-  const [showProfile, setShowProfile] = useState(false);
-  const [showGroups, setShowGroups] = useState(false);
+  // const [showProfile, setShowProfile] = useState(false);
+  // const [showGroups, setShowGroups] = useState(false);
+  const [showProfile, toggleProfile, profileRef] = useClickOutsideToggle();
+  const [showGroups, toggleGroups, groupsRef] = useClickOutsideToggle();
+
   const { location } = useContext(__RouterContext);
   console.log('location:', location);
-  const toggleProfile = () => {
-    setShowProfile(!showProfile);
-    setShowGroups(false);
-  };
-  const toggleGroups = () => {
-    setShowGroups(!showGroups);
-    setShowProfile(false);
-  };
+  // const toggleProfile = () => {
+  //   setShowProfile(!showProfile);
+  //   setShowGroups(false);
+  // };
+  // const toggleGroups = () => {
+  //   setShowGroups(!showGroups);
+  //   setShowProfile(false);
+  // };
   console.log('user', user);
   const transitions = useTransition(location, location => location.pathname, {
     from: { transform: 'translate3d(0,75vh,0)' },
@@ -71,7 +76,7 @@ const App = () => {
         {transitions.map(({ item, props, key }) => (
           <animated.div
             key={key}
-            style={{ position: 'absolute', zIndex: 60, ...props }}
+            style={{ position: 'absolute', zIndex: 80, ...props }}
           >
             <Switch location={item}>
               <PrivateRoute
@@ -85,12 +90,6 @@ const App = () => {
                 path="/groups/join"
                 user={user}
                 component={JoinGroupPage}
-              />
-              <PrivateRoute
-                path="/pick"
-                user={user}
-                component={Picker}
-                setHeader={setHeader}
               />
             </Switch>
           </animated.div>
@@ -106,6 +105,21 @@ const App = () => {
             />
           )}
         </Sticky>
+        {transitions.map(({ item, props, key }) => (
+          <animated.div
+            key={key}
+            style={{ position: 'absolute', zIndex: 60, ...props }}
+          >
+            <Switch location={item}>
+              <PrivateRoute
+                path="/pick"
+                user={user}
+                component={Picker}
+                setHeader={setHeader}
+              />
+            </Switch>
+          </animated.div>
+        ))}
         <Switch>
           <PublicRoute
             path="/login"
@@ -133,8 +147,14 @@ const App = () => {
         user={user}
         setHeader={setHeader}
         toggleProfile={toggleProfile}
+        profileRef={profileRef}
       />
-      <Groups showGroups={showGroups} user={user} toggleGroups={toggleGroups} />
+      <Groups
+        showGroups={showGroups}
+        groupsRef={groupsRef}
+        user={user}
+        toggleGroups={toggleGroups}
+      />
     </>
   );
 };

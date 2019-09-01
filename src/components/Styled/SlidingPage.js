@@ -4,7 +4,7 @@ import { Header } from './Header';
 export const SlidingPage = styled(animated.div)`
   position: fixed;
   top: 0;
-  z-index: 50;
+  z-index: 60;
   width: 85vw;
   height: 100vh;
   display: grid;

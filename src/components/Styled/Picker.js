@@ -56,7 +56,6 @@ export const PickPage = styled.div`
   background-color: ${background};
   width: 100vw;
   z-index: 60;
-  margin-top: 75px;
 `;
 const Bar = styled.div`
   position: absolute;

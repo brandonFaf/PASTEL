@@ -19,11 +19,9 @@ const Dashboard = ({ user, setHeader, history }) => {
       us.sort((a, b) => b.score - a.score);
       setUsers(us);
     };
-    console.log('group:', group);
     if (!user.hasVisited) {
       history.push('/profile');
     }
-
     if (group) {
       getAllUsers();
       setNoGroupMessage(false);

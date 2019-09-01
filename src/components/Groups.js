@@ -10,14 +10,17 @@ import {
   GroupSliderButtons
 } from './Styled/Groups';
 import Group from './Group';
+import closeX from '../img/close.svg';
 import { UserContext } from '../contexts/UserContext';
-const Groups = ({ user, showGroups, toggleGroups }) => {
+import useToggleState from './hooks/useToggleState';
+const Groups = ({ user, showGroups, toggleGroups, groupsRef }) => {
   const groupTransitions = useTransition(showGroups, null, {
     from: { transform: 'translate3d(-90vh,0,0)' },
     enter: { transform: 'translate3d(0vh,0,0)' },
     leave: { transform: 'translate3d(-90vh,0,0)' }
   });
   const [groups, setGroups] = useState([]);
+  const [isEdit, , toggleEditMode] = useToggleState(false);
   const { group, setGroup } = useContext(UserContext);
   useEffect(() => {
     const getGroups = async () => {
@@ -39,10 +42,15 @@ const Groups = ({ user, showGroups, toggleGroups }) => {
       {groupTransitions.map(
         ({ item, key, props }) =>
           item && (
-            <GroupsSlider key={key} style={props}>
+            <GroupsSlider ref={groupsRef} key={key} style={props}>
               <GroupsSlidingHeader>
-                <span onClick={toggleGroups}>X</span>
+                {!isEdit ? (
+                  <img src={closeX} alt="close" onClick={toggleGroups} />
+                ) : (
+                  <div />
+                )}
                 <div>Your Leagues</div>
+                <span onClick={toggleEditMode}>{isEdit ? 'Done' : 'Edit'}</span>
               </GroupsSlidingHeader>
               <GroupList>
                 {groups
@@ -54,6 +62,7 @@ const Groups = ({ user, showGroups, toggleGroups }) => {
                       group={g}
                       key={g.id}
                       toggleGroups={toggleGroups}
+                      isEdit={isEdit}
                     />
                   ))}
               </GroupList>

@@ -9,7 +9,13 @@ import 'firebase/auth';
 import { Link } from 'react-router-dom';
 import ActionButton from './Styled/ActionButton';
 
-const EditProfile = ({ showProfile, toggleProfile, user, setHeader }) => {
+const EditProfile = ({
+  showProfile,
+  toggleProfile,
+  user,
+  setHeader,
+  profileRef
+}) => {
   const profileTransitions = useTransition(showProfile, null, {
     from: { transform: 'translate3d(100vw,0,0)' },
     enter: { transform: 'translate3d(15vw,0,0)' },
@@ -32,7 +38,7 @@ const EditProfile = ({ showProfile, toggleProfile, user, setHeader }) => {
       {profileTransitions.map(
         ({ item, key, props }) =>
           item && (
-            <SlidingPage key={key} style={props}>
+            <SlidingPage ref={profileRef} key={key} style={props}>
               <SlidingHeader>
                 <div />
                 <div>Profile</div>
