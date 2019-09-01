@@ -21,21 +21,10 @@ import Loading from './components/Loading';
 const App = () => {
   const { user, setUser } = useContext(UserContext);
   const [loading, setLoading] = useState(true);
-  // const [showProfile, setShowProfile] = useState(false);
-  // const [showGroups, setShowGroups] = useState(false);
   const [showProfile, toggleProfile, profileRef] = useClickOutsideToggle();
   const [showGroups, toggleGroups, groupsRef] = useClickOutsideToggle();
 
   const { location } = useContext(__RouterContext);
-  console.log('location:', location);
-  // const toggleProfile = () => {
-  //   setShowProfile(!showProfile);
-  //   setShowGroups(false);
-  // };
-  // const toggleGroups = () => {
-  //   setShowGroups(!showGroups);
-  //   setShowProfile(false);
-  // };
   console.log('user', user);
   const transitions = useTransition(location, location => location.pathname, {
     from: { transform: 'translate3d(0,75vh,0)' },
@@ -48,12 +37,9 @@ const App = () => {
     const setAuth = async u => {
       console.log('u', u);
       if (!u) {
-        // await setUser("bipCNSeypqQh9rfPzx79n4Zw8v03");
         setLoading(false);
         return;
       }
-      ///need to call get user here:
-      //only time update user is when the user is new signing up, which i stil lneed ot firue that out cuase this aint working
       const { displayName, photoURL, uid, email } = u;
       if (u.metadata.creationTime === u.metadata.lastSignInTime) {
         updateUser(uid, { displayName, photoURL, email });

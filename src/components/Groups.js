@@ -18,11 +18,15 @@ const Groups = ({ user, showGroups, toggleGroups, groupsRef }) => {
   const groupTransitions = useTransition(showGroups, null, {
     from: { transform: 'translate3d(-90vh,0,0)' },
     enter: { transform: 'translate3d(0vh,0,0)' },
-    leave: { transform: 'translate3d(-90vh,0,0)' }
+    leave: () => async next => {
+      await next({ transform: 'translate3d(-90vh,0,0)' });
+      setEditMode(false);
+      setEditGroup();
+    }
   });
   const [groups, setGroups] = useState([]);
   const [editGroup, setEditGroup] = useState();
-  const [isEdit, , toggleEditMode] = useToggleState(false);
+  const [isEdit, setEditMode, toggleEditMode] = useToggleState(false);
   const { group, setGroup } = useContext(UserContext);
   useEffect(() => {
     const getGroups = async () => {

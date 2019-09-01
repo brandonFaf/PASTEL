@@ -43,7 +43,7 @@ const Member = ({ member, leaveGroup, userId }) => {
           <div>22Pts</div>
         </GroupDetail>
       </Group>
-      <LeaveButton onClick={() => leaveGroup(member.id)}>Leave</LeaveButton>
+      <LeaveButton onClick={() => leaveGroup(member.id)}>Remove</LeaveButton>
     </animated.div>
   );
 };

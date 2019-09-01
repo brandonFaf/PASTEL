@@ -7,7 +7,7 @@ const useClickOutsideToggle = () => {
   useEffect(() => {
     const handleClickOutside = e => {
       console.log('clicking anywhere');
-      if (ref.current.contains(e.target)) {
+      if (ref.current && ref.current.contains(e.target)) {
         // inside click
         return;
       }
