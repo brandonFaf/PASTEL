@@ -16,6 +16,7 @@ import JoinGroupPage from './components/JoinGroupPage';
 import EditProfile from './components/EditProfile';
 import { animated, useTransition } from 'react-spring';
 import useClickOutsideToggle from './components/hooks/useClickOutsideToggle';
+import Loading from './components/Loading';
 
 const App = () => {
   const { user, setUser } = useContext(UserContext);
@@ -69,7 +70,7 @@ const App = () => {
   }, [setUser]);
   const [header, setHeader] = useState('');
   return loading ? (
-    <div>loading</div>
+    <Loading />
   ) : (
     <>
       <StickyContainer>

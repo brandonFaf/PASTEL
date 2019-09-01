@@ -1,5 +1,5 @@
-import styled from'styled-components/macro';
-import LogoImage from "../../img/Placeholder Logo.png";
+import styled from 'styled-components/macro';
+import LogoImage from '../../img/Placeholder Logo.png';
 const Logo = styled.div`
   height: 100px;
   background-repeat: no-repeat;

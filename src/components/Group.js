@@ -56,7 +56,7 @@ const Group = ({
         gridTemplateColumns: '100%'
       }}
     >
-      <G onClick={selectGroup}>
+      <G>
         {isEdit ? (
           showDeleteButton()
         ) : currentGroup.id === group.id ? (
@@ -64,13 +64,13 @@ const Group = ({
         ) : (
           <div />
         )}
-        <GroupPhoto>
+        <GroupPhoto onClick={selectGroup}>
           <ProfilePhoto displayName={group.groupName} />
         </GroupPhoto>
-        <GroupName>
+        <GroupName onClick={selectGroup}>
           <div>{group.groupName}</div>
         </GroupName>
-        <GroupDetail>
+        <GroupDetail onClick={selectGroup}>
           <div>{rank + getOrdinal(rank)}</div>
           <div>22Pts</div>
           <div>{group.members.length}</div>
