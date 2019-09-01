@@ -44,8 +44,8 @@ export const GroupList = styled.div`
 `;
 export const Group = styled.div`
   display: grid;
-  grid-template-areas: 'active . name' 'active photo name' 'active photo details' 'active . .';
-  grid-template-columns: 10% 40px 1fr;
+  grid-template-areas: 'active photo name' 'active photo name' 'active photo details' 'active photo .';
+  grid-template-columns: 10% 45px 1fr;
   grid-template-rows: 8px 20px 12px 10px;
   grid-row-gap: 0;
   grid-column-gap: 20px;

@@ -28,7 +28,7 @@ const Member = ({ member, leaveGroup, userId }) => {
       }}
     >
       <Group>
-        {userId !== member.id && (
+        {leaveGroup && userId !== member.id && (
           <LeaveGroupButton onClick={toggleDeleting}>-</LeaveGroupButton>
         )}
         <GroupPhoto>

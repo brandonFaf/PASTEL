@@ -9,11 +9,16 @@ export default class UserStore extends React.Component {
     this.state = {
       user: undefined,
       group: undefined,
+      allGroups: [],
       setUser: this.setUser,
       setPhotoURL: this.setPhotoURL,
-      setGroup: this.setGroup
+      setGroup: this.setGroup,
+      setAllGroups: this.setAllGroups
     };
   }
+  setAllGroups = allGroups => {
+    this.setState({ allGroups });
+  };
   setGroup = group => {
     this.setState({ group });
   };

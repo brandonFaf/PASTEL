@@ -22,11 +22,13 @@ const Group = ({
 }) => {
   //make the array of groups in user a map and store score and place there.
   const { setGroup, group: currentGroup } = useContext(UserContext);
-
   const [isDeleting, toggleDeleting, ref] = useClickOutsideToggle();
+  const isAdmin = group.admin === userId;
   const selectGroup = () => {
     if (isEdit) {
-      toggleEditGroup(group);
+      if (isAdmin) {
+        toggleEditGroup(group);
+      }
     } else {
       setGroup(group);
       toggleGroups();
@@ -41,9 +43,7 @@ const Group = ({
     transform: isEdit && isDeleting ? 'translateX(-100px)' : 'translateX(0px)'
   });
   const showDeleteButton = () =>
-    group.admin !== userId && (
-      <LeaveGroupButton onClick={toggleDeleting}>-</LeaveGroupButton>
-    );
+    !isAdmin && <LeaveGroupButton onClick={toggleDeleting}>-</LeaveGroupButton>;
 
   const rank = group.ranks ? group.ranks[userId] + 1 : 1;
   return (
@@ -73,7 +73,7 @@ const Group = ({
         <GroupDetail onClick={selectGroup}>
           <div>{rank + getOrdinal(rank)}</div>
           <div>22Pts</div>
-          <div>{group.members.length}</div>
+          <div>{group.members.length} Players</div>
         </GroupDetail>
       </G>
       <LeaveButton onClick={() => leaveGroup(group.id)}>Leave</LeaveButton>

@@ -24,23 +24,24 @@ const Groups = ({ user, showGroups, toggleGroups, groupsRef }) => {
       setEditGroup();
     }
   });
-  const [groups, setGroups] = useState([]);
   const [editGroup, setEditGroup] = useState();
   const [isEdit, setEditMode, toggleEditMode] = useToggleState(false);
-  const { group, setGroup } = useContext(UserContext);
+  const { group, setGroup, allGroups, setAllGroups } = useContext(UserContext);
+  const [members, setMembers] = useState([]);
+
   useEffect(() => {
     const getGroups = async () => {
       const groups = await getGroupsForUser(user.id);
-      setGroups(groups);
+      setAllGroups(groups);
     };
     if (user) {
       getGroups();
     }
-  }, [user, group]);
+  }, [user, group, setAllGroups]);
   const leaveGroup = async groupId => {
     await removeFromGroup(user.id, groupId);
-    const newGroups = groups.filter(g => g.id !== groupId);
-    setGroups(newGroups);
+    const newGroups = allGroups.filter(g => g.id !== groupId);
+    setAllGroups(newGroups);
     setGroup(newGroups[0]);
   };
   const clearEdit = () => {
@@ -70,12 +71,25 @@ const Groups = ({ user, showGroups, toggleGroups, groupsRef }) => {
               </GroupsSlidingHeader>
               {editGroup ? (
                 <>
-                  <ManageGroupMembers groupId={editGroup.id} />
+                  <ManageGroupMembers
+                    members={members}
+                    setMembers={setMembers}
+                    groupId={editGroup.id}
+                  />
                   <GroupSliderButtons>
-                    <Link>
-                      <ActionButton>INVITE A PLAYER</ActionButton>
+                    <Link to="/groups/join">
+                      <ActionButton>Join a League</ActionButton>
                     </Link>
-                    <Link>
+                    <Link
+                      to={{
+                        pathname: `/groups/delete`,
+                        state: {
+                          groupName: editGroup.groupName,
+                          members,
+                          groupId: editGroup.id
+                        }
+                      }}
+                    >
                       <ActionButton hallow>DELETE THIS LEAGUE</ActionButton>
                     </Link>
                   </GroupSliderButtons>
@@ -83,7 +97,7 @@ const Groups = ({ user, showGroups, toggleGroups, groupsRef }) => {
               ) : (
                 <>
                   <GroupList>
-                    {groups
+                    {allGroups
                       .sort((a, b) => (a < b ? -1 : 1))
                       .map(g => (
                         <Group

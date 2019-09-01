@@ -4,14 +4,14 @@ import { highlight } from './colors';
 const PhotoImg = styled.img`
   border-radius: 90px;
   justify-self: center;
-  height: ${props => (props.size === 'large' ? '150px' : '40px')};
-  width: ${props => (props.size === 'large' ? '150px' : '40px')};
+  height: ${props => (props.size === 'large' ? '150px' : '45px')};
+  width: ${props => (props.size === 'large' ? '150px' : '45px')};
 `;
 const PhotoDiv = styled.div`
   border-radius: 90px;
   justify-self: center;
-  height: ${props => (props.size === 'large' ? '150px' : '40px')};
-  width: ${props => (props.size === 'large' ? '150px' : '40px')};
+  height: ${props => (props.size === 'large' ? '150px' : '45px')};
+  width: ${props => (props.size === 'large' ? '150px' : '45px')};
   background-color: #265087;
   color: ${highlight};
   font-size: ${props => (props.size === 'large' ? '50px' : '20px')};

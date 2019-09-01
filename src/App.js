@@ -14,6 +14,7 @@ import Groups from './components/Groups';
 import CreateGroup from './components/CreateGroup';
 import JoinGroupPage from './components/JoinGroupPage';
 import EditProfile from './components/EditProfile';
+import DeleteGroup from './components/DeleteGroup';
 import { animated, useTransition } from 'react-spring';
 import useClickOutsideToggle from './components/hooks/useClickOutsideToggle';
 import Loading from './components/Loading';
@@ -77,6 +78,13 @@ const App = () => {
                 path="/groups/join"
                 user={user}
                 component={JoinGroupPage}
+              />
+              <PrivateRoute
+                exact
+                path="/groups/delete"
+                user={user}
+                toggleGroups={toggleGroups}
+                component={DeleteGroup}
               />
             </Switch>
           </animated.div>

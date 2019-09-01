@@ -1,13 +1,14 @@
 import styled from 'styled-components/macro';
-import { highlight, highlight_text } from './colors';
+import { highlight, highlight_text, wrong } from './colors';
 const ActionButton = styled.button`
   width: ${props => (props.small ? '10vw' : '47vw')};
   display: flex;
   justify-content: space-around;
   justify-self: center;
   align-items: center;
-  background-color: ${props => (props.hallow ? 'transparent' : highlight)};
-  color: ${props => (props.hallow ? '#DBDBDB' : highlight_text)};
+  background-color: ${props =>
+    props.hallow ? 'transparent' : props.red ? wrong : highlight};
+  color: ${props => (props.hallow || props.red ? '#DBDBDB' : highlight_text)};
   border-radius: ${props => (props.small ? '0 0 45px 45px' : '45px')};
   padding: 8px;
   z-index: 10;
