@@ -6,12 +6,12 @@ const ActionButton = styled.button`
   justify-content: space-around;
   justify-self: center;
   align-items: center;
-  background-color: ${highlight};
-  color: ${highlight_text};
+  background-color: ${props => (props.hallow ? 'transparent' : highlight)};
+  color: ${props => (props.hallow ? '#DBDBDB' : highlight_text)};
   border-radius: ${props => (props.small ? '0 0 45px 45px' : '45px')};
   padding: 8px;
   z-index: 10;
-  border: none;
+  border: ${props => (props.hallow ? '1px solid #DBDBDB' : 'none')};
   font-size: 11px;
   a {
     text-decoration: none;

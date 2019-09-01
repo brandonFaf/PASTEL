@@ -23,6 +23,10 @@ export const GroupsSlidingHeader = styled(Header)`
   position: absolute;
   top: 0;
   background-color: transparent;
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `;
 export const GroupSliderButtons = styled.div`
   grid-area: button;
@@ -41,10 +45,10 @@ export const GroupList = styled.div`
 export const Group = styled.div`
   display: grid;
   grid-template-areas: 'active . name' 'active photo name' 'active photo details' 'active . .';
-  grid-template-columns: 10% 10% 1fr;
+  grid-template-columns: 10% 40px 1fr;
   grid-template-rows: 8px 20px 12px 10px;
   grid-row-gap: 0;
-  grid-column-gap: 10px;
+  grid-column-gap: 20px;
 `;
 export const GroupPhoto = styled.div`
   grid-area: photo;
@@ -94,6 +98,7 @@ export const LeaveGroupButton = styled.div`
   text-align: center;
   line-height: 16px;
   font-weight: bold;
+  grid-area: active;
 `;
 export const GroupActive = styled.div`
   background-color: ${highlight};

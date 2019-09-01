@@ -13,6 +13,7 @@ import Group from './Group';
 import closeX from '../img/close.svg';
 import { UserContext } from '../contexts/UserContext';
 import useToggleState from './hooks/useToggleState';
+import ManageGroupMembers from './MangeGroupMembers';
 const Groups = ({ user, showGroups, toggleGroups, groupsRef }) => {
   const groupTransitions = useTransition(showGroups, null, {
     from: { transform: 'translate3d(-90vh,0,0)' },
@@ -20,6 +21,7 @@ const Groups = ({ user, showGroups, toggleGroups, groupsRef }) => {
     leave: { transform: 'translate3d(-90vh,0,0)' }
   });
   const [groups, setGroups] = useState([]);
+  const [editGroup, setEditGroup] = useState();
   const [isEdit, , toggleEditMode] = useToggleState(false);
   const { group, setGroup } = useContext(UserContext);
   useEffect(() => {
@@ -37,6 +39,10 @@ const Groups = ({ user, showGroups, toggleGroups, groupsRef }) => {
     setGroups(newGroups);
     setGroup(newGroups[0]);
   };
+  const clearEdit = () => {
+    toggleEditMode();
+    setEditGroup();
+  };
   return (
     <>
       {groupTransitions.map(
@@ -49,31 +55,54 @@ const Groups = ({ user, showGroups, toggleGroups, groupsRef }) => {
                 ) : (
                   <div />
                 )}
-                <div>Your Leagues</div>
-                <span onClick={toggleEditMode}>{isEdit ? 'Done' : 'Edit'}</span>
+                <div>
+                  {isEdit
+                    ? editGroup
+                      ? `Edit ${editGroup.groupName}`
+                      : 'Edit Your Leagues'
+                    : 'Your Leagues'}
+                </div>
+                <span onClick={clearEdit}>{isEdit ? 'Done' : 'Edit'}</span>
               </GroupsSlidingHeader>
-              <GroupList>
-                {groups
-                  .sort((a, b) => (a < b ? -1 : 1))
-                  .map(g => (
-                    <Group
-                      leaveGroup={leaveGroup}
-                      userId={user.id}
-                      group={g}
-                      key={g.id}
-                      toggleGroups={toggleGroups}
-                      isEdit={isEdit}
-                    />
-                  ))}
-              </GroupList>
-              <GroupSliderButtons>
-                <Link to="/groups/join">
-                  <ActionButton>Join a League</ActionButton>
-                </Link>
-                <Link to="/groups/create">
-                  <ActionButton>Create a League</ActionButton>
-                </Link>
-              </GroupSliderButtons>
+              {editGroup ? (
+                <>
+                  <ManageGroupMembers groupId={editGroup.id} />
+                  <GroupSliderButtons>
+                    <Link>
+                      <ActionButton>INVITE A PLAYER</ActionButton>
+                    </Link>
+                    <Link>
+                      <ActionButton hallow>DELETE THIS LEAGUE</ActionButton>
+                    </Link>
+                  </GroupSliderButtons>
+                </>
+              ) : (
+                <>
+                  <GroupList>
+                    {groups
+                      .sort((a, b) => (a < b ? -1 : 1))
+                      .map(g => (
+                        <Group
+                          leaveGroup={leaveGroup}
+                          userId={user.id}
+                          group={g}
+                          key={g.id}
+                          toggleGroups={toggleGroups}
+                          isEdit={isEdit}
+                          toggleEditGroup={setEditGroup}
+                        />
+                      ))}
+                  </GroupList>
+                  <GroupSliderButtons>
+                    <Link to="/groups/join">
+                      <ActionButton>Join a League</ActionButton>
+                    </Link>
+                    <Link to="/groups/create">
+                      <ActionButton>Create a League</ActionButton>
+                    </Link>
+                  </GroupSliderButtons>
+                </>
+              )}
             </GroupsSlider>
           )
       )}

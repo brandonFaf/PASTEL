@@ -1,20 +1,20 @@
-import React from "react";
-import styled from "styled-components/macro";
-import { highlight } from "./colors";
+import React from 'react';
+import styled from 'styled-components/macro';
+import { highlight } from './colors';
 const PhotoImg = styled.img`
   border-radius: 90px;
   justify-self: center;
-  height: ${props => (props.size === "large" ? "150px" : "30px")};
-  width: ${props => (props.size === "large" ? "150px" : "30px")};
+  height: ${props => (props.size === 'large' ? '150px' : '40px')};
+  width: ${props => (props.size === 'large' ? '150px' : '40px')};
 `;
 const PhotoDiv = styled.div`
   border-radius: 90px;
   justify-self: center;
-  height: ${props => (props.size === "large" ? "150px" : "30px")};
-  width: ${props => (props.size === "large" ? "150px" : "30px")};
+  height: ${props => (props.size === 'large' ? '150px' : '40px')};
+  width: ${props => (props.size === 'large' ? '150px' : '40px')};
   background-color: #265087;
   color: ${highlight};
-  font-size: ${props => (props.size === "large" ? "50px" : "12px")};
+  font-size: ${props => (props.size === 'large' ? '50px' : '20px')};
   display: inline-grid;
   justify-content: center;
   align-items: center;
@@ -23,21 +23,21 @@ const PhotoDiv = styled.div`
 const ProfilePhoto = ({ onClick, size, src, displayName }) => {
   let initals =
     displayName &&
-    displayName.split(" ").reduce((acc, w) => {
+    displayName.split(' ').reduce((acc, w) => {
       const word = w.toLowerCase();
       if (
-        word !== "the" &&
-        word !== "of" &&
-        word !== "a" &&
-        word !== "an" &&
-        word !== "to"
+        word !== 'the' &&
+        word !== 'of' &&
+        word !== 'a' &&
+        word !== 'an' &&
+        word !== 'to'
       ) {
         acc += w[0];
       }
       return acc;
-    }, "");
-  if (initals === "") {
-    initals = "?";
+    }, '');
+  if (initals === '') {
+    initals = '?';
   }
   if (src) {
     return <PhotoImg onClick={onClick} size={size} src={src} alt="profile" />;

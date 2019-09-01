@@ -12,13 +12,22 @@ import { UserContext } from '../contexts/UserContext';
 import ProfilePhoto from './Styled/ProfilePhoto';
 import { useSpring, animated } from 'react-spring';
 import useClickOutsideToggle from './hooks/useClickOutsideToggle';
-const Group = ({ group, leaveGroup, userId, toggleGroups, isEdit }) => {
+const Group = ({
+  group,
+  leaveGroup,
+  userId,
+  toggleGroups,
+  isEdit,
+  toggleEditGroup
+}) => {
   //make the array of groups in user a map and store score and place there.
   const { setGroup, group: currentGroup } = useContext(UserContext);
 
   const [isDeleting, toggleDeleting, ref] = useClickOutsideToggle();
   const selectGroup = () => {
-    if (!isEdit) {
+    if (isEdit) {
+      toggleEditGroup(group);
+    } else {
       setGroup(group);
       toggleGroups();
     }
