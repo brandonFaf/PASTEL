@@ -8,15 +8,20 @@ import {
   wrong
 } from './colors';
 
-export const GameSection = styled.div`
-  div.title {
+export const GameSection = styled.div``;
+export const TitleRow = styled.div`
+  display: grid;
+  grid-template-columns: 30vw 30vw 30vw;
+  justify-content: center;
+  justify-items: center;
+  align-items: end;
+  font-size: 11px;
+  margin-top: 25px;
+
+  .title {
     color: ${highlight};
-    margin-bottom: 25px;
-    margin-top: 25px;
-    text-align: center;
   }
 `;
-
 export const ProgressBar = styled.div`
   position: relative;
   width: 90vw;

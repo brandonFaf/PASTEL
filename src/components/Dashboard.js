@@ -66,7 +66,9 @@ const Dashboard = ({ user, setHeader, history }) => {
             </strong>
           </div>
         </WeekStatus>
-        <Leaderboard users={users} user={user} group={group} />
+        {users.length > 0 && (
+          <Leaderboard users={users} user={user} group={group} />
+        )}
         <MakePicks
           week={week}
           user={user}

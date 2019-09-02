@@ -19,7 +19,7 @@ const Button = styled(Link)`
 
 const MakePicks = ({ week, uid }) => {
   const [game, setGame] = useState({});
-  const [ratio, setRatio] = useState([]);
+  const [ratio, setRatio] = useState(['', '']);
   const save = () => {};
   useEffect(() => {
     const getFirstGame = async () => {
@@ -40,12 +40,8 @@ const MakePicks = ({ week, uid }) => {
       <Button to="/pick">
         <ActionButton>
           <img src={chevron} alt="chevron" />
-          Make Your Picks
-          {ratio && (
-            <span>
-              <sup>{ratio[0]}</sup>&frasl;<sub>{ratio[1]}</sub>
-            </span>
-          )}
+          <div>MAKE YOUR PICKS</div>
+          <div>{`${ratio[0]}/${ratio[1]}`}</div>
         </ActionButton>
       </Button>
 

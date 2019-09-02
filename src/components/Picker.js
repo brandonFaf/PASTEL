@@ -12,7 +12,7 @@ import {
   getTotalGames
 } from '../data/firebaseGameAPI';
 import { gamesReducer, gameActions } from '../data/reducers/gamesReducer';
-import { PickPage, GameSection } from './Styled/Picker';
+import { PickPage, GameSection, TitleRow } from './Styled/Picker';
 import GameContainer from './GameContainer';
 import WeekSlider from './Styled/WeekSlider';
 import PickSkeleton from './PickSkeleton';
@@ -125,19 +125,19 @@ const Picker = ({ user, history, setHeader }) => {
   };
   const changeWeek = week => () => {
     setWeek(week);
-    start({ opacity: 0, config: { duration: 500 } });
+    start({ opacity: 0, config: { duration: 300 } });
   };
   const weekNumbers = new Array(17).fill('1');
   const close = () => {
     setHeader(group.groupName);
-    start({ opacity: 0, config: { duration: 500 } });
+    start({ opacity: 0, config: { duration: 300 } });
     history.push('/');
   };
   const transitions = useTransition(allGames(state.games).length === 0, null, {
     from: { opacity: 0 },
     enter: { opacity: 1 },
     leave: { opacity: 0 },
-    config: { duration: 500 }
+    config: { duration: 300 }
   });
   return (
     <>
@@ -155,7 +155,11 @@ const Picker = ({ user, history, setHeader }) => {
         )}
         {state.games.upcoming && state.games.upcoming.length > 0 && (
           <GameSection>
-            <div className="title">Upcoming</div>
+            <TitleRow>
+              <div>AWAY</div>
+              <div className="title">Upcoming</div>
+              <div>HOME</div>
+            </TitleRow>
             {state.games.upcoming.map(game => (
               <animated.div style={gameAnimationProps} key={game.id}>
                 <GameContainer game={game} save={save} />

@@ -3,24 +3,26 @@ import styled from 'styled-components/macro';
 import ProfilePhoto from './Styled/ProfilePhoto';
 import { highlight } from './Styled/colors';
 
-const Cell = styled.td`
-  background-color: #0c1d34;
-  padding: 5px;
-  vertical-align: middle;
-  &.current {
+const Row = styled.div`
+  display: grid;
+  grid-template-columns: 5vw 45px 1fr 10vw 10vw;
+  grid-auto-flow: row;
+  grid-column-gap: 15px;
+  align-items: center;
+  .current {
     color: ${highlight};
   }
 `;
 
 const LBoard = styled.div`
   display: grid;
+  grid-auto-flow: row;
   margin-top: 40px;
   font-size: 14px;
   justify-content: center;
   text-align: center;
   align-items: center;
-  overflow-x: hidden;
-  height: 35vh;
+  grid-row-gap: 10px;
 `;
 
 const Leaderboard = ({ users, user, group = {} }) => {
@@ -28,38 +30,30 @@ const Leaderboard = ({ users, user, group = {} }) => {
   const getWins = id => weekWinners.filter(x => x === id).length;
   return (
     <LBoard>
-      <div>
-        <table>
-          <thead>
-            <tr>
-              <th />
-              <th />
-              <th>Player</th>
-              <th>Points</th>
-              <th>Wins</th>
-            </tr>
-          </thead>
-          <tbody>
-            {users.map(({ id, displayName, photoURL, score }, i) => {
-              let cn = '';
-              if (id === user.id) {
-                cn = 'current';
-              }
-              return (
-                <tr key={i} className={cn}>
-                  <Cell>{i + 1}.</Cell>
-                  <Cell>
-                    <ProfilePhoto displayName={displayName} src={photoURL} />
-                  </Cell>
-                  <Cell className={cn}>{displayName}</Cell>
-                  <Cell>{score || 0}</Cell>
-                  <Cell>{getWins(id)}</Cell>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
-      </div>
+      <Row>
+        <div />
+        <div />
+        <div>Player</div>
+        <div>Points</div>
+        <div>Wins</div>
+      </Row>
+      {users.map(({ id, displayName, photoURL, score }, i) => {
+        let cn = '';
+        if (id === user.id) {
+          cn = 'current';
+        }
+        return (
+          <Row key={i} className={cn}>
+            <div>{i + 1}.</div>
+            <div>
+              <ProfilePhoto displayName={displayName} src={photoURL} />
+            </div>
+            <div className={cn}>{displayName}</div>
+            <div>{score || 0}</div>
+            <div>{getWins(id)}</div>
+          </Row>
+        );
+      })}
     </LBoard>
   );
 };

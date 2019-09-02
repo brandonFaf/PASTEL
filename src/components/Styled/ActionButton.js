@@ -14,6 +14,7 @@ const ActionButton = styled.button`
   z-index: 10;
   border: ${props => (props.hallow ? '1px solid #DBDBDB' : 'none')};
   font-size: 11px;
+  font-weight: bold;
   a {
     text-decoration: none;
     cursor: pointer;

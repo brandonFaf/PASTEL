@@ -1,11 +1,17 @@
 import React from 'react';
 import styled from 'styled-components/macro';
 import { highlight } from './colors';
-const PhotoImg = styled.img`
+const PhotoImg = styled.div`
   border-radius: 90px;
   justify-self: center;
+  background-image: url(${props => props.src});
+  background-position: center;
+  background-size: cover;
   height: ${props => (props.size === 'large' ? '150px' : '45px')};
   width: ${props => (props.size === 'large' ? '150px' : '45px')};
+  display: inline-grid;
+  justify-content: center;
+  align-items: center;
 `;
 const PhotoDiv = styled.div`
   border-radius: 90px;
