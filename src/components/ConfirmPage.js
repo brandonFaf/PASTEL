@@ -23,7 +23,7 @@ const ConfirmPage = ({ user, group, history, toggleConfirm }) => {
   }, [groupId]);
 
   const { setGroup } = useContext(UserContext);
-  const joinGroup = async group => {
+  const joinGroup = async () => {
     await addUserToGroup(group.id, user.id);
     setGroup(group);
     history.push('/');
@@ -38,9 +38,7 @@ const ConfirmPage = ({ user, group, history, toggleConfirm }) => {
           ))}
         </GroupList>
         <GroupSliderButtons>
-          <ActionButton red onClick={joinGroup}>
-            JOIN THIS LEAGUE
-          </ActionButton>
+          <ActionButton onClick={joinGroup}>JOIN THIS LEAGUE</ActionButton>
 
           <ActionButton hallow onClick={toggleConfirm}>
             CANCEL
