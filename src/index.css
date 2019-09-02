@@ -1,13 +1,16 @@
 body {
   background-color: #0c1d34;
   margin: 0;
-  font-family: "acumin-pro", sans-serif;
+  font-family: 'acumin-pro', sans-serif;
+}
+body::-webkit-scrollbar-thumb {
+  background-color: #6fe793;
 }
 button {
-  font-family: "acumin-pro", sans-serif;
+  font-family: 'acumin-pro', sans-serif;
 }
 a {
-  font-family: "acumin-pro", sans-serif;
+  font-family: 'acumin-pro', sans-serif;
   color: inherit;
   text-decoration: none;
 }

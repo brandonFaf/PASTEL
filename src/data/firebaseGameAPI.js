@@ -49,10 +49,11 @@ export const loadPicks = (userId, week = 1, groupId) => {
       );
     });
 };
-export const getNumberOfPicks = (uid, week) => {
+export const getNumberOfPicks = (uid, week, groupId) => {
   return picksRef
     .where('week', '==', week)
     .where('userId', '==', uid)
+    .where('groupId', '==', groupId)
     .get()
     .then(snap => snap.size);
 };

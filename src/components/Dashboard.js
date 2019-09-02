@@ -90,5 +90,7 @@ const DRel = styled.div`
   margin-right: auto;
   left: 0;
   right: 0;
+  display: grid;
+  grid-template-rows: 15vh 42vh;
 `;
 export default Dashboard;

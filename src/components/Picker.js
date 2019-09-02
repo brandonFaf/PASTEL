@@ -30,8 +30,8 @@ const Picker = ({ user, history, setHeader }) => {
   const [state, dispatch] = useReducer(gamesReducer, { count: 0, games: {} });
   const [week, setWeek] = useState(getCurrentWeek());
   const { id: userId, displayName } = user;
+  const { group, setPickCount } = useContext(UserContext);
   const [score, setScore] = useState();
-  const { group } = useContext(UserContext);
   const [gameAnimationProps, start] = useSpring(() => ({
     opacity: 0,
     config: {
@@ -130,6 +130,7 @@ const Picker = ({ user, history, setHeader }) => {
   const weekNumbers = new Array(17).fill('1');
   const close = () => {
     setHeader(group.groupName);
+    setPickCount(state.count);
     start({ opacity: 0, config: { duration: 300 } });
     history.push('/');
   };

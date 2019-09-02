@@ -9,17 +9,23 @@ export default class UserStore extends React.Component {
     this.state = {
       user: undefined,
       group: undefined,
+      pickCount: 0,
       allGroups: [],
       setUser: this.setUser,
       setPhotoURL: this.setPhotoURL,
       setGroup: this.setGroup,
-      setAllGroups: this.setAllGroups
+      setAllGroups: this.setAllGroups,
+      setPickCount: this.setPickCount
     };
   }
   setAllGroups = allGroups => {
     this.setState({ allGroups });
   };
+  setPickCount = pickCount => {
+    this.setState({ pickCount });
+  };
   setGroup = group => {
+    localStorage.setItem('group', JSON.stringify(group));
     this.setState({ group });
   };
 
@@ -38,7 +44,10 @@ export default class UserStore extends React.Component {
     }
     const userSnap = await loadUser(uid);
     const user = userSnap.data();
-    const groupId = user.groups
+    const savedGroup = localStorage.getItem('group');
+    const groupId = savedGroup
+      ? JSON.parse(savedGroup).id
+      : user.groups
       ? user.groups.sort((a, b) => (a < b ? -1 : 1))[0]
       : '';
     let group;

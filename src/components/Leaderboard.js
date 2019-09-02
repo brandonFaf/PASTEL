@@ -5,7 +5,7 @@ import { highlight } from './Styled/colors';
 
 const Row = styled.div`
   display: grid;
-  grid-template-columns: 5vw 45px 1fr 10vw 10vw;
+  grid-template-columns: 5vw 45px 25vw 10vw 10vw;
   grid-auto-flow: row;
   grid-column-gap: 15px;
   align-items: center;
@@ -23,6 +23,9 @@ const LBoard = styled.div`
   text-align: center;
   align-items: center;
   grid-row-gap: 10px;
+  overflow-y: scroll;
+  margin: 0 10vw;
+  grid-auto-rows: max-content;
 `;
 
 const Leaderboard = ({ users, user, group = {} }) => {
