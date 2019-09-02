@@ -104,6 +104,7 @@ const Groups = ({ user, showGroups, toggleGroups, groupsRef }) => {
                           leaveGroup={leaveGroup}
                           userId={user.id}
                           group={g}
+                          score={user.score[g.id]}
                           key={g.id}
                           toggleGroups={toggleGroups}
                           isEdit={isEdit}

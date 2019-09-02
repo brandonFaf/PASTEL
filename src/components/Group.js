@@ -18,7 +18,8 @@ const Group = ({
   userId,
   toggleGroups,
   isEdit,
-  toggleEditGroup
+  toggleEditGroup,
+  score
 }) => {
   //make the array of groups in user a map and store score and place there.
   const { setGroup, group: currentGroup } = useContext(UserContext);
@@ -72,7 +73,7 @@ const Group = ({
         </GroupName>
         <GroupDetail onClick={selectGroup}>
           <div>{rank + getOrdinal(rank)}</div>
-          <div>22Pts</div>
+          <div>{score} PTS</div>
           <div>{group.members.length} Players</div>
         </GroupDetail>
       </G>

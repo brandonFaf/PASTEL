@@ -40,7 +40,7 @@ const Leaderboard = ({ users, user, group = {} }) => {
         <div>Points</div>
         <div>Wins</div>
       </Row>
-      {users.map(({ id, displayName, photoURL, score }, i) => {
+      {users.map(({ id, displayName, photoURL, score = {} }, i) => {
         let cn = '';
         if (id === user.id) {
           cn = 'current';
@@ -52,7 +52,7 @@ const Leaderboard = ({ users, user, group = {} }) => {
               <ProfilePhoto displayName={displayName} src={photoURL} />
             </div>
             <div className={cn}>{displayName}</div>
-            <div>{score || 0}</div>
+            <div>{score[group.id] || 0}</div>
             <div>{getWins(id)}</div>
           </Row>
         );

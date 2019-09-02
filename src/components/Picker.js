@@ -64,7 +64,7 @@ const Picker = ({ user, history, setHeader }) => {
       }, 500);
     };
     const getScores = async () => {
-      const s = await getWeekScore(userId, week);
+      const s = await getWeekScore(userId, week, group.id);
       setScore(s);
     };
     getScores();
@@ -170,7 +170,11 @@ const Picker = ({ user, history, setHeader }) => {
         )}
         {state.games.inProgress && state.games.inProgress.length > 0 && (
           <GameSection>
-            <div className="title">In Progress</div>
+            <TitleRow>
+              <div>AWAY</div>
+              <div className="title">In Progress</div>
+              <div>HOME</div>
+            </TitleRow>{' '}
             {state.games.inProgress.map(game => (
               <GameContainer game={game} save={save} key={game.id} />
             ))}
@@ -178,7 +182,14 @@ const Picker = ({ user, history, setHeader }) => {
         )}
         {state.games.completed && state.games.completed.length > 0 && (
           <GameSection>
-            <div className="title">Completed</div>
+            <TitleRow>
+              <div>AWAY</div>
+              <div className="title">
+                Completed
+                {state.games.completed.length !== totalGames && `${score} PTS`}
+              </div>
+              <div>HOME</div>
+            </TitleRow>{' '}
             {state.games.completed.map(game => (
               <GameContainer game={game} save={save} key={game.id} />
             ))}
