@@ -1,13 +1,11 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState } from 'react';
 import Input from './FloatingInput';
-import { getAllGroups, addUserToGroup } from '../data/firebaseGroupAPI';
+import { getAllGroups } from '../data/firebaseGroupAPI';
 import SearchGroup from './SearchGroup';
-import { UserContext } from '../contexts/UserContext';
-const JoinGroup = ({ user, history, changeStage }) => {
+const JoinGroup = ({ user, goToConfirm, changeStage }) => {
   const [groups, setGroups] = useState([]);
   const [currentGroups, setCurrentGroups] = useState([]);
   const [search, setSearch] = useState('');
-  const { setGroup } = useContext(UserContext);
   useEffect(() => {
     const getGroups = async () => {
       const allGroups = await getAllGroups(user.id);
@@ -28,9 +26,7 @@ const JoinGroup = ({ user, history, changeStage }) => {
     if (isPrivate) {
       changeStage(group);
     } else {
-      await addUserToGroup(group.id, user.id);
-      setGroup(group);
-      history.push('/');
+      goToConfirm(group);
     }
   };
   return (
