@@ -7,12 +7,12 @@ const ActionButton = styled.button`
   justify-self: center;
   align-items: center;
   background-color: ${props =>
-    props.hallow ? 'transparent' : props.red ? wrong : highlight};
-  color: ${props => (props.hallow || props.red ? '#DBDBDB' : highlight_text)};
+    props.hollow ? 'transparent' : props.red ? wrong : highlight};
+  color: ${props => (props.hollow || props.red ? '#DBDBDB' : highlight_text)};
   border-radius: ${props => (props.small ? '0 0 45px 45px' : '45px')};
   padding: 8px;
   z-index: 10;
-  border: ${props => (props.hallow ? '1px solid #DBDBDB' : 'none')};
+  border: ${props => (props.hollow ? '1px solid #DBDBDB' : 'none')};
   font-size: 11px;
   font-weight: bold;
   text-transform: uppercase;

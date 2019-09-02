@@ -45,7 +45,7 @@ const DeleteGroup = ({ history, location }) => {
           </ActionButton>
 
           <Link to="/">
-            <ActionButton hallow>CANCEL</ActionButton>
+            <ActionButton hollow>CANCEL</ActionButton>
           </Link>
         </GroupSliderButtons>
       </JGP>

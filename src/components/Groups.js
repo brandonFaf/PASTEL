@@ -90,7 +90,7 @@ const Groups = ({ user, showGroups, toggleGroups, groupsRef }) => {
                         }
                       }}
                     >
-                      <ActionButton hallow>DELETE THIS LEAGUE</ActionButton>
+                      <ActionButton hollow>DELETE THIS LEAGUE</ActionButton>
                     </Link>
                   </GroupSliderButtons>
                 </>

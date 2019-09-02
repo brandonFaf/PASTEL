@@ -40,7 +40,7 @@ const ConfirmPage = ({ user, group, history, toggleConfirm }) => {
         <GroupSliderButtons>
           <ActionButton onClick={joinGroup}>JOIN THIS LEAGUE</ActionButton>
 
-          <ActionButton hallow onClick={toggleConfirm}>
+          <ActionButton hollow onClick={toggleConfirm}>
             CANCEL
           </ActionButton>
         </GroupSliderButtons>

@@ -1,5 +1,4 @@
 import React, { useContext } from 'react';
-import styled from 'styled-components';
 import { UserContext } from '../contexts/UserContext';
 import { useTransition } from 'react-spring';
 import { SlidingPage, SlidingHeader } from './Styled/SlidingPage';
@@ -8,7 +7,7 @@ import firebase from 'firebase/app';
 import 'firebase/auth';
 import { Link } from 'react-router-dom';
 import ActionButton from './Styled/ActionButton';
-
+import { GroupSliderButtons } from './Styled/Groups';
 const EditProfile = ({
   showProfile,
   toggleProfile,
@@ -50,9 +49,15 @@ const EditProfile = ({
                 logout={logout}
                 side
               />
-              <LogoutButton to={'/login'}>
-                <ActionButton onClick={logout}>Logout</ActionButton>
-              </LogoutButton>
+
+              <GroupSliderButtons style={{ marginTop: '10px' }}>
+                <Link to="/login">
+                  <ActionButton onClick={logout}>Logout</ActionButton>
+                </Link>
+                <a href="mailto:brmyers2013@gmail.com">
+                  <ActionButton hollow>Report An Issue</ActionButton>
+                </a>
+              </GroupSliderButtons>
             </SlidingPage>
           )
       )}
@@ -60,9 +65,4 @@ const EditProfile = ({
   );
 };
 
-const LogoutButton = styled(Link)`
-  grid-area: button;
-  margin-top: 15px;
-  align-self: center;
-`;
 export default EditProfile;

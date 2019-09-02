@@ -17,7 +17,7 @@ export const EditLabel = styled.label`
 export const ProfileForm = styled.form`
   display: grid;
   grid-area: guts;
-  grid-template-rows: 25vh 35vh 5vh;
+  grid-template-rows: 20vh 35vh 5vh;
   align-items: center;
   justify-content: center;
   justify-items: center;
