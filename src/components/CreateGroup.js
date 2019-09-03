@@ -61,7 +61,7 @@ const CreateGroup = ({ user, history, setHeader }) => {
       return false;
     } else {
       //username exists, is longer than 4 and less than 20
-      gnv = values.groupName.length > 4 && values.groupName.length < 20;
+      gnv = values.groupName.length >= 4 && values.groupName.length < 40;
       gnu = await groupNameIsUnique(values.groupName);
     }
     if (makePrivate && !values.passcode) {
@@ -99,7 +99,7 @@ const CreateGroup = ({ user, history, setHeader }) => {
           />
           {!groupNameValid && (
             <GroupFormError className="error">
-              Please enter a display name between 4 and 20 characters
+              Please enter a display name between 4 and 40 characters
             </GroupFormError>
           )}
           {!groupNameUnique && (

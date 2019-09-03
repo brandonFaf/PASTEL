@@ -35,11 +35,11 @@ const MakePicks = ({ week, uid }) => {
       setPicks(p);
       setTotalGames(getTotalGames(week));
     };
-    if (location.pathname === '/') {
+    if (location.pathname === '/' && group) {
       getFirstGame();
       getPickCount();
     }
-  }, [group.id, location.pathname, uid, week]);
+  }, [group, location.pathname, uid, week]);
 
   return (
     <Footer>
@@ -52,7 +52,11 @@ const MakePicks = ({ week, uid }) => {
       </Button>
 
       <GC>
-        <GameContainer style={{ paddingLeft: '5vw' }} game={game} save={save} />
+        <GameContainer
+          style={{ paddingLeft: '5vw', color: '#858E98' }}
+          game={game}
+          save={save}
+        />
       </GC>
     </Footer>
   );

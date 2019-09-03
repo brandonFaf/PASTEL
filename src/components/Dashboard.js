@@ -16,7 +16,9 @@ const Dashboard = ({ user, setHeader, history }) => {
   useEffect(() => {
     const getAllUsers = async () => {
       const us = await loadAllUsers(group.id);
-      us.sort((a, b) => b.score[group.id] - a.score[group.id]);
+      us.sort((a, b) =>
+        a.score & b.score ? b.score[group.id] - a.score[group.id] : 1
+      );
       setUsers(us);
     };
     if (!user.hasVisited) {
@@ -61,7 +63,7 @@ const Dashboard = ({ user, setHeader, history }) => {
             <br />
             with{' '}
             <strong>
-              {user.score[group.id] || 0}
+              {(group && user.score[group.id]) || 0}
               <sup>pts</sup>
             </strong>
           </div>

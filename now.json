@@ -19,7 +19,5 @@
       "dest": "index.html"
     }
   ],
-  "alias": [
-    "pastel"
-  ]
+  "alias": ["pastel"]
 }

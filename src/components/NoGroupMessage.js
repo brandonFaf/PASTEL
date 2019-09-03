@@ -7,11 +7,9 @@ import ActionButton from './Styled/ActionButton';
 const NoGroupMessage = () => {
   return (
     <Container>
-      <div>
-        You are not a part of any leagues.
-        <br />
+      <TextContainer>
         You're ready to play, but you need to join a league first.
-      </div>
+      </TextContainer>
       <GroupSliderButtons>
         <Link to="/groups/join">
           <ActionButton>Join a League</ActionButton>
@@ -33,6 +31,12 @@ const Container = styled.div`
   grid-template-rows: 60vh 15vh;
   align-items: center;
   height: calc(100vh - 75px);
+`;
+const TextContainer = styled.div`
+  width: 60vw;
+  font-size: 15px;
+  line-height: 17px;
+  letter-spacing: -0.04em;
 `;
 
 export default NoGroupMessage;

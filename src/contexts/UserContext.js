@@ -44,6 +44,9 @@ export default class UserStore extends React.Component {
     }
     const userSnap = await loadUser(uid);
     const user = userSnap.data();
+    user.score = user.score || {};
+    user.weekScores = user.weekScores || {};
+    user.groups = user.groups || [];
     const savedGroup = localStorage.getItem('group');
     const groupId = savedGroup
       ? JSON.parse(savedGroup).id

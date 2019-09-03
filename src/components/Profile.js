@@ -12,6 +12,7 @@ import ActionButton from './Styled/ActionButton';
 import Toggle from 'react-toggle';
 import './ToggleCSS.css';
 import { UserContext } from '../contexts/UserContext';
+import { GroupFormError } from './Styled/Groups';
 
 const Profile = ({ user, history, toggle, setHeader, side }) => {
   const { values, handleChange } = useForm({
@@ -60,7 +61,7 @@ const Profile = ({ user, history, toggle, setHeader, side }) => {
       dnv = false;
     } else {
       //username exists, is longer than 4 and less than 20
-      dnv = values.displayName.length > 4 && values.displayName.length < 20;
+      dnv = values.displayName.length >= 2 && values.displayName.length < 30;
       dnu = await displayNameIsUnique(values.displayName, user.id);
     }
     //email is valid form
@@ -117,7 +118,7 @@ const Profile = ({ user, history, toggle, setHeader, side }) => {
                 hidden
                 accept="image/*"
                 name="avatar"
-                filename={file => user.id}
+                filename={() => user.id}
                 storageRef={firebase.storage().ref('images')}
                 onUploadStart={handleUploadStart}
                 onUploadError={handleUploadError}
@@ -136,10 +137,14 @@ const Profile = ({ user, history, toggle, setHeader, side }) => {
             value={values.displayName}
           />
           {!displayNameValid && (
-            <label className="error">Invalid Display Name</label>
+            <GroupFormError className="error">
+              Invalid Display Name
+            </GroupFormError>
           )}
           {!displayNameUnique && (
-            <label className="error">Display Name Taken</label>
+            <GroupFormError className="error">
+              Display Name Taken
+            </GroupFormError>
           )}
 
           {allowNotifications && (

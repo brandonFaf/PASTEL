@@ -54,7 +54,7 @@ const EditProfile = ({
                 <Link to="/login">
                   <ActionButton onClick={logout}>Logout</ActionButton>
                 </Link>
-                <a href="mailto:brmyers2013@gmail.com">
+                <a href="mailto:blitzpickz@gmail.com">
                   <ActionButton hollow>Report An Issue</ActionButton>
                 </a>
               </GroupSliderButtons>

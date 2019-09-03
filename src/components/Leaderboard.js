@@ -5,9 +5,9 @@ import { highlight } from './Styled/colors';
 
 const Row = styled.div`
   display: grid;
-  grid-template-columns: 5vw 45px 25vw 10vw 10vw;
+  grid-template-columns: 5vw 45px 28vw 10vw 10vw;
   grid-auto-flow: row;
-  grid-column-gap: 15px;
+  grid-column-gap: 12px;
   align-items: center;
   .current {
     color: ${highlight};
