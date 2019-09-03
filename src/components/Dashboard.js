@@ -16,10 +16,11 @@ const Dashboard = ({ user, setHeader, history }) => {
   useEffect(() => {
     const getAllUsers = async () => {
       const us = await loadAllUsers(group.id);
-      us.sort((a, b) =>
-        a.score & b.score ? b.score[group.id] - a.score[group.id] : 1
-      );
-      setUsers(us);
+      const scoredUsers = us
+        .filter(u => u.score)
+        .sort((a, b) => b.score[group.id] - a.score[group.id]);
+      const noScoreUsers = us.filter(u => !u.score);
+      setUsers([...scoredUsers, ...noScoreUsers]);
     };
     if (!user.hasVisited) {
       history.push('/profile');
