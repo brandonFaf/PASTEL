@@ -11,7 +11,8 @@ export const EditLabel = styled.label`
   background-repeat: no-repeat;
   background-size: contain;
   position: relative;
-  top: 125px;
+  top: 110px;
+  z-index: 20;
 `;
 
 export const ProfileForm = styled.form`

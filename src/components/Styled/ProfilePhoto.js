@@ -7,8 +7,8 @@ const PhotoImg = styled.div`
   background-image: url(${props => props.src});
   background-position: center;
   background-size: cover;
-  height: ${props => (props.size === 'large' ? '20vh' : '45px')};
-  width: ${props => (props.size === 'large' ? '20vh' : '45px')};
+  height: ${props => (props.size === 'large' ? '19vh' : '45px')};
+  width: ${props => (props.size === 'large' ? '19vh' : '45px')};
   display: inline-grid;
   justify-content: center;
   align-items: center;
@@ -16,8 +16,8 @@ const PhotoImg = styled.div`
 const PhotoDiv = styled.div`
   border-radius: 90px;
   justify-self: center;
-  height: ${props => (props.size === 'large' ? '20vh' : '45px')};
-  width: ${props => (props.size === 'large' ? '20vh' : '45px')};
+  height: ${props => (props.size === 'large' ? '19vh' : '45px')};
+  width: ${props => (props.size === 'large' ? '19vh' : '45px')};
   background-color: #265087;
   color: ${highlight};
   font-size: ${props => (props.size === 'large' ? '50px' : '20px')};
