@@ -1,7 +1,7 @@
 import styled from 'styled-components/macro';
 import LogoImage from '../../img/Logo.gif';
 const Logo = styled.div`
-  height: 35vh;
+  height: 25vh;
   width: 80vw;
   background-repeat: no-repeat;
   background-position: center;

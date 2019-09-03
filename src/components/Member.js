@@ -38,10 +38,10 @@ const Member = ({ member, leaveGroup, userId }) => {
           />
         </GroupPhoto>
         <GroupName>{member.displayName}</GroupName>
-        <GroupDetail>
+        {/* <GroupDetail>
           <div>1st</div>
           <div>22Pts</div>
-        </GroupDetail>
+        </GroupDetail> */}
       </Group>
       <LeaveButton onClick={() => leaveGroup(member.id)}>Remove</LeaveButton>
     </animated.div>

@@ -45,25 +45,27 @@ export default class UserStore extends React.Component {
     }
     const userSnap = await loadUser(uid);
     const user = userSnap.data();
-    user.score = user.score || {};
-    user.weekScores = user.weekScores || {};
-    user.groups = user.groups || [];
-    const savedGroup = localStorage.getItem('group');
-    const groupId = savedGroup
-      ? JSON.parse(savedGroup).id
-      : user.groups
-      ? user.groups.sort((a, b) => (a < b ? -1 : 1))[0]
-      : '';
-    LogRocket.identify(uid, {
-      name: user.displayName,
-      email: user.email
-    });
-    let group;
-    if (groupId) {
-      group = await getGroup(groupId);
-    }
+    if (user) {
+      user.score = user.score || {};
+      user.weekScores = user.weekScores || {};
+      user.groups = user.groups || [];
+      const savedGroup = localStorage.getItem('group');
+      const groupId = savedGroup
+        ? JSON.parse(savedGroup).id
+        : user.groups
+        ? user.groups.sort((a, b) => (a < b ? -1 : 1))[0]
+        : '';
+      LogRocket.identify(uid, {
+        name: user.displayName,
+        email: user.email
+      });
+      let group;
+      if (groupId) {
+        group = await getGroup(groupId);
+      }
 
-    this.setState({ user: { ...user, id: userSnap.id }, group });
+      this.setState({ user: { ...user, id: userSnap.id }, group });
+    }
   };
 
   render() {

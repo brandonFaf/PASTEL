@@ -16,9 +16,10 @@ export const loadAllUsers = group => {
       })
   );
 };
+
 export const updateUser = (userId, userData) => {
   console.log('update:', userId);
-  return usersRef.doc(userId).update(userData);
+  return usersRef.doc(userId).set(userData, { merge: true });
 };
 export const displayNameIsUnique = (userName, uid) => {
   return usersRef

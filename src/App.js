@@ -4,7 +4,6 @@ import Login from './components/Login';
 import Picker from './components/Picker';
 import Dashboard from './components/Dashboard';
 import Profile from './components/Profile';
-import { updateUser } from './data/firebaseUserAPI';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 import { UserContext } from './contexts/UserContext';
@@ -41,11 +40,8 @@ const App = () => {
         setLoading(false);
         return;
       }
-      const { displayName, photoURL, uid, email } = u;
-      if (u.metadata.creationTime === u.metadata.lastSignInTime) {
-        updateUser(uid, { displayName, photoURL, email });
-      }
-      await setUser(uid);
+
+      await setUser(u.uid);
       setLoading(false);
     };
     const unregisterAuthObserver = firebase.auth().onAuthStateChanged(u => {
