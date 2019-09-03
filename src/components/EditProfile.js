@@ -8,6 +8,8 @@ import 'firebase/auth';
 import { Link } from 'react-router-dom';
 import ActionButton from './Styled/ActionButton';
 import { GroupSliderButtons } from './Styled/Groups';
+import closeX from '../img/close.svg';
+
 const EditProfile = ({
   showProfile,
   toggleProfile,
@@ -41,7 +43,8 @@ const EditProfile = ({
               <SlidingHeader>
                 <div />
                 <div>Profile</div>
-                <span onClick={toggleProfile}>X</span>
+
+                <img src={closeX} alt="close" onClick={toggleProfile} />
               </SlidingHeader>
               <Profile
                 user={user}

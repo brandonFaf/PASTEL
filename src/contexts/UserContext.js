@@ -1,6 +1,7 @@
 import React, { createContext } from 'react';
 import { loadUser } from '../data/firebaseUserAPI';
 import { getGroup } from '../data/firebaseGroupAPI';
+import LogRocket from 'logrocket';
 export const UserContext = createContext();
 
 export default class UserStore extends React.Component {
@@ -53,6 +54,10 @@ export default class UserStore extends React.Component {
       : user.groups
       ? user.groups.sort((a, b) => (a < b ? -1 : 1))[0]
       : '';
+    LogRocket.identify(uid, {
+      name: user.displayName,
+      email: user.email
+    });
     let group;
     if (groupId) {
       group = await getGroup(groupId);

@@ -35,7 +35,7 @@ const Picker = ({ user, history, setHeader }) => {
   const [gameAnimationProps, start] = useSpring(() => ({
     opacity: 0,
     config: {
-      duration: 500
+      duration: 300
     }
   }));
   const allGames = games => {
@@ -50,7 +50,7 @@ const Picker = ({ user, history, setHeader }) => {
       const games = await loadGames(week);
       setTimeout(() => {
         dispatch({ type: gameActions.LOAD_GAMES, value: games });
-        start({ opacity: 1, config: { duration: 500 } });
+        start({ opacity: 1, config: { duration: 300 } });
       }, 500);
     };
     getGames();

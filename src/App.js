@@ -31,7 +31,7 @@ const App = () => {
     from: { transform: 'translate3d(0,75vh,0)' },
     enter: { transform: 'translate3d(0,0,0)' },
     leave: { transform: 'translate3d(0,75vh,0)' },
-    config: { duration: 500 }
+    config: { duration: 300 }
   });
   useEffect(() => {
     console.log('running');
