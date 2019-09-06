@@ -24,6 +24,7 @@ import { getWeekScore } from '../data/firebaseUserAPI';
 import { UserContext } from '../contexts/UserContext';
 import animateScrollTo from 'animated-scroll-to';
 import { HeaderGroupName } from './Styled/Header';
+import { isPastTime } from '../helpers/isPastTime';
 
 const currentWeek = getCurrentWeek();
 const Picker = ({ user, history, setHeader }) => {
@@ -110,18 +111,21 @@ const Picker = ({ user, history, setHeader }) => {
     },
     [week]
   );
-  const save = (gameId, selected, week) => () => {
-    savePick({
-      gameId,
-      selected,
-      userId,
-      displayName,
-      week,
-      groupId: group.id
-    });
+  const save = (gameId, selected, week, date, time) => () => {
+    debugger;
+    if (!isPastTime({ date, time })) {
+      savePick({
+        gameId,
+        selected,
+        userId,
+        displayName,
+        week,
+        groupId: group.id
+      });
 
-    dispatch({ type: gameActions.SAVE_PICK, value: { gameId, selected } });
-    console.log('save', selected);
+      dispatch({ type: gameActions.SAVE_PICK, value: { gameId, selected } });
+      console.log('save', selected);
+    }
   };
   const changeWeek = week => () => {
     setWeek(week);
@@ -185,8 +189,8 @@ const Picker = ({ user, history, setHeader }) => {
             <TitleRow>
               <div>AWAY</div>
               <div className="title">
-                Completed
-                {state.games.completed.length !== totalGames && `${score} PTS`}
+                {`Completed - ${state.games.completed.length !== totalGames &&
+                  score} PTS`}
               </div>
               <div>HOME</div>
             </TitleRow>{' '}
