@@ -112,7 +112,6 @@ const Picker = ({ user, history, setHeader }) => {
     [week]
   );
   const save = (gameId, selected, week, date, time) => () => {
-    debugger;
     if (!isPastTime({ date, time })) {
       savePick({
         gameId,
@@ -158,6 +157,20 @@ const Picker = ({ user, history, setHeader }) => {
               </animated.div>
             )
         )}
+        {state.games.inProgress && state.games.inProgress.length > 0 && (
+          <GameSection>
+            <TitleRow>
+              <div>AWAY</div>
+              <div className="title">In Progress</div>
+              <div>HOME</div>
+            </TitleRow>{' '}
+            {state.games.inProgress.map(game => (
+              <animated.div style={gameAnimationProps} key={game.id}>
+                <GameContainer game={game} save={save} />
+              </animated.div>
+            ))}
+          </GameSection>
+        )}
         {state.games.upcoming && state.games.upcoming.length > 0 && (
           <GameSection>
             <TitleRow>
@@ -172,30 +185,23 @@ const Picker = ({ user, history, setHeader }) => {
             ))}
           </GameSection>
         )}
-        {state.games.inProgress && state.games.inProgress.length > 0 && (
-          <GameSection>
-            <TitleRow>
-              <div>AWAY</div>
-              <div className="title">In Progress</div>
-              <div>HOME</div>
-            </TitleRow>{' '}
-            {state.games.inProgress.map(game => (
-              <GameContainer game={game} save={save} key={game.id} />
-            ))}
-          </GameSection>
-        )}
         {state.games.completed && state.games.completed.length > 0 && (
           <GameSection>
             <TitleRow>
               <div>AWAY</div>
               <div className="title">
-                {`Completed - ${state.games.completed.length !== totalGames &&
-                  score} PTS`}
+                {`Completed ${
+                  state.games.completed.length !== totalGames
+                    ? `- ${score} PTS`
+                    : ''
+                } `}
               </div>
               <div>HOME</div>
             </TitleRow>{' '}
             {state.games.completed.map(game => (
-              <GameContainer game={game} save={save} key={game.id} />
+              <animated.div style={gameAnimationProps} key={game.id}>
+                <GameContainer game={game} save={save} />
+              </animated.div>
             ))}
           </GameSection>
         )}

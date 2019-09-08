@@ -4,7 +4,6 @@ import useClickOutsideToggle from './hooks/useClickOutsideToggle';
 import {
   Group,
   GroupName,
-  GroupDetail,
   LeaveGroupButton,
   LeaveButton,
   GroupPhoto
