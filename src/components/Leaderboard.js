@@ -5,7 +5,7 @@ import { highlight } from './Styled/colors';
 
 const Row = styled.div`
   display: grid;
-  grid-template-columns: 5vw 45px 28vw 10vw 10vw;
+  grid-template-columns: 5vw 45px 28vw 10vw;
   grid-auto-flow: row;
   grid-column-gap: 12px;
   align-items: center;
@@ -38,7 +38,7 @@ const Leaderboard = ({ users, user, group = {} }) => {
         <div />
         <div>Player</div>
         <div>Points</div>
-        <div>Wins</div>
+        {/* <div>Wins</div> */}
       </Row>
       {users.map(({ id, displayName, photoURL, score = {} }, i) => {
         let cn = '';
@@ -53,7 +53,7 @@ const Leaderboard = ({ users, user, group = {} }) => {
             </div>
             <div className={cn}>{displayName}</div>
             <div>{score[group.id] || 0}</div>
-            <div>{getWins(id)}</div>
+            {/* <div>{getWins(id)}</div> */}
           </Row>
         );
       })}
