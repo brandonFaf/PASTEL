@@ -29,8 +29,6 @@ const LBoard = styled.div`
 `;
 
 const Leaderboard = ({ users, user, group = {} }) => {
-  const weekWinners = group.weekWinners || [];
-  const getWins = id => weekWinners.filter(x => x === id).length;
   return (
     <LBoard>
       <Row>
@@ -38,7 +36,6 @@ const Leaderboard = ({ users, user, group = {} }) => {
         <div />
         <div>Player</div>
         <div>Points</div>
-        {/* <div>Wins</div> */}
       </Row>
       {users.map(({ id, displayName, photoURL, score = {} }, i) => {
         let cn = '';
@@ -53,7 +50,6 @@ const Leaderboard = ({ users, user, group = {} }) => {
             </div>
             <div className={cn}>{displayName}</div>
             <div>{score[group.id] || 0}</div>
-            {/* <div>{getWins(id)}</div> */}
           </Row>
         );
       })}

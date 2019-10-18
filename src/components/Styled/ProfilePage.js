@@ -14,6 +14,9 @@ export const EditLabel = styled.label`
   top: 110px;
   z-index: 20;
 `;
+export const ErrorLabel = styled.label`
+  color: red;
+`;
 
 export const ProfileForm = styled.form`
   display: grid;

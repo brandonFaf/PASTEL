@@ -7,26 +7,31 @@ import { updateUser, displayNameIsUnique } from '../data/firebaseUserAPI';
 import useForm from './hooks/useForm';
 import Input from './FloatingInput';
 import ProfilePhoto from './Styled/ProfilePhoto';
-import { ProfileForm, EditLabel } from './Styled/ProfilePage';
+import { ProfileForm, EditLabel, ErrorLabel } from './Styled/ProfilePage';
 import ActionButton from './Styled/ActionButton';
 import Toggle from 'react-toggle';
 import './ToggleCSS.css';
 import { UserContext } from '../contexts/UserContext';
 import { GroupFormError } from './Styled/Groups';
 
-const Profile = ({ user, history, toggle, setHeader, side }) => {
+const Profile = ({ user, history, toggle, setHeader }) => {
   const { values, handleChange } = useForm({
     ...user
   });
   const { setUser, setPhotoURL } = useContext(UserContext);
   const [
-    { displayNameValid, emailValid, phoneNumberValid, displayNameUnique },
+    {
+      displayNameValid,
+      phoneNumberValid,
+      displayNameUnique,
+      phoneNumberMissing
+    },
     setValid
   ] = useState({
     displayNameValid: true,
-    emailValid: true,
     phoneNumberValid: true,
-    displayNameUnique: true
+    displayNameUnique: true,
+    phoneNumberMissing: false
   });
   if (setHeader) {
     setHeader('Profile Details');
@@ -35,12 +40,15 @@ const Profile = ({ user, history, toggle, setHeader, side }) => {
     e.preventDefault();
 
     if (await validateForm()) {
+      if (!allowNotifications) {
+        values.phoneNumber = '';
+      }
       try {
         await updateUser(user.id, {
           displayName: values.displayName,
-          email: values.email || '',
           phoneNumber: values.phoneNumber || '',
-          hasVisited: true
+          hasVisited: true,
+          notifications: allowNotifications
         });
         await setUser(user.id);
       } catch (e) {
@@ -56,7 +64,7 @@ const Profile = ({ user, history, toggle, setHeader, side }) => {
   };
 
   const validateForm = async () => {
-    let dnv, ev, pv, dnu;
+    let dnv, pv, dnu, pm;
     if (!values.displayName) {
       dnv = false;
     } else {
@@ -64,22 +72,27 @@ const Profile = ({ user, history, toggle, setHeader, side }) => {
       dnv = values.displayName.length >= 2 && values.displayName.length < 30;
       dnu = await displayNameIsUnique(values.displayName, user.id);
     }
-    //email is valid form
-    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    ev = values.email ? re.test(String(values.email).toLowerCase()) : true;
 
     //phonenumber validation
 
-    var phoneno = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
-    pv = values.phoneNumber ? phoneno.test(String(values.phoneNumber)) : true;
+    if (allowNotifications) {
+      pm = !values.phoneNumber;
+      var phoneno = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
+      pv = values.phoneNumber ? phoneno.test(String(values.phoneNumber)) : true;
+    } else {
+      pv = true;
+      pm = false;
+    }
+
+    console.log('pv:', pv);
 
     setValid({
       displayNameValid: dnv,
-      emailValid: ev,
       phoneNumberValid: pv,
-      displayNameUnique: dnu
+      displayNameUnique: dnu,
+      phoneNumberMissing: pm
     });
-    const valid = dnv && ev && pv && dnu ? true : false;
+    const valid = dnv && pv && dnu && !pm ? true : false;
     return valid;
   };
   const handleUploadSuccess = filename => {
@@ -94,7 +107,9 @@ const Profile = ({ user, history, toggle, setHeader, side }) => {
         handleChange({ target: { name: 'photoURL', value: photoURL } });
       });
   };
-  const [allowNotifications, setAllowNotifications] = useState(false);
+  const [allowNotifications, setAllowNotifications] = useState(
+    user.notifications
+  );
   const toggleNotifications = () => {
     setAllowNotifications(!allowNotifications);
   };
@@ -158,17 +173,19 @@ const Profile = ({ user, history, toggle, setHeader, side }) => {
                 value={values.phoneNumber}
               />
               {!phoneNumberValid && (
-                <label className="error">Invalid Phone number</label>
+                <div>
+                  <ErrorLabel className="error">
+                    Invalid Phone number
+                  </ErrorLabel>
+                </div>
               )}
-              <Input
-                id="email"
-                label="Email"
-                name="email"
-                type="email"
-                onChange={handleChange}
-                value={values.email}
-              />
-              {!emailValid && <label className="error">Invalid email</label>}
+              {phoneNumberMissing && (
+                <div>
+                  <ErrorLabel className="error">
+                    Phone number required for notifications
+                  </ErrorLabel>
+                </div>
+              )}
             </>
           )}
           <label className="toggle-label" htmlFor="notifications">
